@@ -5,6 +5,9 @@ import Footer from '../../components/layout/Footer.astro';
 import Container from '../../components/layout/Container.astro';
 import ProjectCard from '../../components/ui/ProjectCard.astro';
 import { getCollection } from 'astro:content';
+import { defaultLocale, t, type Locale } from '../../i18n/ui';
+
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
 
 // 获取所有项目
 const allProjects = await getCollection('projects');
@@ -23,19 +26,19 @@ const allTechnologies = [
 
 // 分类标签映射
 const categoryLabels: Record<string, { label: string; color: string }> = {
-  web: { label: 'WEB', color: '#00f0ff' },
-  mobile: { label: 'MOBILE', color: '#ff2d92' },
-  backend: { label: 'BACKEND', color: '#e4ff1a' },
-  fullstack: { label: 'FULLSTACK', color: '#00f0ff' },
-  tool: { label: 'TOOL', color: '#ff2d92' },
-  other: { label: 'OTHER', color: '#a3a3a3' },
+  web: { label: t(locale, 'category.web.short'), color: '#00f0ff' },
+  mobile: { label: t(locale, 'category.mobile.short'), color: '#ff2d92' },
+  backend: { label: t(locale, 'category.backend.short'), color: '#e4ff1a' },
+  fullstack: { label: t(locale, 'category.fullstack.short'), color: '#00f0ff' },
+  tool: { label: t(locale, 'category.tool.short'), color: '#ff2d92' },
+  other: { label: t(locale, 'category.other.short'), color: '#a3a3a3' },
 };
 
 // 获取所有分类
 const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
 ---
 
-<BaseLayout title="项目" description="浏览我的项目作品集，探索各种Web应用、移动应用和工具的开发案例。">
+<BaseLayout title={t(locale, 'projects.title')} description={t(locale, 'projects.metaDescription')}>
   <Header />
 
   <main class="min-h-screen relative" style="background: #050505;">
@@ -64,7 +67,7 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
             class="text-xs tracking-[0.3em] uppercase"
             style="color: #525252; font-family: 'Space Mono', monospace;"
           >
-            {'// 项目作品'}
+            {t(locale, 'projects.label')}
           </span>
           <div class="flex-1 h-px" style="background: linear-gradient(90deg, #262626, transparent);" />
         </div>
@@ -74,16 +77,16 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
           class="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6"
           style="font-family: 'Clash Display', sans-serif;"
         >
-          <span style="color: #fafafa;">ALL</span>
+          <span style="color: #fafafa;">{t(locale, 'projects.titleA')}</span>
           <br />
-          <span style="color: #00f0ff;">PROJECTS</span>
+          <span style="color: #00f0ff;">{t(locale, 'projects.titleB')}</span>
         </h1>
 
         <p
           class="max-w-2xl text-lg"
           style="color: #737373; font-family: 'Space Grotesk', sans-serif;"
         >
-          探索我参与开发的各类项目，从 Web 应用到后端服务，每个项目都是一次技术实践与创新的旅程。
+          {t(locale, 'projects.description')}
         </p>
 
         {/* Project count */}
@@ -104,18 +107,18 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
               class="text-xs tracking-[0.2em] uppercase"
               style="color: #525252; font-family: 'Space Mono', monospace;"
             >
-              FILTER_BY_CATEGORY
+              {t(locale, 'projects.filterByCategory')}
             </span>
             <div class="flex-1 h-px" style="background: #262626;" />
           </div>
-          <div class="flex flex-wrap gap-2" role="group" aria-label="项目分类筛选">
+          <div class="flex flex-wrap gap-2" role="group" aria-label={t(locale, 'filter.categoryAria')}>
             <button
               class="filter-btn category-btn active"
               data-category="all"
               aria-pressed="true"
             >
               <span class="btn-number">00</span>
-              ALL
+              {t(locale, 'category.all')}
             </button>
             {
               allCategories.map((category, index) => {
@@ -159,7 +162,7 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
                 d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z"
               />
             </svg>
-            <span class="text-xs tracking-wider group-hover:text-[#00f0ff] transition-colors">FILTER_BY_TECH</span>
+            <span class="text-xs tracking-wider group-hover:text-[#00f0ff] transition-colors">{t(locale, 'projects.filterByTech')}</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -208,7 +211,7 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
           id="tech-filter-panel"
           class="hidden"
           role="group"
-          aria-label="技术栈筛选"
+          aria-label={t(locale, 'filter.techAria')}
         >
           <div
             class="flex flex-wrap gap-2 pt-4 pb-2"
@@ -269,13 +272,13 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
           class="text-2xl font-bold mb-3"
           style="font-family: 'Clash Display', sans-serif; color: #fafafa;"
         >
-          NO_RESULTS_FOUND
+          {t(locale, 'projects.noMatchTitle')}
         </h3>
         <p
           class="max-w-md mx-auto"
           style="color: #737373; font-family: 'Space Grotesk', sans-serif;"
         >
-          当前筛选条件下没有匹配的项目，请尝试调整筛选条件。
+          {t(locale, 'projects.noMatchDescription')}
         </p>
       </div>
     </Container>

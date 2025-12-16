@@ -6,16 +6,20 @@ import Container from '../components/layout/Container.astro';
 import AboutHero from '../components/sections/AboutHero.astro';
 import SkillsGrid from '../components/sections/SkillsGrid.astro';
 import SocialLinks from '../components/ui/SocialLinks.astro';
-import profile from '../data/profile.json';
 import type { DeveloperProfile } from '../types/profile';
+import { getProfile } from '../i18n/profile';
+import { defaultLocale, t, type Locale } from '../i18n/ui';
+
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const profile = getProfile(locale);
 
 // Cast profile to proper type
 const typedProfile = profile as unknown as DeveloperProfile;
 ---
 
 <BaseLayout
-  title="关于我"
-  description={profile.seoDescription || '了解我的技术背景、技能和开发哲学。'}
+  title={t(locale, 'about.title')}
+  description={profile.seoDescription || t(locale, 'about.metaDescription')}
 >
   <Header />
 
@@ -57,7 +61,7 @@ const typedProfile = profile as unknown as DeveloperProfile;
             class="text-xs tracking-[0.3em] uppercase"
             style="color: #525252; font-family: 'Space Mono', monospace;"
           >
-            {'// 开发哲学'}
+            {t(locale, 'about.philosophyLabel')}
           </span>
           <div class="flex-1 h-px" style="background: linear-gradient(90deg, #262626, transparent);" />
         </div>
@@ -124,7 +128,7 @@ const typedProfile = profile as unknown as DeveloperProfile;
               class="text-xs tracking-[0.3em] uppercase"
               style="color: #525252; font-family: 'Space Mono', monospace;"
             >
-              {'// 技术技能'}
+              {t(locale, 'about.skillsLabel')}
             </span>
             <div class="flex-1 h-px" style="background: linear-gradient(90deg, #262626, transparent);" />
           </div>
@@ -133,8 +137,8 @@ const typedProfile = profile as unknown as DeveloperProfile;
             class="text-3xl md:text-4xl font-bold tracking-tight"
             style="font-family: 'Clash Display', sans-serif;"
           >
-            <span style="color: #fafafa;">TECH</span>
-            <span style="color: #00f0ff;"> STACK</span>
+            <span style="color: #fafafa;">{t(locale, 'about.skillsTitleA')}</span>
+            <span style="color: #00f0ff;"> {t(locale, 'about.skillsTitleB')}</span>
           </h2>
 
           {/* Decorative number */}
@@ -164,7 +168,7 @@ const typedProfile = profile as unknown as DeveloperProfile;
               class="text-xs tracking-[0.3em] uppercase"
               style="color: #525252; font-family: 'Space Mono', monospace;"
             >
-              {'// 联系我'}
+              {t(locale, 'about.contactLabel')}
             </span>
             <div class="flex-1 h-px" style="background: linear-gradient(90deg, #262626, transparent);" />
           </div>
@@ -173,8 +177,8 @@ const typedProfile = profile as unknown as DeveloperProfile;
             class="text-3xl md:text-4xl font-bold tracking-tight"
             style="font-family: 'Clash Display', sans-serif;"
           >
-            <span style="color: #fafafa;">GET IN</span>
-            <span style="color: #ff2d92;"> TOUCH</span>
+            <span style="color: #fafafa;">{t(locale, 'about.contactTitleA')}</span>
+            <span style="color: #ff2d92;"> {t(locale, 'about.contactTitleB')}</span>
           </h2>
 
           {/* Decorative number */}
@@ -200,7 +204,7 @@ const typedProfile = profile as unknown as DeveloperProfile;
             class="text-lg mb-8 max-w-2xl"
             style="color: #a3a3a3; font-family: 'Space Grotesk', sans-serif;"
           >
-            无论是项目合作、工作机会还是只是想聊聊技术，都欢迎与我联系。
+            {t(locale, 'about.contactDescription')}
           </p>
 
           {/* Contact methods */}
@@ -341,7 +345,7 @@ const typedProfile = profile as unknown as DeveloperProfile;
               class="text-xs tracking-wider"
               style="color: #525252; font-family: 'Space Mono', monospace;"
             >
-              OR_FOLLOW_ME
+              {t(locale, 'about.orFollow')}
             </span>
             <div class="flex-1 h-px" style="background: #262626;" />
           </div>

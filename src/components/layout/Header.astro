@@ -1,5 +1,7 @@
 ---
 import MobileNav from './MobileNav';
+import { getPathByLocale, getRelativeLocaleUrl } from 'astro:i18n';
+import { defaultLocale, t, type Locale } from '../../i18n/ui';
 
 interface Props {
   class?: string;
@@ -7,13 +9,29 @@ interface Props {
 
 const { class: className = '' } = Astro.props;
 
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+
+const normalizePath = (path: string) => (path !== '/' ? path.replace(/\/+$/, '') : '/');
+
+const stripLocaleFromPathname = (pathname: string) => {
+  const localePrefix = `/${getPathByLocale(locale)}`;
+  if (pathname === localePrefix) return '/';
+  if (pathname.startsWith(`${localePrefix}/`)) return pathname.slice(localePrefix.length) || '/';
+  return pathname;
+};
+
+const pathWithoutLocale = stripLocaleFromPathname(Astro.url.pathname);
+const zhHref = getRelativeLocaleUrl('zh', pathWithoutLocale);
+const enHref = getRelativeLocaleUrl('en', pathWithoutLocale);
+const homeHref = getRelativeLocaleUrl(locale, '/');
+
 const navLinks = [
-  { href: '/', label: '首页', code: '01' },
-  { href: '/projects', label: '项目', code: '02' },
-  { href: '/about', label: '关于', code: '03' },
+  { href: getRelativeLocaleUrl(locale, '/'), label: t(locale, 'nav.home'), code: '01' },
+  { href: getRelativeLocaleUrl(locale, '/projects'), label: t(locale, 'nav.projects'), code: '02' },
+  { href: getRelativeLocaleUrl(locale, '/about'), label: t(locale, 'nav.about'), code: '03' },
 ];
 
-const currentPath = Astro.url.pathname;
+const currentPath = normalizePath(Astro.url.pathname);
 ---
 
 <header
@@ -35,9 +53,9 @@ const currentPath = Astro.url.pathname;
     <div class="flex items-center justify-between h-16 md:h-20">
       <!-- Logo -->
       <a
-        href="/"
+        href={homeHref}
         class="group flex items-center gap-3"
-        aria-label="返回首页"
+        aria-label={t(locale, 'header.homeAria')}
       >
         <!-- Logo mark -->
         <div
@@ -82,12 +100,12 @@ const currentPath = Astro.url.pathname;
               <a
                 href={link.href}
                 class={`group relative flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all duration-300 ${
-                  currentPath === link.href
+                  currentPath === normalizePath(link.href)
                     ? 'nav-active'
                     : 'nav-inactive'
                 }`}
-                style={`font-family: 'Space Mono', monospace; ${currentPath === link.href ? 'color: #00f0ff;' : 'color: #a3a3a3;'}`}
-                aria-current={currentPath === link.href ? 'page' : undefined}
+                style={`font-family: 'Space Mono', monospace; ${currentPath === normalizePath(link.href) ? 'color: #00f0ff;' : 'color: #a3a3a3;'}`}
+                aria-current={currentPath === normalizePath(link.href) ? 'page' : undefined}
               >
                 {/* Link number */}
                 <span
@@ -103,14 +121,14 @@ const currentPath = Astro.url.pathname;
                   {/* Underline effect */}
                   <span
                     class={`absolute -bottom-1 left-0 h-px transition-all duration-300 ${
-                      currentPath === link.href ? 'w-full' : 'w-0 group-hover:w-full'
+                      currentPath === normalizePath(link.href) ? 'w-full' : 'w-0 group-hover:w-full'
                     }`}
                     style="background: linear-gradient(90deg, #00f0ff, #ff2d92);"
                   />
                 </span>
 
                 {/* Active indicator */}
-                {currentPath === link.href && (
+                {currentPath === normalizePath(link.href) && (
                   <span
                     class="absolute -right-1 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full"
                     style="background: #00f0ff; box-shadow: 0 0 10px #00f0ff;"
@@ -124,6 +142,31 @@ const currentPath = Astro.url.pathname;
 
       <!-- Status & Mobile Nav -->
       <div class="flex items-center gap-4">
+        {/* Language switch */}
+        <div
+          class="flex items-center gap-2 px-3 py-1.5 text-xs"
+          style="font-family: 'Space Mono', monospace; border: 1px solid #262626;"
+          aria-label={t(locale, 'lang.switch')}
+        >
+          <a
+            href={zhHref}
+            class="transition-colors"
+            style={locale === 'zh' ? 'color: #00f0ff;' : 'color: #525252;'}
+            aria-current={locale === 'zh' ? 'true' : undefined}
+          >
+            中文
+          </a>
+          <span style="color: #262626;">|</span>
+          <a
+            href={enHref}
+            class="transition-colors"
+            style={locale === 'en' ? 'color: #00f0ff;' : 'color: #525252;'}
+            aria-current={locale === 'en' ? 'true' : undefined}
+          >
+            EN
+          </a>
+        </div>
+
         <!-- Status indicator (desktop only) -->
         <div
           class="hidden lg:flex items-center gap-2 px-3 py-1.5 text-xs"
@@ -133,11 +176,11 @@ const currentPath = Astro.url.pathname;
             class="w-2 h-2 rounded-full animate-pulse"
             style="background: #22c55e; box-shadow: 0 0 10px #22c55e;"
           />
-          <span>SYS.ONLINE</span>
+          <span>{t(locale, 'header.statusOnline')}</span>
         </div>
 
         <!-- Mobile Navigation -->
-        <MobileNav client:load links={navLinks} currentPath={currentPath} />
+        <MobileNav client:load links={navLinks} currentPath={currentPath} locale={locale} />
       </div>
     </div>
   </nav>

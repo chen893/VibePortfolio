@@ -1,7 +1,8 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
 import '../styles/global.css';
-import profile from '../data/profile.json';
+import { getProfile } from '../i18n/profile';
+import { defaultLocale, getHtmlLang, getOgLocale, type Locale } from '../i18n/ui';
 
 interface Props {
   title: string;
@@ -12,10 +13,20 @@ interface Props {
 
 const {
   title,
-  description = '全栈开发者作品集 - Cyberpunk Portfolio',
+  description,
   image = '/images/og-image.png',
   canonicalUrl,
 } = Astro.props;
+
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const profile = getProfile(locale);
+
+const fallbackDescription =
+  locale === 'zh'
+    ? '全栈开发者作品集 - Cyberpunk Portfolio'
+    : 'Full-stack developer portfolio - Cyberpunk Portfolio';
+
+const resolvedDescription = description ?? fallbackDescription;
 
 const siteTitle = `${title} | ${profile.name}`;
 const currentUrl = canonicalUrl || Astro.url.href;
@@ -34,7 +45,7 @@ const personSchema = {
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang={getHtmlLang(locale)}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -43,7 +54,7 @@ const personSchema = {
     <!-- Primary Meta Tags -->
     <title>{siteTitle}</title>
     <meta name="title" content={siteTitle} />
-    <meta name="description" content={description} />
+    <meta name="description" content={resolvedDescription} />
 
     <!-- Canonical URL -->
     <link rel="canonical" href={currentUrl} />
@@ -56,15 +67,15 @@ const personSchema = {
     <meta property="og:type" content="website" />
     <meta property="og:url" content={currentUrl} />
     <meta property="og:title" content={siteTitle} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={resolvedDescription} />
     <meta property="og:image" content={new URL(image, Astro.site)} />
-    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:locale" content={getOgLocale(locale)} />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={currentUrl} />
     <meta property="twitter:title" content={siteTitle} />
-    <meta property="twitter:description" content={description} />
+    <meta property="twitter:description" content={resolvedDescription} />
     <meta property="twitter:image" content={new URL(image, Astro.site)} />
 
     <!-- Theme Color - Pure Black -->

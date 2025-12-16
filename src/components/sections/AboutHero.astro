@@ -1,6 +1,7 @@
 ---
 import type { DeveloperProfile } from '../../types/profile';
 import SocialLinks from '../ui/SocialLinks.astro';
+import { defaultLocale, t, type Locale } from '../../i18n/ui';
 
 interface Props {
   profile: DeveloperProfile;
@@ -8,6 +9,7 @@ interface Props {
 }
 
 const { profile, class: className = '' } = Astro.props;
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
 ---
 
 <section class={`py-16 md:py-24 ${className}`}>
@@ -81,7 +83,7 @@ const { profile, class: className = '' } = Astro.props;
           class="text-xs tracking-[0.3em] uppercase"
           style="color: #525252; font-family: 'Space Mono', monospace;"
         >
-          {'// 关于我'}
+          {t(locale, 'aboutHero.label')}
         </span>
         <div class="hidden lg:block flex-1 max-w-32 h-px" style="background: linear-gradient(90deg, #262626, transparent);" />
       </div>
@@ -129,7 +131,7 @@ const { profile, class: className = '' } = Astro.props;
             class="text-xs tracking-wider"
             style="color: #525252; font-family: 'Space Mono', monospace;"
           >
-            YEARS_EXP
+            {t(locale, 'aboutHero.years')}
           </div>
         </div>
         <div class="w-px h-12" style="background: #262626;" />
@@ -144,7 +146,7 @@ const { profile, class: className = '' } = Astro.props;
             class="text-xs tracking-wider"
             style="color: #525252; font-family: 'Space Mono', monospace;"
           >
-            PROJECTS
+            {t(locale, 'aboutHero.projects')}
           </div>
         </div>
         <div class="w-px h-12" style="background: #262626;" />
@@ -159,7 +161,7 @@ const { profile, class: className = '' } = Astro.props;
             class="text-xs tracking-wider"
             style="color: #525252; font-family: 'Space Mono', monospace;"
           >
-            TECH_STACK
+            {t(locale, 'aboutHero.stack')}
           </div>
         </div>
       </div>

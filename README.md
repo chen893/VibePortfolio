@@ -12,6 +12,7 @@
 - **视觉冲击力** - 深色主题配合渐变色彩，打造独特的 Vibe 风格
 - **响应式设计** - 完美适配桌面端、平板和移动设备
 - **流畅动画** - 使用 Framer Motion 实现优雅的页面过渡和交互动效
+- **国际化** - 内置中/英双语（默认中文 `/`，英文 `/en`），支持页面内一键切换
 - **SEO 优化** - 内置 sitemap、JSON-LD 结构化数据和 meta 标签
 - **无障碍访问** - 符合 WCAG 2.1 AA 标准，支持键盘导航
 - **高性能** - 静态生成，零 JavaScript 默认加载，按需激活交互组件
@@ -117,7 +118,7 @@ vibe-portfolio/
 
 ### 个人信息
 
-编辑 `src/data/profile.json` 配置你的个人信息：
+编辑 `src/data/profile.json`（中文）和 `src/data/profile.en.json`（英文）配置你的个人信息：
 
 ```json
 {
@@ -136,6 +137,8 @@ vibe-portfolio/
   "socials": [...]
 }
 ```
+
+界面文案翻译位于 `src/i18n/ui.ts`。
 
 ### 添加项目
 

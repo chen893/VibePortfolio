@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence, type PanInfo } from 'framer-motion';
+import { t, type Locale } from '../../i18n/ui';
 
 interface Image {
   src: string;
@@ -10,9 +11,10 @@ interface Image {
 interface ImageGalleryProps {
   images: Image[];
   projectTitle: string;
+  locale: Locale;
 }
 
-export default function ImageGallery({ images, projectTitle }: ImageGalleryProps) {
+export default function ImageGallery({ images, projectTitle, locale }: ImageGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [direction, setDirection] = useState(0);
@@ -87,7 +89,7 @@ export default function ImageGallery({ images, projectTitle }: ImageGalleryProps
             key={index}
             onClick={() => openLightbox(index)}
             className="group relative aspect-video bg-dark-800 rounded-lg overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-900"
-            aria-label={`查看图片 ${index + 1}: ${image.alt}`}
+            aria-label={t(locale, 'gallery.viewImage', { index: index + 1, alt: image.alt })}
           >
             <img
               src={image.src}
@@ -130,13 +132,13 @@ export default function ImageGallery({ images, projectTitle }: ImageGalleryProps
             tabIndex={0}
             role="dialog"
             aria-modal="true"
-            aria-label={`${projectTitle} 图片画廊`}
+            aria-label={t(locale, 'gallery.dialogLabel', { projectTitle })}
           >
             {/* Close Button */}
             <button
               onClick={closeLightbox}
               className="absolute top-4 right-4 p-2 text-white/70 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-full"
-              aria-label="关闭画廊"
+              aria-label={t(locale, 'gallery.close')}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -162,7 +164,7 @@ export default function ImageGallery({ images, projectTitle }: ImageGalleryProps
                   goToPrevious();
                 }}
                 className="absolute left-4 p-3 text-white/70 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-full bg-dark-800/50 hover:bg-dark-800"
-                aria-label="上一张图片"
+                aria-label={t(locale, 'gallery.prev')}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -213,12 +215,12 @@ export default function ImageGallery({ images, projectTitle }: ImageGalleryProps
                 {selectedIndex + 1} / {images.length}
                 {images.length > 1 && (
                   <span className="ml-2 text-white/30 hidden sm:inline">
-                    (← → 键切换)
+                    {t(locale, 'gallery.keyboardHint')}
                   </span>
                 )}
                 {images.length > 1 && (
                   <span className="ml-2 text-white/30 sm:hidden">
-                    (左右滑动切换)
+                    {t(locale, 'gallery.swipeHint')}
                   </span>
                 )}
               </p>
@@ -232,7 +234,7 @@ export default function ImageGallery({ images, projectTitle }: ImageGalleryProps
                   goToNext();
                 }}
                 className="absolute right-4 p-3 text-white/70 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-full bg-dark-800/50 hover:bg-dark-800"
-                aria-label="下一张图片"
+                aria-label={t(locale, 'gallery.next')}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

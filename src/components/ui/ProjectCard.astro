@@ -1,5 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { defaultLocale, t, type Locale } from '../../i18n/ui';
 
 interface Props {
   project: CollectionEntry<'projects'>;
@@ -10,22 +12,23 @@ interface Props {
 const { project, class: className = '', index = 0 } = Astro.props;
 const { data, id } = project;
 const hasThumbnail = data.thumbnail?.src && !data.thumbnail.src.includes('placeholder');
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
 
 // Category mapping with colors
 const categoryConfig: Record<string, { label: string; color: string }> = {
-  web: { label: 'WEB', color: '#00f0ff' },
-  mobile: { label: 'MOBILE', color: '#ff2d92' },
-  backend: { label: 'BACKEND', color: '#e4ff1a' },
-  fullstack: { label: 'FULLSTACK', color: '#00f0ff' },
-  tool: { label: 'TOOL', color: '#ff2d92' },
-  other: { label: 'OTHER', color: '#a3a3a3' },
+  web: { label: t(locale, 'category.web.short'), color: '#00f0ff' },
+  mobile: { label: t(locale, 'category.mobile.short'), color: '#ff2d92' },
+  backend: { label: t(locale, 'category.backend.short'), color: '#e4ff1a' },
+  fullstack: { label: t(locale, 'category.fullstack.short'), color: '#00f0ff' },
+  tool: { label: t(locale, 'category.tool.short'), color: '#ff2d92' },
+  other: { label: t(locale, 'category.other.short'), color: '#a3a3a3' },
 };
 
 const category = categoryConfig[data.category] || categoryConfig.other;
 ---
 
 <a
-  href={`/projects/${id}`}
+  href={getRelativeLocaleUrl(locale, `/projects/${id}`)}
   class={`project-card group relative block overflow-hidden ${className}`}
   style={`--index: ${index}; --category-color: ${category.color};`}
 >
@@ -191,7 +194,7 @@ const category = categoryConfig[data.category] || categoryConfig.other;
         class="flex items-center gap-2 mt-4 text-xs font-mono opacity-0 translate-x-[-10px] group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
         style={`color: ${category.color};`}
       >
-        <span>VIEW_PROJECT</span>
+        <span>{t(locale, 'projectCard.viewProject')}</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

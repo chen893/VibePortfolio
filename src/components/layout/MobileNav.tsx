@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { t, type Locale } from '../../i18n/ui';
 
 interface NavLink {
   href: string;
@@ -10,9 +11,12 @@ interface NavLink {
 interface MobileNavProps {
   links: NavLink[];
   currentPath: string;
+  locale: Locale;
 }
 
-export default function MobileNav({ links, currentPath }: MobileNavProps) {
+const normalizePath = (path: string) => (path !== '/' ? path.replace(/\/+$/, '') : '/');
+
+export default function MobileNav({ links, currentPath, locale }: MobileNavProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   // Close menu when route changes
@@ -55,7 +59,7 @@ export default function MobileNav({ links, currentPath }: MobileNavProps) {
         }}
         aria-expanded={isOpen}
         aria-controls="mobile-menu"
-        aria-label={isOpen ? '关闭菜单' : '打开菜单'}
+        aria-label={isOpen ? t(locale, 'mobileNav.closeMenu') : t(locale, 'mobileNav.openMenu')}
       >
         {/* Corner accents */}
         <div className="absolute -top-px -left-px w-2 h-2 border-t border-l" style={{ borderColor: '#00f0ff' }} />
@@ -143,13 +147,14 @@ export default function MobileNav({ links, currentPath }: MobileNavProps) {
                     className="text-xs tracking-[0.3em] uppercase"
                     style={{ color: '#525252', fontFamily: 'Space Mono, monospace' }}
                   >
-                    {'// NAVIGATION'}
+                    {'// '}
+                    {t(locale, 'mobileNav.navigation')}
                   </span>
                 </motion.div>
 
                 <ul className="space-y-2" role="menu">
                   {links.map((link, index) => {
-                    const isActive = currentPath === link.href;
+                    const isActive = normalizePath(currentPath) === normalizePath(link.href);
                     return (
                       <motion.li
                         key={link.href}
@@ -233,8 +238,8 @@ export default function MobileNav({ links, currentPath }: MobileNavProps) {
                     <span
                       className="text-xs tracking-wider"
                       style={{ color: '#525252', fontFamily: 'Space Mono, monospace' }}
-                    >
-                      SYSTEM ONLINE
+                  >
+                      {t(locale, 'header.statusOnline')}
                     </span>
                   </motion.div>
 

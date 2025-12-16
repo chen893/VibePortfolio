@@ -1,10 +1,14 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
+import { t, type Locale } from '../../i18n/ui';
 
 interface HeroProps {
   name: string;
   title: string;
   bio: string;
+  locale: Locale;
+  projectsHref: string;
+  aboutHref: string;
 }
 
 // Text scramble effect hook
@@ -41,7 +45,7 @@ function useTextScramble(text: string, trigger: boolean) {
   return displayText;
 }
 
-export default function Hero({ name, title, bio }: HeroProps) {
+export default function Hero({ name, title, bio, locale, projectsHref, aboutHref }: HeroProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const mouseX = useMotionValue(0);
@@ -218,7 +222,7 @@ export default function Hero({ name, title, bio }: HeroProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              <span className="text-white">I'm </span>
+              <span className="text-white">{t(locale, 'hero.iAm')} </span>
               <span
                 className="relative inline-block"
                 style={{
@@ -295,7 +299,7 @@ export default function Hero({ name, title, bio }: HeroProps) {
             transition={{ duration: 0.6, delay: 0.8 }}
           >
             <motion.a
-              href="/projects"
+              href={projectsHref}
               className="group relative px-8 py-4 font-medium text-sm tracking-wider uppercase overflow-hidden"
               style={{
                 background: '#00f0ff',
@@ -306,7 +310,7 @@ export default function Hero({ name, title, bio }: HeroProps) {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              <span className="relative z-10">View Projects</span>
+              <span className="relative z-10">{t(locale, 'hero.viewProjects')}</span>
               <motion.div
                 className="absolute inset-0 bg-[#e4ff1a]"
                 initial={{ x: '-100%' }}
@@ -316,7 +320,7 @@ export default function Hero({ name, title, bio }: HeroProps) {
             </motion.a>
 
             <motion.a
-              href="/about"
+              href={aboutHref}
               className="group px-8 py-4 font-medium text-sm tracking-wider uppercase border transition-all duration-300"
               style={{
                 borderColor: '#00f0ff',
@@ -330,7 +334,7 @@ export default function Hero({ name, title, bio }: HeroProps) {
               }}
               whileTap={{ scale: 0.98 }}
             >
-              About Me
+              {t(locale, 'hero.aboutMe')}
             </motion.a>
           </motion.div>
         </motion.div>
@@ -347,7 +351,7 @@ export default function Hero({ name, title, bio }: HeroProps) {
           className="text-xs tracking-[0.2em] uppercase"
           style={{ color: '#525252', fontFamily: 'Space Mono, monospace' }}
         >
-          Scroll
+          {t(locale, 'hero.scroll')}
         </span>
         <motion.div
           className="w-px h-12"

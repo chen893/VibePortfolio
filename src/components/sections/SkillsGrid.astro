@@ -1,5 +1,6 @@
 ---
 import type { Skill } from '../../types/profile';
+import { defaultLocale, t, type Locale } from '../../i18n/ui';
 
 interface Props {
   skills: Skill[];
@@ -7,6 +8,7 @@ interface Props {
 }
 
 const { skills, class: className = '' } = Astro.props;
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
 
 // Group skills by category
 const groupedSkills = skills.reduce(
@@ -22,12 +24,12 @@ const groupedSkills = skills.reduce(
 
 // Category labels
 const categoryLabels: Record<string, string> = {
-  frontend: 'FRONTEND',
-  backend: 'BACKEND',
-  database: 'DATABASE',
-  devops: 'DEVOPS',
-  tools: 'TOOLS',
-  other: 'OTHER',
+  frontend: t(locale, 'skills.category.frontend'),
+  backend: t(locale, 'skills.category.backend'),
+  database: t(locale, 'skills.category.database'),
+  devops: t(locale, 'skills.category.devops'),
+  tools: t(locale, 'skills.category.tools'),
+  other: t(locale, 'skills.category.other'),
 };
 
 // Category colors - cyberpunk palette

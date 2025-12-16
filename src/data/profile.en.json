@@ -1,11 +1,11 @@
 {
-  "name": "陈双龙",
-  "title": "全栈开发者 | Vibe Coding 实践者",
-  "bio": "热爱用代码创造美好体验的全栈开发者。专注于构建高性能、用户友好的 Web 应用，追求代码的优雅与功能的完美结合。",
-  "philosophy": "我相信好的代码应该像艺术品一样，不仅要实现功能，更要具有美感和可维护性。Vibe Coding 是我的开发哲学——让每一行代码都带有独特的风格和灵魂。",
+  "name": "Shuanglong Chen",
+  "title": "Full-stack Developer | Vibe Coding Practitioner",
+  "bio": "A full-stack developer who loves crafting delightful experiences with code. I focus on building high-performance, user-friendly web apps, balancing clean engineering with polished design.",
+  "philosophy": "I believe great code should feel like a piece of craft: it works, it reads well, and it lasts. Vibe Coding is my philosophy — letting every line carry style, intention, and soul.",
   "avatar": {
     "src": "/images/avatar.png",
-    "alt": "开发者头像"
+    "alt": "Developer avatar"
   },
   "skills": [
     {
@@ -66,13 +66,13 @@
       "url": "https://github.com/chen893",
       "label": "GitHub"
     },
-
     {
       "platform": "email",
       "url": "mailto:1390158928@qq.com",
-      "label": "邮箱"
+      "label": "Email"
     }
   ],
-  "seoTitle": "陈双龙 - 全栈开发者作品集",
-  "seoDescription": "探索我的全栈开发作品集，了解我的技术技能、项目经验和开发哲学。"
+  "seoTitle": "Shuanglong Chen - Full-stack Developer Portfolio",
+  "seoDescription": "Explore my projects, skills, and development philosophy — a modern full-stack portfolio built with a cyberpunk vibe."
 }
+

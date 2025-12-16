@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#00f0ff" stop-opacity="0.55" />
+      <stop offset="0.6" stop-color="#ff2d92" stop-opacity="0.5" />
+      <stop offset="1" stop-color="#e4ff1a" stop-opacity="0.45" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="#050505" />
+  <rect x="90" y="90" width="1020" height="620" rx="18" fill="rgba(12,12,12,0.9)" stroke="#262626" />
+  <rect x="90" y="90" width="1020" height="70" rx="18" fill="rgba(10,10,10,0.95)" />
+  <path d="M90 160H1110" stroke="#262626" />
+  <text x="120" y="138" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" fill="#525252">/  首页</text>
+  <rect x="120" y="220" width="520" height="14" fill="#262626" rx="7" />
+  <rect x="120" y="250" width="420" height="14" fill="#262626" rx="7" opacity="0.75" />
+  <rect x="120" y="280" width="480" height="14" fill="#262626" rx="7" opacity="0.6" />
+  <text x="120" y="360" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="58" fill="#fafafa" font-weight="800">Hero 标题与 CTA</text>
+  <text x="120" y="408" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="22" fill="#a3a3a3">突出个人定位、项目入口与动效背景</text>
+  <rect x="120" y="455" width="180" height="52" rx="10" fill="url(#g1)" />
+  <rect x="320" y="455" width="180" height="52" rx="10" fill="transparent" stroke="#262626" />
+  <text x="152" y="489" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" fill="#050505">查看项目</text>
+  <text x="366" y="489" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" fill="#a3a3a3">关于我</text>
+  <circle cx="980" cy="360" r="150" fill="url(#g1)" opacity="0.25" />
+  <circle cx="1020" cy="410" r="90" fill="#00f0ff" opacity="0.08" />
+</svg>

@@ -5,8 +5,15 @@ import Footer from '../components/layout/Footer.astro';
 import Container from '../components/layout/Container.astro';
 import Hero from '../components/interactive/Hero';
 import ProjectCard from '../components/ui/ProjectCard.astro';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import { getCollection } from 'astro:content';
-import profile from '../data/profile.json';
+import { getProfile } from '../i18n/profile';
+import { defaultLocale, t, type Locale } from '../i18n/ui';
+
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const profile = getProfile(locale);
+const projectsHref = getRelativeLocaleUrl(locale, '/projects');
+const aboutHref = getRelativeLocaleUrl(locale, '/about');
 
 // 获取精选项目
 const allProjects = await getCollection('projects');
@@ -16,7 +23,7 @@ const featuredProjects = allProjects
   .slice(0, 3);
 ---
 
-<BaseLayout title="首页" description={profile.seoDescription}>
+<BaseLayout title={t(locale, 'nav.home')} description={profile.seoDescription}>
   <Header />
 
   <main>
@@ -26,6 +33,9 @@ const featuredProjects = allProjects
       name={profile.name}
       title={profile.title}
       bio={profile.bio}
+      locale={locale}
+      projectsHref={projectsHref}
+      aboutHref={aboutHref}
     />
 
     <!-- Featured Projects Section -->
@@ -60,7 +70,7 @@ const featuredProjects = allProjects
                   class="text-xs tracking-[0.3em] uppercase"
                   style="color: #525252; font-family: 'Space Mono', monospace;"
                 >
-                  {'// 精选作品'}
+                  {t(locale, 'home.featuredLabel')}
                 </span>
                 <div class="flex-1 h-px" style="background: linear-gradient(90deg, #262626, transparent);" />
               </div>
@@ -70,9 +80,9 @@ const featuredProjects = allProjects
                 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight"
                 style="font-family: 'Clash Display', sans-serif;"
               >
-                <span style="color: #fafafa;">FEATURED</span>
+                <span style="color: #fafafa;">{t(locale, 'home.featuredTitleA')}</span>
                 <br />
-                <span style="color: #00f0ff;">PROJECTS</span>
+                <span style="color: #00f0ff;">{t(locale, 'home.featuredTitleB')}</span>
               </h2>
 
               {/* Decorative number */}
@@ -99,7 +109,7 @@ const featuredProjects = allProjects
             {/* View all link */}
             <div class="flex justify-center">
               <a
-                href="/projects"
+                href={projectsHref}
                 class="group relative inline-flex items-center gap-3 px-8 py-4 font-medium text-sm tracking-wider uppercase transition-all duration-300"
                 style="
                   border: 1px solid #262626;
@@ -112,7 +122,7 @@ const featuredProjects = allProjects
                 <div class="absolute -bottom-px -right-px w-3 h-3 border-b border-r transition-all duration-300 group-hover:w-full group-hover:h-full" style="border-color: #ff2d92;" />
 
                 <span class="relative z-10 group-hover:text-white transition-colors">
-                  VIEW_ALL_PROJECTS
+                  {t(locale, 'home.viewAllProjects')}
                 </span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -167,7 +177,7 @@ const featuredProjects = allProjects
               style="background: #22c55e; box-shadow: 0 0 10px #22c55e;"
             />
             <span class="text-xs tracking-wider" style="color: #525252;">
-              OPEN_FOR_COLLABORATION
+              {t(locale, 'home.ctaBadge')}
             </span>
           </div>
 
@@ -176,12 +186,12 @@ const featuredProjects = allProjects
             class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6"
             style="font-family: 'Clash Display', sans-serif;"
           >
-            <span style="color: #fafafa;">LET'S BUILD</span>
+            <span style="color: #fafafa;">{t(locale, 'home.ctaTitleA')}</span>
             <br />
             <span
               style="background: linear-gradient(135deg, #00f0ff, #ff2d92); -webkit-background-clip: text; background-clip: text; color: transparent;"
             >
-              SOMETHING GREAT
+              {t(locale, 'home.ctaTitleB')}
             </span>
           </h2>
 
@@ -190,22 +200,22 @@ const featuredProjects = allProjects
             class="text-lg max-w-xl mx-auto mb-10"
             style="color: #737373; font-family: 'Space Grotesk', sans-serif;"
           >
-            无论是新项目、工作机会还是只是想聊聊技术，都欢迎与我联系。
+            {t(locale, 'home.ctaDescription')}
           </p>
 
           {/* CTA Buttons */}
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="/about"
+              href={aboutHref}
               class="btn-primary"
             >
-              GET_IN_TOUCH
+              {t(locale, 'home.ctaContact')}
             </a>
             <a
               href={`mailto:${profile.contact.email}`}
               class="btn-secondary"
             >
-              SEND_EMAIL
+              {t(locale, 'home.ctaEmail')}
             </a>
           </div>
 

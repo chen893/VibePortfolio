@@ -1,54 +1,53 @@
 ---
-title: "示例项目"
-description: "这是一个示例项目，用于展示作品集网站的项目展示功能。包含完整的项目信息、技术栈和媒体展示。"
-problemStatement: "作为开发者，需要一个专业的作品集网站来展示项目作品，吸引潜在雇主和合作者。传统的简历无法充分展示技术能力和项目经验。"
+title: "VibePortfolio · 赛博朋克风个人作品集"
+description: "一个以「Vibe Coding」为主题的赛博朋克风作品集网站：聚合项目展示、技术栈、关于我与联系入口，并通过动效与排版强化个人品牌。"
+problemStatement: "需要一个比传统简历更能体现技术与审美的展示载体：既能结构化呈现项目、技术栈与个人信息，又要在性能、可访问性与 SEO 上保持专业水准。"
 category: "web"
-technologies: ["React", "TypeScript", "Tailwind CSS", "Node.js"]
+technologies: ["Astro", "React", "TypeScript", "Tailwind CSS", "Framer Motion"]
 thumbnail:
-  src: "/images/projects/sample/thumbnail.png"
-  alt: "示例项目缩略图 - 展示现代化的深色主题界面设计"
+  src: "/images/projects/vibe/thumbnail.svg"
+  alt: "VibePortfolio 缩略图 - 赛博朋克风格的深色界面与霓虹渐变"
 images:
-  - src: "/images/projects/sample/screenshot-1.png"
-    alt: "项目首页截图，展示响应式布局设计"
-    caption: "首页设计"
-  - src: "/images/projects/sample/screenshot-2.png"
-    alt: "项目功能页面，展示核心交互功能"
-    caption: "功能展示"
-liveUrl: "https://example.com"
-repoUrl: "https://github.com/example/project"
+  - src: "/images/projects/vibe/screenshot-1.svg"
+    alt: "VibePortfolio 首页示意图，突出 Hero 标题、按钮与背景效果"
+    caption: "首页 / Hero"
+  - src: "/images/projects/vibe/screenshot-2.svg"
+    alt: "VibePortfolio 项目列表示意图，突出分类与技术栈筛选交互"
+    caption: "项目筛选"
 featured: true
 order: 1
-publishedDate: 2025-01-01
-seoTitle: "示例项目 - 全栈开发作品"
-seoDescription: "使用 React 和 TypeScript 构建的现代化 Web 应用示例"
+publishedDate: 2025-12-16
+seoTitle: "VibePortfolio - 赛博朋克风个人作品集"
+seoDescription: "基于 Astro + React + Tailwind CSS 构建的个人作品集网站，包含项目展示、技术栈与联系入口。"
 ---
 
 ## 项目概述
 
-这是一个用于测试作品集网站功能的示例项目。它展示了如何在 MDX 文件中编写项目内容，包括：
+这是我用来承载个人品牌与项目作品的作品集网站本体。它支持用 MDX 维护项目详情页面，并在首页/列表页以一致的视觉语言展示项目卡片与筛选交互，包括：
 
-- 项目描述和问题陈述
-- 技术栈信息
-- 图片和媒体展示
-- 外部链接
+- 项目卡片与详情页（MDX 内容）
+- 分类与技术栈筛选
+- 响应式布局与移动端导航
+- SEO 元信息与结构化数据（Person Schema）
 
 ## 技术亮点
 
 ### 前端技术
-- 使用 React 18 构建用户界面
-- TypeScript 提供类型安全
-- Tailwind CSS 实现响应式设计
+- Astro + React 混合渲染：静态优先，交互组件按需加载
+- TypeScript：统一数据结构与组件 Props，降低维护成本
+- Tailwind CSS：快速构建一致的赛博朋克风 UI 体系
+- Framer Motion：为关键交互与转场提供细腻动效
 
-### 后端技术
-- Node.js 运行时环境
-- RESTful API 设计
+### 内容与数据
+- 项目内容采用 MDX，支持图文与结构化字段（标题、描述、技术栈、图片等）
+- 个人信息与技术栈数据 JSON 化，便于后续扩展与替换
 
 ## 项目成果
 
-- 页面加载时间优化至 2 秒以内
-- 移动端用户体验评分 95+
-- 代码测试覆盖率达到 80%
+- 面向中文用户的站内文案与导航体验
+- 项目展示链路清晰：列表 → 筛选 → 详情 → 返回
+- 视觉风格统一：字体、颜色、霓虹强调与终端风装饰保持一致
 
 ## 学习收获
 
-通过这个项目，我深入理解了现代前端开发的最佳实践，包括组件化设计、状态管理和性能优化等方面。
+通过这个项目，我把「视觉表达」与「工程化落地」结合起来：在保持风格化设计的同时，尽量让组件结构、内容维护与页面性能都更易扩展、可持续。
