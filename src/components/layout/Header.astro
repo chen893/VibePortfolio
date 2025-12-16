@@ -1,0 +1,157 @@
+---
+import MobileNav from './MobileNav';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const navLinks = [
+  { href: '/', label: '首页', code: '01' },
+  { href: '/projects', label: '项目', code: '02' },
+  { href: '/about', label: '关于', code: '03' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header
+  class={`fixed top-0 left-0 right-0 z-50 ${className}`}
+  style="background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0, 240, 255, 0.1);"
+>
+  <!-- Scan line effect -->
+  <div
+    class="absolute inset-0 pointer-events-none overflow-hidden"
+    aria-hidden="true"
+  >
+    <div
+      class="absolute top-0 left-0 right-0 h-px"
+      style="background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.3), transparent);"
+    />
+  </div>
+
+  <nav class="container-custom">
+    <div class="flex items-center justify-between h-16 md:h-20">
+      <!-- Logo -->
+      <a
+        href="/"
+        class="group flex items-center gap-3"
+        aria-label="返回首页"
+      >
+        <!-- Logo mark -->
+        <div
+          class="relative w-10 h-10 flex items-center justify-center"
+          style="border: 1px solid rgba(0, 240, 255, 0.5);"
+        >
+          <span
+            class="text-lg font-bold"
+            style="font-family: 'Clash Display', sans-serif; color: #00f0ff;"
+          >
+            V
+          </span>
+          <!-- Corner accents -->
+          <div class="absolute -top-px -left-px w-2 h-2 border-t border-l" style="border-color: #00f0ff;" />
+          <div class="absolute -top-px -right-px w-2 h-2 border-t border-r" style="border-color: #00f0ff;" />
+          <div class="absolute -bottom-px -left-px w-2 h-2 border-b border-l" style="border-color: #00f0ff;" />
+          <div class="absolute -bottom-px -right-px w-2 h-2 border-b border-r" style="border-color: #00f0ff;" />
+        </div>
+
+        <!-- Logo text -->
+        <div class="hidden sm:block">
+          <span
+            class="text-sm font-bold tracking-wider"
+            style="font-family: 'Clash Display', sans-serif; color: #fafafa;"
+          >
+            VIBE
+          </span>
+          <span
+            class="text-sm font-bold tracking-wider"
+            style="font-family: 'Clash Display', sans-serif; color: #00f0ff;"
+          >
+            PORTFOLIO
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <ul class="hidden md:flex items-center gap-1" role="navigation">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class={`group relative flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all duration-300 ${
+                  currentPath === link.href
+                    ? 'nav-active'
+                    : 'nav-inactive'
+                }`}
+                style={`font-family: 'Space Mono', monospace; ${currentPath === link.href ? 'color: #00f0ff;' : 'color: #a3a3a3;'}`}
+                aria-current={currentPath === link.href ? 'page' : undefined}
+              >
+                {/* Link number */}
+                <span
+                  class="text-xs opacity-50"
+                  style="color: #ff2d92;"
+                >
+                  {link.code}
+                </span>
+
+                {/* Link text */}
+                <span class="relative">
+                  {link.label}
+                  {/* Underline effect */}
+                  <span
+                    class={`absolute -bottom-1 left-0 h-px transition-all duration-300 ${
+                      currentPath === link.href ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`}
+                    style="background: linear-gradient(90deg, #00f0ff, #ff2d92);"
+                  />
+                </span>
+
+                {/* Active indicator */}
+                {currentPath === link.href && (
+                  <span
+                    class="absolute -right-1 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full"
+                    style="background: #00f0ff; box-shadow: 0 0 10px #00f0ff;"
+                  />
+                )}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <!-- Status & Mobile Nav -->
+      <div class="flex items-center gap-4">
+        <!-- Status indicator (desktop only) -->
+        <div
+          class="hidden lg:flex items-center gap-2 px-3 py-1.5 text-xs"
+          style="font-family: 'Space Mono', monospace; border: 1px solid #262626; color: #525252;"
+        >
+          <span
+            class="w-2 h-2 rounded-full animate-pulse"
+            style="background: #22c55e; box-shadow: 0 0 10px #22c55e;"
+          />
+          <span>SYS.ONLINE</span>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <MobileNav client:load links={navLinks} currentPath={currentPath} />
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- Spacer to prevent content from going under fixed header -->
+<div class="h-16 md:h-20"></div>
+
+<style>
+  .nav-inactive:hover {
+    color: #e5e5e5;
+  }
+
+  .nav-active {
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+  }
+</style>

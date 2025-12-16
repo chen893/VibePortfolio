@@ -1,0 +1,100 @@
+[
+  {
+    "name": "TypeScript",
+    "slug": "typescript",
+    "icon": "typescript",
+    "category": "frontend",
+    "color": "#3178C6"
+  },
+  {
+    "name": "React",
+    "slug": "react",
+    "icon": "react",
+    "category": "frontend",
+    "color": "#61DAFB"
+  },
+  {
+    "name": "Vue.js",
+    "slug": "vue",
+    "icon": "vue",
+    "category": "frontend",
+    "color": "#4FC08D"
+  },
+  {
+    "name": "Astro",
+    "slug": "astro",
+    "icon": "astro",
+    "category": "frontend",
+    "color": "#FF5D01"
+  },
+  {
+    "name": "Tailwind CSS",
+    "slug": "tailwind",
+    "icon": "tailwind",
+    "category": "frontend",
+    "color": "#06B6D4"
+  },
+  {
+    "name": "Node.js",
+    "slug": "nodejs",
+    "icon": "nodejs",
+    "category": "backend",
+    "color": "#339933"
+  },
+  {
+    "name": "Python",
+    "slug": "python",
+    "icon": "python",
+    "category": "backend",
+    "color": "#3776AB"
+  },
+  {
+    "name": "Go",
+    "slug": "go",
+    "icon": "go",
+    "category": "backend",
+    "color": "#00ADD8"
+  },
+  {
+    "name": "PostgreSQL",
+    "slug": "postgresql",
+    "icon": "postgresql",
+    "category": "database",
+    "color": "#4169E1"
+  },
+  {
+    "name": "MongoDB",
+    "slug": "mongodb",
+    "icon": "mongodb",
+    "category": "database",
+    "color": "#47A248"
+  },
+  {
+    "name": "Docker",
+    "slug": "docker",
+    "icon": "docker",
+    "category": "devops",
+    "color": "#2496ED"
+  },
+  {
+    "name": "Git",
+    "slug": "git",
+    "icon": "git",
+    "category": "tools",
+    "color": "#F05032"
+  },
+  {
+    "name": "Figma",
+    "slug": "figma",
+    "icon": "figma",
+    "category": "tools",
+    "color": "#F24E1E"
+  },
+  {
+    "name": "VS Code",
+    "slug": "vscode",
+    "icon": "vscode",
+    "category": "tools",
+    "color": "#007ACC"
+  }
+]

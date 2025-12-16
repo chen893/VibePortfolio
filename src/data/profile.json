@@ -1,0 +1,78 @@
+{
+  "name": "陈双龙",
+  "title": "全栈开发者 | Vibe Coding 实践者",
+  "bio": "热爱用代码创造美好体验的全栈开发者。专注于构建高性能、用户友好的 Web 应用，追求代码的优雅与功能的完美结合。",
+  "philosophy": "我相信好的代码应该像艺术品一样，不仅要实现功能，更要具有美感和可维护性。Vibe Coding 是我的开发哲学——让每一行代码都带有独特的风格和灵魂。",
+  "avatar": {
+    "src": "/images/avatar.png",
+    "alt": "开发者头像"
+  },
+  "skills": [
+    {
+      "name": "TypeScript",
+      "category": "frontend",
+      "proficiency": "expert",
+      "icon": "typescript"
+    },
+    {
+      "name": "React",
+      "category": "frontend",
+      "proficiency": "expert",
+      "icon": "react"
+    },
+    {
+      "name": "Vue.js",
+      "category": "frontend",
+      "proficiency": "advanced",
+      "icon": "vue"
+    },
+    {
+      "name": "Tailwind CSS",
+      "category": "frontend",
+      "proficiency": "expert",
+      "icon": "tailwind"
+    },
+    {
+      "name": "Node.js",
+      "category": "backend",
+      "proficiency": "advanced",
+      "icon": "nodejs"
+    },
+    {
+      "name": "PostgreSQL",
+      "category": "backend",
+      "proficiency": "advanced",
+      "icon": "postgresql"
+    },
+    {
+      "name": "Docker",
+      "category": "tools",
+      "proficiency": "intermediate",
+      "icon": "docker"
+    },
+    {
+      "name": "Git",
+      "category": "tools",
+      "proficiency": "expert",
+      "icon": "git"
+    }
+  ],
+  "contact": {
+    "email": "1390158928@qq.com"
+  },
+  "socials": [
+    {
+      "platform": "github",
+      "url": "https://github.com/chen893",
+      "label": "GitHub"
+    },
+
+    {
+      "platform": "email",
+      "url": "1390158928@qq.com",
+      "label": "邮箱"
+    }
+  ],
+  "seoTitle": "陈双龙 - 全栈开发者作品集",
+  "seoDescription": "探索我的全栈开发作品集，了解我的技术技能、项目经验和开发哲学。"
+}

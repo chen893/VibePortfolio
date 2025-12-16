@@ -1,0 +1,196 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import '../styles/global.css';
+import profile from '../data/profile.json';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  canonicalUrl?: string;
+}
+
+const {
+  title,
+  description = '全栈开发者作品集 - Cyberpunk Portfolio',
+  image = '/images/og-image.png',
+  canonicalUrl,
+} = Astro.props;
+
+const siteTitle = `${title} | ${profile.name}`;
+const currentUrl = canonicalUrl || Astro.url.href;
+
+// JSON-LD structured data for Person schema
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  jobTitle: profile.title,
+  description: profile.bio,
+  url: Astro.site?.toString() || '',
+  sameAs: profile.socials.filter(s => s.platform !== 'email').map(s => s.url),
+  email: profile.contact.email,
+};
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary Meta Tags -->
+    <title>{siteTitle}</title>
+    <meta name="title" content={siteTitle} />
+    <meta name="description" content={description} />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={currentUrl} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={currentUrl} />
+    <meta property="og:title" content={siteTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:locale" content="zh_CN" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={currentUrl} />
+    <meta property="twitter:title" content={siteTitle} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, Astro.site)} />
+
+    <!-- Theme Color - Pure Black -->
+    <meta name="theme-color" content="#050505" />
+    <meta name="msapplication-TileColor" content="#050505" />
+
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+
+    <!--
+      TYPOGRAPHY STACK:
+      - Clash Display: Bold geometric display font for headlines
+      - Space Grotesk: Clean geometric sans for body
+      - Space Mono: Terminal-style monospace
+    -->
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+
+    <!-- View Transitions -->
+    <ViewTransitions />
+  </head>
+  <body class="min-h-screen bg-void-950 text-void-200">
+    <slot />
+
+    <!-- Magnetic cursor effect script -->
+    <script>
+      // Magnetic effect for buttons and links
+      document.addEventListener('DOMContentLoaded', () => {
+        const magneticElements = document.querySelectorAll('.magnetic, .btn-primary, .btn-secondary');
+
+        magneticElements.forEach(elem => {
+          elem.addEventListener('mousemove', (e) => {
+            const rect = (elem as HTMLElement).getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+
+            (elem as HTMLElement).style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+          });
+
+          elem.addEventListener('mouseleave', () => {
+            (elem as HTMLElement).style.transform = 'translate(0, 0)';
+          });
+        });
+
+        // Text scramble effect for glitch-hover elements
+        const glitchElements = document.querySelectorAll('.glitch-text');
+        const chars = '!<>-_\\/[]{}—=+*^?#________';
+
+        glitchElements.forEach(elem => {
+          const originalText = elem.textContent || '';
+
+          elem.addEventListener('mouseenter', () => {
+            let iteration = 0;
+            const interval = setInterval(() => {
+              (elem as HTMLElement).textContent = originalText
+                .split('')
+                .map((char, index) => {
+                  if (index < iteration) return originalText[index];
+                  return chars[Math.floor(Math.random() * chars.length)];
+                })
+                .join('');
+
+              if (iteration >= originalText.length) {
+                clearInterval(interval);
+              }
+
+              iteration += 1 / 3;
+            }, 30);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* Prevent FOUC */
+  html {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  /* Smooth page transitions */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.4s;
+  }
+
+  ::view-transition-old(root) {
+    animation-name: fade-and-scale-out;
+  }
+
+  ::view-transition-new(root) {
+    animation-name: fade-and-scale-in;
+  }
+
+  @keyframes fade-and-scale-out {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+  }
+
+  @keyframes fade-and-scale-in {
+    from {
+      opacity: 0;
+      transform: scale(1.02);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+</style>

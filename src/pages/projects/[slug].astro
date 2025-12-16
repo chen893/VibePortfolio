@@ -1,0 +1,589 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Container from '../../components/layout/Container.astro';
+import ExternalLink from '../../components/ui/ExternalLink.astro';
+import ImageGallery from '../../components/interactive/ImageGallery';
+import { getCollection, type CollectionEntry, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project, index) => ({
+    params: { slug: project.id },
+    props: {
+      project,
+      prevProject: index > 0 ? projects[index - 1] : null,
+      nextProject: index < projects.length - 1 ? projects[index + 1] : null,
+      projectIndex: index,
+      totalProjects: projects.length,
+    },
+  }));
+}
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  prevProject: CollectionEntry<'projects'> | null;
+  nextProject: CollectionEntry<'projects'> | null;
+  projectIndex: number;
+  totalProjects: number;
+}
+
+const { project, prevProject, nextProject, projectIndex, totalProjects } = Astro.props;
+const { data, id } = project;
+const { Content } = await render(project);
+
+// Category mapping with colors
+const categoryConfig: Record<string, { label: string; color: string }> = {
+  web: { label: 'WEB', color: '#00f0ff' },
+  mobile: { label: 'MOBILE', color: '#ff2d92' },
+  backend: { label: 'BACKEND', color: '#e4ff1a' },
+  fullstack: { label: 'FULLSTACK', color: '#00f0ff' },
+  tool: { label: 'TOOL', color: '#ff2d92' },
+  other: { label: 'OTHER', color: '#a3a3a3' },
+};
+
+const category = categoryConfig[data.category] || categoryConfig.other;
+
+// Format date
+const formatDate = (date: Date) => {
+  return new Intl.DateTimeFormat('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(date).replace(/\//g, '.');
+};
+---
+
+<BaseLayout
+  title={data.seoTitle || data.title}
+  description={data.seoDescription || data.description}
+>
+  <Header />
+
+  <main class="pt-20 min-h-screen relative overflow-hidden" style="background: #050505;">
+    {/* Background effects */}
+    <div class="fixed inset-0 pointer-events-none">
+      {/* Grid */}
+      <div
+        class="absolute inset-0 opacity-[0.02]"
+        style="background-image: linear-gradient(#00f0ff 1px, transparent 1px), linear-gradient(90deg, #00f0ff 1px, transparent 1px); background-size: 60px 60px;"
+      />
+      {/* Gradient orbs */}
+      <div
+        class="absolute top-0 right-0 w-[600px] h-[600px]"
+        style={`background: radial-gradient(circle, ${category.color}10 0%, transparent 70%); filter: blur(80px);`}
+      />
+    </div>
+
+    <Container size="md">
+      {/* Terminal-style breadcrumb */}
+      <nav class="py-6 relative z-10" aria-label="面包屑导航">
+        <div
+          class="inline-flex items-center gap-2 px-4 py-2 text-xs"
+          style="background: #0d0d0d; border: 1px solid #262626; font-family: 'Space Mono', monospace;"
+        >
+          <span style="color: #00f0ff;">$</span>
+          <a href="/" class="transition-colors hover:text-white" style="color: #525252;">
+            ~
+          </a>
+          <span style="color: #262626;">/</span>
+          <a href="/projects" class="transition-colors hover:text-white" style="color: #525252;">
+            projects
+          </a>
+          <span style="color: #262626;">/</span>
+          <span style="color: #fafafa;">{id}</span>
+          <span class="animate-pulse" style="color: #00f0ff;">_</span>
+        </div>
+      </nav>
+
+      {/* Project Header */}
+      <header class="relative mb-12 pt-8">
+        {/* Project number */}
+        <div
+          class="absolute -top-4 -right-4 text-[12rem] font-bold leading-none opacity-[0.03] hidden lg:block select-none"
+          style={`font-family: 'Clash Display', sans-serif; color: ${category.color};`}
+        >
+          {String(projectIndex + 1).padStart(2, '0')}
+        </div>
+
+        {/* Meta badges */}
+        <div class="flex flex-wrap items-center gap-3 mb-6">
+          <span
+            class="px-3 py-1.5 text-xs font-bold tracking-wider"
+            style={`background: ${category.color}; color: #050505; font-family: 'Space Mono', monospace;`}
+          >
+            {category.label}
+          </span>
+          {data.featured && (
+            <span
+              class="px-3 py-1.5 text-xs font-bold tracking-wider"
+              style="background: #ff2d92; color: #050505; font-family: 'Space Mono', monospace;"
+            >
+              FEATURED
+            </span>
+          )}
+          <span
+            class="px-3 py-1.5 text-xs tracking-wider"
+            style="border: 1px solid #262626; color: #525252; font-family: 'Space Mono', monospace;"
+          >
+            {formatDate(data.publishedDate)}
+          </span>
+          <span
+            class="px-3 py-1.5 text-xs tracking-wider"
+            style="border: 1px solid #262626; color: #525252; font-family: 'Space Mono', monospace;"
+          >
+            [{String(projectIndex + 1).padStart(2, '0')}/{String(totalProjects).padStart(2, '0')}]
+          </span>
+        </div>
+
+        {/* Title */}
+        <h1
+          class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6"
+          style="font-family: 'Clash Display', sans-serif; color: #fafafa;"
+        >
+          <span class="relative">
+            {data.title}
+            <span
+              class="absolute -bottom-2 left-0 h-1 w-24"
+              style={`background: linear-gradient(90deg, ${category.color}, transparent);`}
+            />
+          </span>
+        </h1>
+
+        {/* Description */}
+        <p
+          class="text-xl max-w-3xl mb-8"
+          style="color: #a3a3a3; font-family: 'Space Grotesk', sans-serif; line-height: 1.8;"
+        >
+          {data.description}
+        </p>
+
+        {/* Action Buttons */}
+        <div class="flex flex-wrap gap-4">
+          {data.liveUrl && (
+            <a
+              href={data.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-primary"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-5 h-5 mr-2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                />
+              </svg>
+              LIVE_DEMO
+            </a>
+          )}
+          {data.repoUrl && (
+            <a
+              href={data.repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-secondary"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                class="w-5 h-5 mr-2"
+              >
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+              SOURCE_CODE
+            </a>
+          )}
+        </div>
+      </header>
+
+      {/* Hero Image */}
+      <div class="relative mb-16 group">
+        {/* Corner decorations */}
+        <div class="absolute -top-2 -left-2 w-8 h-8 border-t-2 border-l-2 z-10" style={`border-color: ${category.color};`} />
+        <div class="absolute -top-2 -right-2 w-8 h-8 border-t-2 border-r-2 z-10" style={`border-color: ${category.color};`} />
+        <div class="absolute -bottom-2 -left-2 w-8 h-8 border-b-2 border-l-2 z-10" style="border-color: #ff2d92;" />
+        <div class="absolute -bottom-2 -right-2 w-8 h-8 border-b-2 border-r-2 z-10" style="border-color: #ff2d92;" />
+
+        {data.thumbnail?.src && !data.thumbnail.src.includes('placeholder') ? (
+          <div class="relative overflow-hidden" style="border: 1px solid #262626;">
+            <img
+              src={data.thumbnail.src}
+              alt={data.thumbnail.alt}
+              class="w-full aspect-video object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            {/* Scan line overlay */}
+            <div
+              class="absolute inset-0 pointer-events-none opacity-20"
+              style="background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.3) 2px, rgba(0,0,0,0.3) 4px);"
+            />
+          </div>
+        ) : (
+          <div
+            class="w-full aspect-video flex items-center justify-center relative"
+            style="background: #0d0d0d; border: 1px solid #262626;"
+          >
+            {/* Grid pattern */}
+            <div
+              class="absolute inset-0 opacity-10"
+              style="background-image: linear-gradient(#262626 1px, transparent 1px), linear-gradient(90deg, #262626 1px, transparent 1px); background-size: 30px 30px;"
+            />
+            <div
+              class="relative w-24 h-24 flex items-center justify-center"
+              style={`border: 1px solid ${category.color}40;`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1"
+                stroke="currentColor"
+                class="w-12 h-12"
+                style={`color: ${category.color};`}
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"
+                />
+              </svg>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Problem Statement */}
+      <section class="relative mb-16">
+        <div class="flex items-center gap-4 mb-6">
+          <span
+            class="text-xs tracking-[0.3em] uppercase"
+            style="color: #525252; font-family: 'Space Mono', monospace;"
+          >
+            {'// 项目背景'}
+          </span>
+          <div class="flex-1 h-px" style="background: linear-gradient(90deg, #262626, transparent);" />
+        </div>
+        <div
+          class="p-6 md:p-8"
+          style="background: #0d0d0d; border: 1px solid #262626; border-left: 3px solid #00f0ff;"
+        >
+          <p
+            class="text-lg leading-relaxed"
+            style="color: #a3a3a3; font-family: 'Space Grotesk', sans-serif;"
+          >
+            {data.problemStatement}
+          </p>
+        </div>
+      </section>
+
+      {/* Technologies */}
+      <section class="relative mb-16">
+        <div class="flex items-center gap-4 mb-6">
+          <span
+            class="text-xs tracking-[0.3em] uppercase"
+            style="color: #525252; font-family: 'Space Mono', monospace;"
+          >
+            {'// 技术栈'}
+          </span>
+          <div class="flex-1 h-px" style="background: linear-gradient(90deg, #262626, transparent);" />
+        </div>
+        <div class="flex flex-wrap gap-3">
+          {data.technologies.map((tech, i) => (
+            <span
+              class="group relative px-4 py-2 text-sm transition-all duration-300 hover:-translate-y-1"
+              style="background: #0d0d0d; border: 1px solid #262626; font-family: 'Space Mono', monospace; color: #a3a3a3;"
+            >
+              <span class="relative z-10 group-hover:text-white transition-colors">{tech}</span>
+              {/* Hover glow */}
+              <span
+                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                style={`background: ${category.color}10; border-color: ${category.color};`}
+              />
+            </span>
+          ))}
+        </div>
+      </section>
+
+      {/* Project Content (MDX) */}
+      <section class="relative mb-16">
+        <div class="flex items-center gap-4 mb-6">
+          <span
+            class="text-xs tracking-[0.3em] uppercase"
+            style="color: #525252; font-family: 'Space Mono', monospace;"
+          >
+            {'// 详细内容'}
+          </span>
+          <div class="flex-1 h-px" style="background: linear-gradient(90deg, #262626, transparent);" />
+        </div>
+        <div class="prose-cyber">
+          <Content />
+        </div>
+      </section>
+
+      {/* Image Gallery */}
+      {data.images && data.images.length > 0 && (
+        <section class="relative mb-16">
+          <div class="flex items-center gap-4 mb-6">
+            <span
+              class="text-xs tracking-[0.3em] uppercase"
+              style="color: #525252; font-family: 'Space Mono', monospace;"
+            >
+              {'// 项目截图'}
+            </span>
+            <div class="flex-1 h-px" style="background: linear-gradient(90deg, #262626, transparent);" />
+          </div>
+          <ImageGallery client:load images={data.images} projectTitle={data.title} />
+        </section>
+      )}
+
+      {/* Project Navigation */}
+      <nav class="relative pt-12 pb-20" aria-label="项目导航">
+        {/* Top border with gradient */}
+        <div
+          class="absolute top-0 left-0 right-0 h-px"
+          style="background: linear-gradient(90deg, transparent, #262626, transparent);"
+        />
+
+        <div class="flex justify-between gap-6">
+          {prevProject ? (
+            <a
+              href={`/projects/${prevProject.id}`}
+              class="group flex-1 max-w-[calc(50%-0.75rem)] relative p-6 transition-all duration-300 hover:-translate-y-1"
+              style="background: #0d0d0d; border: 1px solid #262626;"
+            >
+              {/* Corner accents */}
+              <div class="absolute top-0 left-0 w-3 h-3 border-t border-l opacity-0 group-hover:opacity-100 transition-opacity" style="border-color: #00f0ff;" />
+              <div class="absolute bottom-0 right-0 w-3 h-3 border-b border-r opacity-0 group-hover:opacity-100 transition-opacity" style="border-color: #00f0ff;" />
+
+              <div class="flex items-center gap-2 mb-2" style="font-family: 'Space Mono', monospace;">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform"
+                  style="color: #00f0ff;"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
+                  />
+                </svg>
+                <span class="text-xs tracking-wider" style="color: #525252;">PREV_PROJECT</span>
+              </div>
+              <div
+                class="font-medium truncate transition-colors group-hover:text-[#00f0ff]"
+                style="font-family: 'Clash Display', sans-serif; color: #fafafa;"
+              >
+                {prevProject.data.title}
+              </div>
+            </a>
+          ) : (
+            <div class="flex-1 max-w-[calc(50%-0.75rem)]"></div>
+          )}
+
+          {nextProject ? (
+            <a
+              href={`/projects/${nextProject.id}`}
+              class="group flex-1 max-w-[calc(50%-0.75rem)] relative p-6 text-right transition-all duration-300 hover:-translate-y-1"
+              style="background: #0d0d0d; border: 1px solid #262626;"
+            >
+              {/* Corner accents */}
+              <div class="absolute top-0 right-0 w-3 h-3 border-t border-r opacity-0 group-hover:opacity-100 transition-opacity" style="border-color: #ff2d92;" />
+              <div class="absolute bottom-0 left-0 w-3 h-3 border-b border-l opacity-0 group-hover:opacity-100 transition-opacity" style="border-color: #ff2d92;" />
+
+              <div class="flex items-center justify-end gap-2 mb-2" style="font-family: 'Space Mono', monospace;">
+                <span class="text-xs tracking-wider" style="color: #525252;">NEXT_PROJECT</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  class="w-4 h-4 transform group-hover:translate-x-1 transition-transform"
+                  style="color: #ff2d92;"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                  />
+                </svg>
+              </div>
+              <div
+                class="font-medium truncate transition-colors group-hover:text-[#ff2d92]"
+                style="font-family: 'Clash Display', sans-serif; color: #fafafa;"
+              >
+                {nextProject.data.title}
+              </div>
+            </a>
+          ) : (
+            <div class="flex-1 max-w-[calc(50%-0.75rem)]"></div>
+          )}
+        </div>
+
+        {/* Back to projects */}
+        <div class="flex justify-center mt-8">
+          <a
+            href="/projects"
+            class="group inline-flex items-center gap-2 text-sm transition-colors"
+            style="color: #525252; font-family: 'Space Mono', monospace;"
+          >
+            <span class="group-hover:text-[#00f0ff] transition-colors">{'<'}</span>
+            <span class="group-hover:text-white transition-colors">BACK_TO_ALL_PROJECTS</span>
+            <span class="group-hover:text-[#ff2d92] transition-colors">{'>'}</span>
+          </a>
+        </div>
+      </nav>
+    </Container>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style is:global>
+  /* Cyberpunk prose styling */
+  .prose-cyber {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #a3a3a3;
+    line-height: 1.8;
+  }
+
+  .prose-cyber h1,
+  .prose-cyber h2,
+  .prose-cyber h3,
+  .prose-cyber h4 {
+    font-family: 'Clash Display', sans-serif;
+    color: #fafafa;
+    margin-top: 2em;
+    margin-bottom: 0.75em;
+    font-weight: 600;
+  }
+
+  .prose-cyber h2 {
+    font-size: 1.75rem;
+    position: relative;
+    padding-left: 1rem;
+    border-left: 3px solid #00f0ff;
+  }
+
+  .prose-cyber h3 {
+    font-size: 1.25rem;
+    color: #e5e5e5;
+  }
+
+  .prose-cyber p {
+    margin-bottom: 1.5em;
+  }
+
+  .prose-cyber a {
+    color: #00f0ff;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s;
+  }
+
+  .prose-cyber a:hover {
+    border-bottom-color: #00f0ff;
+  }
+
+  .prose-cyber strong {
+    color: #fafafa;
+    font-weight: 600;
+  }
+
+  .prose-cyber code {
+    font-family: 'Space Mono', monospace;
+    background: #171717;
+    color: #00f0ff;
+    padding: 0.2em 0.4em;
+    font-size: 0.875em;
+    border: 1px solid #262626;
+  }
+
+  .prose-cyber pre {
+    background: #0d0d0d;
+    border: 1px solid #262626;
+    padding: 1.5rem;
+    overflow-x: auto;
+    margin: 1.5em 0;
+  }
+
+  .prose-cyber pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #e5e5e5;
+    font-size: 0.875rem;
+  }
+
+  .prose-cyber ul,
+  .prose-cyber ol {
+    padding-left: 1.5em;
+    margin: 1.5em 0;
+  }
+
+  .prose-cyber li {
+    margin: 0.5em 0;
+  }
+
+  .prose-cyber li::marker {
+    color: #00f0ff;
+  }
+
+  .prose-cyber blockquote {
+    border-left: 3px solid #ff2d92;
+    padding-left: 1.5rem;
+    margin: 1.5em 0;
+    font-style: italic;
+    color: #737373;
+  }
+
+  .prose-cyber hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #262626, transparent);
+    margin: 3em 0;
+  }
+
+  .prose-cyber img {
+    border: 1px solid #262626;
+    margin: 2em 0;
+  }
+
+  .prose-cyber table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5em 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.875rem;
+  }
+
+  .prose-cyber th,
+  .prose-cyber td {
+    padding: 0.75rem 1rem;
+    border: 1px solid #262626;
+    text-align: left;
+  }
+
+  .prose-cyber th {
+    background: #0d0d0d;
+    color: #00f0ff;
+    font-weight: 500;
+  }
+
+  .prose-cyber td {
+    background: #171717;
+  }
+</style>

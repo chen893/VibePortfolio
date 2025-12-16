@@ -1,0 +1,468 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Container from '../../components/layout/Container.astro';
+import ProjectCard from '../../components/ui/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+// 获取所有项目
+const allProjects = await getCollection('projects');
+const sortedProjects = allProjects.sort((a, b) => {
+  // 精选项目优先
+  if (a.data.featured && !b.data.featured) return -1;
+  if (!a.data.featured && b.data.featured) return 1;
+  // 按 order 排序
+  return a.data.order - b.data.order;
+});
+
+// 提取所有唯一的技术栈
+const allTechnologies = [
+  ...new Set(allProjects.flatMap((p) => p.data.technologies)),
+].sort();
+
+// 分类标签映射
+const categoryLabels: Record<string, { label: string; color: string }> = {
+  web: { label: 'WEB', color: '#00f0ff' },
+  mobile: { label: 'MOBILE', color: '#ff2d92' },
+  backend: { label: 'BACKEND', color: '#e4ff1a' },
+  fullstack: { label: 'FULLSTACK', color: '#00f0ff' },
+  tool: { label: 'TOOL', color: '#ff2d92' },
+  other: { label: 'OTHER', color: '#a3a3a3' },
+};
+
+// 获取所有分类
+const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
+---
+
+<BaseLayout title="项目" description="浏览我的项目作品集，探索各种Web应用、移动应用和工具的开发案例。">
+  <Header />
+
+  <main class="min-h-screen relative" style="background: #050505;">
+    {/* Background effects */}
+    <div class="fixed inset-0 pointer-events-none z-0">
+      <div
+        class="absolute top-0 right-0 w-[800px] h-[800px]"
+        style="background: radial-gradient(circle, rgba(0,240,255,0.06) 0%, transparent 70%); filter: blur(80px);"
+      />
+      <div
+        class="absolute bottom-0 left-0 w-[600px] h-[600px]"
+        style="background: radial-gradient(circle, rgba(255,45,146,0.04) 0%, transparent 70%); filter: blur(80px);"
+      />
+      <div
+        class="absolute inset-0 opacity-[0.02]"
+        style="background-image: linear-gradient(#00f0ff 1px, transparent 1px), linear-gradient(90deg, #00f0ff 1px, transparent 1px); background-size: 60px 60px;"
+      />
+    </div>
+
+    <Container>
+      {/* Page Header */}
+      <div class="relative pt-32 pb-16">
+        {/* Label */}
+        <div class="flex items-center gap-4 mb-6">
+          <span
+            class="text-xs tracking-[0.3em] uppercase"
+            style="color: #525252; font-family: 'Space Mono', monospace;"
+          >
+            {'// 项目作品'}
+          </span>
+          <div class="flex-1 h-px" style="background: linear-gradient(90deg, #262626, transparent);" />
+        </div>
+
+        {/* Title */}
+        <h1
+          class="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6"
+          style="font-family: 'Clash Display', sans-serif;"
+        >
+          <span style="color: #fafafa;">ALL</span>
+          <br />
+          <span style="color: #00f0ff;">PROJECTS</span>
+        </h1>
+
+        <p
+          class="max-w-2xl text-lg"
+          style="color: #737373; font-family: 'Space Grotesk', sans-serif;"
+        >
+          探索我参与开发的各类项目，从 Web 应用到后端服务，每个项目都是一次技术实践与创新的旅程。
+        </p>
+
+        {/* Project count */}
+        <div
+          class="absolute top-32 right-0 text-[10rem] font-bold leading-none opacity-5 hidden lg:block"
+          style="font-family: 'Clash Display', sans-serif; color: #00f0ff;"
+        >
+          {String(sortedProjects.length).padStart(2, '0')}
+        </div>
+      </div>
+
+      {/* Filters Section */}
+      <div class="mb-12 space-y-6" id="filter-section">
+        {/* Category Filter */}
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <span
+              class="text-xs tracking-[0.2em] uppercase"
+              style="color: #525252; font-family: 'Space Mono', monospace;"
+            >
+              FILTER_BY_CATEGORY
+            </span>
+            <div class="flex-1 h-px" style="background: #262626;" />
+          </div>
+          <div class="flex flex-wrap gap-2" role="group" aria-label="项目分类筛选">
+            <button
+              class="filter-btn category-btn active"
+              data-category="all"
+              aria-pressed="true"
+            >
+              <span class="btn-number">00</span>
+              ALL
+            </button>
+            {
+              allCategories.map((category, index) => {
+                const config = categoryLabels[category] || categoryLabels.other;
+                return (
+                  <button
+                    class="filter-btn category-btn"
+                    data-category={category}
+                    data-color={config.color}
+                    aria-pressed="false"
+                  >
+                    <span class="btn-number">{String(index + 1).padStart(2, '0')}</span>
+                    {config.label}
+                  </button>
+                );
+              })
+            }
+          </div>
+        </div>
+
+        {/* Tech Filter Toggle */}
+        <div>
+          <button
+            id="tech-filter-toggle"
+            class="group flex items-center gap-3 transition-all duration-300"
+            style="color: #525252; font-family: 'Space Mono', monospace;"
+            aria-expanded="false"
+            aria-controls="tech-filter-panel"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-5 h-5 transition-colors group-hover:text-[#00f0ff]"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z"
+              />
+            </svg>
+            <span class="text-xs tracking-wider group-hover:text-[#00f0ff] transition-colors">FILTER_BY_TECH</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-4 h-4 transition-transform duration-200"
+              id="tech-filter-arrow"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="m19.5 8.25-7.5 7.5-7.5-7.5"
+              />
+            </svg>
+          </button>
+
+          {/* Active tech indicator */}
+          <div id="active-tech-indicator" class="hidden mt-3">
+            <button
+              id="clear-tech-filter"
+              class="inline-flex items-center gap-2 px-3 py-1.5 text-xs transition-all duration-300"
+              style="border: 1px solid #00f0ff; color: #00f0ff; font-family: 'Space Mono', monospace;"
+            >
+              <span id="active-tech-name"></span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                class="w-3 h-3"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 18 18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Tech Filter Panel */}
+        <div
+          id="tech-filter-panel"
+          class="hidden"
+          role="group"
+          aria-label="技术栈筛选"
+        >
+          <div
+            class="flex flex-wrap gap-2 pt-4 pb-2"
+            style="border-top: 1px solid #262626;"
+          >
+            {
+              allTechnologies.map((tech) => (
+                <button
+                  class="filter-btn tech-btn"
+                  data-tech={tech}
+                  aria-pressed="false"
+                >
+                  {tech}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      {/* Projects Grid */}
+      <div id="projects-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-24">
+        {sortedProjects.map((project, index) => (
+          <div
+            class="project-item animate-in"
+            data-category={project.data.category}
+            data-technologies={project.data.technologies.join(',')}
+            style={`--delay: ${index * 100}ms;`}
+          >
+            <ProjectCard project={project} index={index} />
+          </div>
+        ))}
+      </div>
+
+      {/* Empty State */}
+      <div id="empty-state" class="hidden text-center py-32">
+        <div
+          class="inline-flex items-center justify-center w-20 h-20 mb-6"
+          style="border: 1px solid #262626;"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1"
+            stroke="currentColor"
+            class="w-10 h-10"
+            style="color: #404040;"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z"
+            />
+          </svg>
+        </div>
+        <h3
+          class="text-2xl font-bold mb-3"
+          style="font-family: 'Clash Display', sans-serif; color: #fafafa;"
+        >
+          NO_RESULTS_FOUND
+        </h3>
+        <p
+          class="max-w-md mx-auto"
+          style="color: #737373; font-family: 'Space Grotesk', sans-serif;"
+        >
+          当前筛选条件下没有匹配的项目，请尝试调整筛选条件。
+        </p>
+      </div>
+    </Container>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
+    border: 1px solid #262626;
+    color: #737373;
+    cursor: pointer;
+  }
+
+  .filter-btn .btn-number {
+    color: #404040;
+    font-size: 0.65rem;
+  }
+
+  .filter-btn:hover {
+    border-color: #00f0ff;
+    color: #00f0ff;
+  }
+
+  .filter-btn.active {
+    background: #00f0ff;
+    border-color: #00f0ff;
+    color: #050505;
+  }
+
+  .filter-btn.active .btn-number {
+    color: #050505;
+  }
+
+  .tech-btn {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.7rem;
+  }
+
+  .tech-btn.active {
+    background: #ff2d92;
+    border-color: #ff2d92;
+    color: #050505;
+  }
+
+  .project-item {
+    opacity: 0;
+    animation: fadeSlideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation-delay: var(--delay);
+  }
+
+  .project-item.hidden {
+    display: none;
+  }
+
+  @keyframes fadeSlideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const techBtns = document.querySelectorAll('.tech-btn');
+    const techFilterToggle = document.getElementById('tech-filter-toggle');
+    const techFilterPanel = document.getElementById('tech-filter-panel');
+    const techFilterArrow = document.getElementById('tech-filter-arrow');
+    const activeTechIndicator = document.getElementById('active-tech-indicator');
+    const activeTechName = document.getElementById('active-tech-name');
+    const clearTechFilter = document.getElementById('clear-tech-filter');
+    const projectsGrid = document.getElementById('projects-grid');
+    const projectItems = document.querySelectorAll('.project-item');
+    const emptyState = document.getElementById('empty-state');
+
+    let activeCategory = 'all';
+    let activeTech: string | null = null;
+
+    function filterProjects() {
+      let visibleCount = 0;
+
+      projectItems.forEach((item, index) => {
+        const itemCategory = item.getAttribute('data-category');
+        const itemTechnologies = item.getAttribute('data-technologies')?.split(',') || [];
+
+        const matchesCategory = activeCategory === 'all' || itemCategory === activeCategory;
+        const matchesTech = !activeTech || itemTechnologies.some(
+          (t) => t.toLowerCase() === activeTech?.toLowerCase()
+        );
+
+        if (matchesCategory && matchesTech) {
+          item.classList.remove('hidden');
+          (item as HTMLElement).style.setProperty('--delay', `${visibleCount * 50}ms`);
+          visibleCount++;
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+
+      // Show/hide empty state
+      if (visibleCount === 0) {
+        projectsGrid?.classList.add('hidden');
+        emptyState?.classList.remove('hidden');
+      } else {
+        projectsGrid?.classList.remove('hidden');
+        emptyState?.classList.add('hidden');
+      }
+    }
+
+    // Category filter handlers
+    categoryBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        categoryBtns.forEach((b) => {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
+        activeCategory = btn.getAttribute('data-category') || 'all';
+        filterProjects();
+      });
+    });
+
+    // Tech filter toggle
+    techFilterToggle?.addEventListener('click', () => {
+      const isExpanded = techFilterToggle.getAttribute('aria-expanded') === 'true';
+      techFilterToggle.setAttribute('aria-expanded', (!isExpanded).toString());
+      techFilterPanel?.classList.toggle('hidden');
+      techFilterArrow?.style.setProperty('transform', isExpanded ? 'rotate(0deg)' : 'rotate(180deg)');
+    });
+
+    // Tech filter handlers
+    techBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const tech = btn.getAttribute('data-tech');
+
+        if (activeTech === tech) {
+          // Deselect
+          activeTech = null;
+          btn.classList.remove('active');
+          btn.setAttribute('aria-pressed', 'false');
+          activeTechIndicator?.classList.add('hidden');
+        } else {
+          // Select new
+          techBtns.forEach((b) => {
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-pressed', 'true');
+          activeTech = tech;
+
+          if (activeTechName) activeTechName.textContent = tech || '';
+          activeTechIndicator?.classList.remove('hidden');
+        }
+
+        filterProjects();
+      });
+    });
+
+    // Clear tech filter
+    clearTechFilter?.addEventListener('click', () => {
+      techBtns.forEach((b) => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      activeTech = null;
+      activeTechIndicator?.classList.add('hidden');
+      filterProjects();
+    });
+  });
+</script>

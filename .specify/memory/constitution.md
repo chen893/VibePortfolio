@@ -1,50 +1,118 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+SYNC IMPACT REPORT
+==================
+Version change: 0.0.0 → 1.0.0 (MAJOR - initial ratification)
+Modified principles: N/A (initial version)
+Added sections:
+  - Core Principles (5 principles)
+  - Technology Stack section
+  - Development Workflow section
+  - Governance section
+Removed sections: N/A (initial version)
+Templates requiring updates:
+  - .specify/templates/plan-template.md ✅ (no changes needed - generic template)
+  - .specify/templates/spec-template.md ✅ (no changes needed - generic template)
+  - .specify/templates/tasks-template.md ✅ (no changes needed - generic template)
+Follow-up TODOs: None
+-->
+
+# VibePortfolio Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Vibe-First Design
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+Every visual element MUST prioritize aesthetic appeal and emotional resonance over technical complexity.
+Design decisions MUST reflect the "vibe coding" philosophy: intuitive, expressive, and visually striking.
+The portfolio MUST create an immediate positive impression within 3 seconds of page load.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+**Rationale**: As a vibe coding practitioner, the portfolio itself MUST exemplify this philosophy. First impressions determine whether visitors explore further.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### II. Performance Excellence
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+Page load time MUST be under 3 seconds on standard broadband connections.
+All images MUST be optimized (WebP/AVIF with fallbacks, lazy loading for below-fold content).
+Core Web Vitals MUST meet "Good" thresholds (LCP < 2.5s, FID < 100ms, CLS < 0.1).
+No blocking resources in critical rendering path without explicit justification.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+**Rationale**: A slow portfolio signals poor technical skills. Performance is a non-negotiable demonstration of full-stack competency.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### III. Responsive & Accessible
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+Layout MUST be fully functional across viewport widths from 320px to 2560px.
+All interactive elements MUST be keyboard navigable.
+Color contrast MUST meet WCAG 2.1 AA standards.
+Images MUST have meaningful alt text describing the work.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+**Rationale**: Full-stack developers MUST demonstrate understanding of diverse user needs and devices. Accessibility is professional standard, not optional.
+
+### IV. Content Clarity
+
+Each portfolio item MUST clearly communicate: what it is, what technologies were used, and what problem it solves.
+Navigation MUST allow visitors to find specific work within 2 clicks from any page.
+No lorem ipsum or placeholder content in production.
+
+**Rationale**: Recruiters and collaborators need to quickly assess relevance. Unclear portfolios lose opportunities.
+
+### V. Maintainability
+
+Code MUST be modular: adding a new portfolio item SHOULD NOT require modifying core layout code.
+Configuration (content, metadata) MUST be separated from presentation.
+Build process MUST be reproducible with single command.
+Dependencies MUST be minimal and regularly audited.
+
+**Rationale**: A portfolio is a living document. Easy updates ensure it stays current and demonstrates ongoing professional growth.
+
+## Technology Stack
+
+This section defines approved technologies for the project.
+
+**Frontend Framework**: Modern JavaScript framework (React, Vue, or vanilla with build tooling) - decision to be made in planning phase based on specific requirements.
+**Styling**: CSS-in-JS, Tailwind CSS, or CSS Modules - MUST support responsive design and theming.
+**Build Tool**: Vite, Next.js, or equivalent modern bundler with optimization.
+**Hosting**: Static hosting with CDN (Vercel, Netlify, Cloudflare Pages, or GitHub Pages).
+**Version Control**: Git with meaningful commit messages.
+
+Deviations from approved stack require documented justification in the implementation plan.
+
+## Development Workflow
+
+### Code Quality Gates
+
+- All code MUST pass linting before commit.
+- Responsive design MUST be verified at minimum 3 breakpoints (mobile, tablet, desktop).
+- Lighthouse score MUST be 90+ for Performance, Accessibility, Best Practices, and SEO before deployment.
+
+### Review Process
+
+- Self-review against this constitution before considering work complete.
+- Test on real devices when possible, not just browser dev tools.
+- Verify all portfolio items render correctly before deployment.
+
+### Deployment
+
+- Production deployments MUST use HTTPS.
+- Preview deployments encouraged for testing changes.
+- Rollback plan MUST exist (previous version accessible).
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution defines the binding principles for the VibePortfolio project. All implementation decisions MUST align with these principles.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+### Amendment Procedure
+
+1. Document proposed change with rationale.
+2. Assess impact on existing implementation.
+3. Update constitution version following semantic versioning:
+   - MAJOR: Principle removal or incompatible redefinition
+   - MINOR: New principle or significant expansion
+   - PATCH: Clarifications and typo fixes
+4. Update dependent templates if principle-driven sections change.
+
+### Compliance
+
+- Every feature specification MUST reference applicable principles.
+- Implementation plans MUST include a Constitution Check section.
+- Code reviews SHOULD verify principle compliance.
+
+**Version**: 1.0.0 | **Ratified**: 2025-12-17 | **Last Amended**: 2025-12-17

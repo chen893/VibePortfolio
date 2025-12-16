@@ -1,0 +1,40 @@
+---
+interface Props {
+  name: string;
+  level: number; // 1-5
+  color?: string;
+  class?: string;
+}
+
+const { name, level, color, class: className = '' } = Astro.props;
+
+// Ensure level is between 1 and 5
+const safeLevel = Math.min(5, Math.max(1, level));
+
+// Generate filled and empty dots
+const dots = Array.from({ length: 5 }, (_, i) => i < safeLevel);
+---
+
+<div class={`flex items-center gap-3 ${className}`}>
+  <span
+    class="text-sm font-medium text-dark-200 min-w-[100px]"
+    style={color ? `color: ${color}` : ''}
+  >
+    {name}
+  </span>
+  <div class="flex gap-1" role="img" aria-label={`${name} 熟练度: ${safeLevel}/5`}>
+    {dots.map((filled, i) => (
+      <span
+        class={`w-2 h-2 rounded-full transition-colors ${
+          filled
+            ? color
+              ? ''
+              : 'bg-primary-500'
+            : 'bg-dark-700'
+        }`}
+        style={filled && color ? `background-color: ${color}` : ''}
+        aria-hidden="true"
+      />
+    ))}
+  </div>
+</div>
