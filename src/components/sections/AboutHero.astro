@@ -14,175 +14,82 @@ const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
 
 <section class={`py-16 md:py-24 ${className}`}>
   <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-    <!-- Avatar with cyberpunk frame -->
-    <div class="flex-shrink-0 relative">
-      {/* Outer decorative frame */}
-      <div class="relative">
-        {/* Corner brackets */}
-        <div class="absolute -top-4 -left-4 w-8 h-8 border-t-2 border-l-2" style="border-color: #00f0ff;" />
-        <div class="absolute -top-4 -right-4 w-8 h-8 border-t-2 border-r-2" style="border-color: #00f0ff;" />
-        <div class="absolute -bottom-4 -left-4 w-8 h-8 border-b-2 border-l-2" style="border-color: #ff2d92;" />
-        <div class="absolute -bottom-4 -right-4 w-8 h-8 border-b-2 border-r-2" style="border-color: #ff2d92;" />
-
-        {/* Rotating border effect */}
-        <div class="absolute inset-0 animate-spin-slow opacity-30" style="animation-duration: 20s;">
-          <div
-            class="absolute inset-0"
-            style="background: conic-gradient(from 0deg, #00f0ff, #ff2d92, #e4ff1a, #00f0ff); border-radius: 50%; filter: blur(20px);"
+    <!-- Avatar -->
+    <div class="flex-shrink-0 relative w-48 h-48 md:w-56 md:h-56 border-2" style="border-color: var(--text);">
+      {
+        profile.avatar?.src && !profile.avatar.src.includes('placeholder') ? (
+          <img
+            src={profile.avatar.src}
+            alt={profile.avatar.alt}
+            class="w-full h-full object-cover"
           />
-        </div>
-
-        {/* Avatar container */}
-        <div class="relative w-48 h-48 md:w-56 md:h-56">
-          {
-            profile.avatar?.src && !profile.avatar.src.includes('placeholder') ? (
-              <img
-                src={profile.avatar.src}
-                alt={profile.avatar.alt}
-                class="w-full h-full object-cover"
-                style="clip-path: polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%); border: 2px solid #262626;"
-              />
-            ) : (
-              <div
-                class="w-full h-full flex items-center justify-center"
-                style="clip-path: polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%); background: linear-gradient(135deg, #00f0ff20, #ff2d9220); border: 2px solid #262626;"
-              >
-                <span
-                  class="text-6xl md:text-7xl font-bold"
-                  style="font-family: 'Clash Display', sans-serif; background: linear-gradient(135deg, #00f0ff, #ff2d92); -webkit-background-clip: text; background-clip: text; color: transparent;"
-                >
-                  {profile.name.charAt(0)}
-                </span>
-              </div>
-            )
-          }
-
-          {/* Scan line overlay */}
-          <div
-            class="absolute inset-0 pointer-events-none opacity-30"
-            style="background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.5) 2px, rgba(0,0,0,0.5) 4px); clip-path: polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%);"
-          />
-        </div>
-
-        {/* Status indicator */}
-        <div
-          class="absolute -bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3 py-1.5"
-          style="background: #0d0d0d; border: 1px solid #262626; font-family: 'Space Mono', monospace;"
-        >
-          <span class="w-2 h-2 rounded-full animate-pulse" style="background: #22c55e; box-shadow: 0 0 10px #22c55e;" />
-          <span class="text-xs tracking-wider" style="color: #525252;">ONLINE</span>
-        </div>
-      </div>
+        ) : (
+          <div class="w-full h-full flex items-center justify-center bg-[var(--accent)]">
+            <span class="text-6xl md:text-7xl font-display font-extrabold text-[var(--text)]">
+              {profile.name.charAt(0)}
+            </span>
+          </div>
+        )
+      }
     </div>
 
     <!-- Content -->
     <div class="flex-1 text-center lg:text-left">
       {/* Label */}
       <div class="flex items-center justify-center lg:justify-start gap-4 mb-4">
-        <span
-          class="text-xs tracking-[0.3em] uppercase"
-          style="color: #525252; font-family: 'Space Mono', monospace;"
-        >
+        <span class="text-sm font-body uppercase text-[var(--text)]">
           {t(locale, 'aboutHero.label')}
         </span>
-        <div class="hidden lg:block flex-1 max-w-32 h-px" style="background: linear-gradient(90deg, #262626, transparent);" />
+        <div class="hidden lg:block flex-1 max-w-32 h-px bg-[var(--border)]" />
       </div>
 
-      {/* Name with glitch effect */}
-      <h1
-        class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4"
-        style="font-family: 'Clash Display', sans-serif;"
-      >
-        <span style="color: #fafafa;">{profile.name.split(' ')[0]}</span>
-        {profile.name.split(' ').length > 1 && (
-          <span style="color: #00f0ff;"> {profile.name.split(' ').slice(1).join(' ')}</span>
-        )}
+      {/* Name */}
+      <h1 class="font-display text-5xl font-extrabold uppercase mb-4">
+        {profile.name}
       </h1>
 
       {/* Title badge */}
-      <div
-        class="inline-flex items-center gap-2 px-4 py-2 mb-6"
-        style="border: 1px solid #ff2d92; font-family: 'Space Mono', monospace;"
-      >
-        <span class="w-2 h-2" style="background: #ff2d92;" />
-        <span class="text-sm tracking-wider" style="color: #ff2d92;">
-          {profile.title.toUpperCase().replace(/ /g, '_')}
-        </span>
-      </div>
+      <p class="font-body text-xl uppercase mb-6 text-[var(--text)]">
+        {profile.title}
+      </p>
 
       {/* Bio */}
-      <p
-        class="text-lg leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0"
-        style="color: #a3a3a3; font-family: 'Space Grotesk', sans-serif;"
-      >
+      <p class="text-lg leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0">
         {profile.bio}
       </p>
 
       {/* Stats row */}
       <div class="flex flex-wrap justify-center lg:justify-start gap-6 mb-8">
         <div class="text-center">
-          <div
-            class="text-3xl font-bold mb-1"
-            style="font-family: 'Clash Display', sans-serif; color: #00f0ff;"
-          >
+          <div class="font-display text-3xl font-bold mb-1 text-[var(--accent)]">
             5+
           </div>
-          <div
-            class="text-xs tracking-wider"
-            style="color: #525252; font-family: 'Space Mono', monospace;"
-          >
+          <div class="text-xs font-body uppercase text-[var(--text)]">
             {t(locale, 'aboutHero.years')}
           </div>
         </div>
-        <div class="w-px h-12" style="background: #262626;" />
+        <div class="w-px h-12 bg-[var(--border)]" />
         <div class="text-center">
-          <div
-            class="text-3xl font-bold mb-1"
-            style="font-family: 'Clash Display', sans-serif; color: #ff2d92;"
-          >
+          <div class="font-display text-3xl font-bold mb-1 text-[var(--accent)]">
             50+
           </div>
-          <div
-            class="text-xs tracking-wider"
-            style="color: #525252; font-family: 'Space Mono', monospace;"
-          >
+          <div class="text-xs font-body uppercase text-[var(--text)]">
             {t(locale, 'aboutHero.projects')}
           </div>
         </div>
-        <div class="w-px h-12" style="background: #262626;" />
+        <div class="w-px h-12 bg-[var(--border)]" />
         <div class="text-center">
-          <div
-            class="text-3xl font-bold mb-1"
-            style="font-family: 'Clash Display', sans-serif; color: #e4ff1a;"
-          >
+          <div class="font-display text-3xl font-bold mb-1 text-[var(--accent)]">
             10+
           </div>
-          <div
-            class="text-xs tracking-wider"
-            style="color: #525252; font-family: 'Space Mono', monospace;"
-          >
+          <div class="text-xs font-body uppercase text-[var(--text)]">
             {t(locale, 'aboutHero.stack')}
           </div>
         </div>
       </div>
 
       {/* Social links */}
-      <SocialLinks links={profile.socials} size="md" />
+      <SocialLinks links={profile.socials} />
     </div>
   </div>
 </section>
-
-<style>
-  @keyframes spin-slow {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  .animate-spin-slow {
-    animation: spin-slow 20s linear infinite;
-  }
-</style>

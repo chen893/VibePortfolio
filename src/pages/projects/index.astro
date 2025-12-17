@@ -25,13 +25,13 @@ const allTechnologies = [
 ].sort();
 
 // 分类标签映射
-const categoryLabels: Record<string, { label: string; color: string }> = {
-  web: { label: t(locale, 'category.web.short'), color: '#00f0ff' },
-  mobile: { label: t(locale, 'category.mobile.short'), color: '#ff2d92' },
-  backend: { label: t(locale, 'category.backend.short'), color: '#e4ff1a' },
-  fullstack: { label: t(locale, 'category.fullstack.short'), color: '#00f0ff' },
-  tool: { label: t(locale, 'category.tool.short'), color: '#ff2d92' },
-  other: { label: t(locale, 'category.other.short'), color: '#a3a3a3' },
+const categoryLabels: Record<string, { label: string }> = {
+  web: { label: t(locale, 'category.web.short') },
+  mobile: { label: t(locale, 'category.mobile.short') },
+  backend: { label: t(locale, 'category.backend.short') },
+  fullstack: { label: t(locale, 'category.fullstack.short') },
+  tool: { label: t(locale, 'category.tool.short') },
+  other: { label: t(locale, 'category.other.short') },
 };
 
 // 获取所有分类
@@ -41,61 +41,28 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
 <BaseLayout title={t(locale, 'projects.title')} description={t(locale, 'projects.metaDescription')}>
   <Header />
 
-  <main class="min-h-screen relative" style="background: #050505;">
-    {/* Background effects */}
-    <div class="fixed inset-0 pointer-events-none z-0">
-      <div
-        class="absolute top-0 right-0 w-[800px] h-[800px]"
-        style="background: radial-gradient(circle, rgba(0,240,255,0.06) 0%, transparent 70%); filter: blur(80px);"
-      />
-      <div
-        class="absolute bottom-0 left-0 w-[600px] h-[600px]"
-        style="background: radial-gradient(circle, rgba(255,45,146,0.04) 0%, transparent 70%); filter: blur(80px);"
-      />
-      <div
-        class="absolute inset-0 opacity-[0.02]"
-        style="background-image: linear-gradient(#00f0ff 1px, transparent 1px), linear-gradient(90deg, #00f0ff 1px, transparent 1px); background-size: 60px 60px;"
-      />
-    </div>
-
+  <main class="min-h-screen">
     <Container>
       {/* Page Header */}
-      <div class="relative pt-32 pb-16">
+      <div class="pt-32 pb-16">
         {/* Label */}
         <div class="flex items-center gap-4 mb-6">
-          <span
-            class="text-xs tracking-[0.3em] uppercase"
-            style="color: #525252; font-family: 'Space Mono', monospace;"
-          >
+          <span class="text-sm font-body uppercase text-[var(--text)]">
             {t(locale, 'projects.label')}
           </span>
-          <div class="flex-1 h-px" style="background: linear-gradient(90deg, #262626, transparent);" />
+          <div class="flex-1 h-px bg-[var(--border)]" />
         </div>
 
         {/* Title */}
-        <h1
-          class="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6"
-          style="font-family: 'Clash Display', sans-serif;"
-        >
-          <span style="color: #fafafa;">{t(locale, 'projects.titleA')}</span>
+        <h1 class="font-display text-5xl font-extrabold uppercase mb-6">
+          {t(locale, 'projects.titleA')}
           <br />
-          <span style="color: #00f0ff;">{t(locale, 'projects.titleB')}</span>
+          <span class="text-[var(--accent)]">{t(locale, 'projects.titleB')}</span>
         </h1>
 
-        <p
-          class="max-w-2xl text-lg"
-          style="color: #737373; font-family: 'Space Grotesk', sans-serif;"
-        >
+        <p class="max-w-2xl text-lg">
           {t(locale, 'projects.description')}
         </p>
-
-        {/* Project count */}
-        <div
-          class="absolute top-32 right-0 text-[10rem] font-bold leading-none opacity-5 hidden lg:block"
-          style="font-family: 'Clash Display', sans-serif; color: #00f0ff;"
-        >
-          {String(sortedProjects.length).padStart(2, '0')}
-        </div>
       </div>
 
       {/* Filters Section */}
@@ -103,34 +70,28 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
         {/* Category Filter */}
         <div>
           <div class="flex items-center gap-3 mb-4">
-            <span
-              class="text-xs tracking-[0.2em] uppercase"
-              style="color: #525252; font-family: 'Space Mono', monospace;"
-            >
+            <span class="text-sm font-body uppercase text-[var(--text)]">
               {t(locale, 'projects.filterByCategory')}
             </span>
-            <div class="flex-1 h-px" style="background: #262626;" />
+            <div class="flex-1 h-px bg-[var(--border)]" />
           </div>
           <div class="flex flex-wrap gap-2" role="group" aria-label={t(locale, 'filter.categoryAria')}>
             <button
-              class="filter-btn category-btn active"
+              class="filter-btn btn active"
               data-category="all"
               aria-pressed="true"
             >
-              <span class="btn-number">00</span>
               {t(locale, 'category.all')}
             </button>
             {
-              allCategories.map((category, index) => {
+              allCategories.map((category) => {
                 const config = categoryLabels[category] || categoryLabels.other;
                 return (
                   <button
-                    class="filter-btn category-btn"
+                    class="filter-btn btn"
                     data-category={category}
-                    data-color={config.color}
                     aria-pressed="false"
                   >
-                    <span class="btn-number">{String(index + 1).padStart(2, '0')}</span>
                     {config.label}
                   </button>
                 );
@@ -143,8 +104,7 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
         <div>
           <button
             id="tech-filter-toggle"
-            class="group flex items-center gap-3 transition-all duration-300"
-            style="color: #525252; font-family: 'Space Mono', monospace;"
+            class="group flex items-center gap-3 btn"
             aria-expanded="false"
             aria-controls="tech-filter-panel"
           >
@@ -152,9 +112,9 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke-width="1.5"
+              stroke-width="2"
               stroke="currentColor"
-              class="w-5 h-5 transition-colors group-hover:text-[#00f0ff]"
+              class="w-5 h-5 transition-colors group-hover:text-[var(--accent)]"
             >
               <path
                 stroke-linecap="round"
@@ -162,12 +122,12 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
                 d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z"
               />
             </svg>
-            <span class="text-xs tracking-wider group-hover:text-[#00f0ff] transition-colors">{t(locale, 'projects.filterByTech')}</span>
+            <span class="text-sm uppercase group-hover:text-[var(--accent)] transition-colors">{t(locale, 'projects.filterByTech')}</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke-width="1.5"
+              stroke-width="2"
               stroke="currentColor"
               class="w-4 h-4 transition-transform duration-200"
               id="tech-filter-arrow"
@@ -184,8 +144,7 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
           <div id="active-tech-indicator" class="hidden mt-3">
             <button
               id="clear-tech-filter"
-              class="inline-flex items-center gap-2 px-3 py-1.5 text-xs transition-all duration-300"
-              style="border: 1px solid #00f0ff; color: #00f0ff; font-family: 'Space Mono', monospace;"
+              class="btn btn-primary"
             >
               <span id="active-tech-name"></span>
               <svg
@@ -214,13 +173,12 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
           aria-label={t(locale, 'filter.techAria')}
         >
           <div
-            class="flex flex-wrap gap-2 pt-4 pb-2"
-            style="border-top: 1px solid #262626;"
+            class="flex flex-wrap gap-2 pt-4 pb-2 border-t-2" style="border-color: var(--border);"
           >
             {
               allTechnologies.map((tech) => (
                 <button
-                  class="filter-btn tech-btn"
+                  class="filter-btn btn"
                   data-tech={tech}
                   aria-pressed="false"
                 >
@@ -233,33 +191,24 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
       </div>
 
       {/* Projects Grid */}
-      <div id="projects-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-24">
+      <div id="projects-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-24 animate-stagger-in">
         {sortedProjects.map((project, index) => (
-          <div
-            class="project-item animate-in"
-            data-category={project.data.category}
-            data-technologies={project.data.technologies.join(',')}
-            style={`--delay: ${index * 100}ms;`}
-          >
-            <ProjectCard project={project} index={index} />
-          </div>
+          <ProjectCard project={project} index={index} />
         ))}
       </div>
 
       {/* Empty State */}
       <div id="empty-state" class="hidden text-center py-32">
         <div
-          class="inline-flex items-center justify-center w-20 h-20 mb-6"
-          style="border: 1px solid #262626;"
+          class="inline-flex items-center justify-center w-20 h-20 mb-6 border-2" style="border-color: var(--text);"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1"
+            stroke-width="2"
             stroke="currentColor"
-            class="w-10 h-10"
-            style="color: #404040;"
+            class="w-10 h-10 text-[var(--text)]"
           >
             <path
               stroke-linecap="round"
@@ -268,16 +217,10 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
             />
           </svg>
         </div>
-        <h3
-          class="text-2xl font-bold mb-3"
-          style="font-family: 'Clash Display', sans-serif; color: #fafafa;"
-        >
+        <h3 class="font-display text-2xl font-extrabold uppercase mb-3 text-[var(--text)]">
           {t(locale, 'projects.noMatchTitle')}
         </h3>
-        <p
-          class="max-w-md mx-auto"
-          style="color: #737373; font-family: 'Space Grotesk', sans-serif;"
-        >
+        <p class="max-w-md mx-auto text-[var(--text)]">
           {t(locale, 'projects.noMatchDescription')}
         </p>
       </div>
@@ -289,72 +232,33 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
 
 <style>
   .filter-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
+    border: 2px solid var(--text);
+    color: var(--text);
+    background-color: var(--bg);
     padding: 0.5rem 1rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-    font-family: 'Space Mono', monospace;
+    font-size: 0.875rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background: transparent;
-    border: 1px solid #262626;
-    color: #737373;
     cursor: pointer;
-  }
-
-  .filter-btn .btn-number {
-    color: #404040;
-    font-size: 0.65rem;
+    transition: all 0.2s ease;
+    box-shadow: 2px 2px 0px var(--text);
+    line-height: 1;
   }
 
   .filter-btn:hover {
-    border-color: #00f0ff;
-    color: #00f0ff;
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0px var(--text);
   }
 
   .filter-btn.active {
-    background: #00f0ff;
-    border-color: #00f0ff;
-    color: #050505;
+    background-color: var(--accent);
+    color: var(--text);
   }
 
-  .filter-btn.active .btn-number {
-    color: #050505;
-  }
-
-  .tech-btn {
-    padding: 0.375rem 0.75rem;
-    font-size: 0.7rem;
-  }
-
-  .tech-btn.active {
-    background: #ff2d92;
-    border-color: #ff2d92;
-    color: #050505;
-  }
-
-  .project-item {
-    opacity: 0;
-    animation: fadeSlideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    animation-delay: var(--delay);
-  }
-
-  .project-item.hidden {
-    display: none;
-  }
-
-  @keyframes fadeSlideIn {
-    0% {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .filter-btn.active:hover {
+    background-color: var(--accent);
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0px var(--text);
   }
 </style>
 
@@ -369,7 +273,7 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
     const activeTechName = document.getElementById('active-tech-name');
     const clearTechFilter = document.getElementById('clear-tech-filter');
     const projectsGrid = document.getElementById('projects-grid');
-    const projectItems = document.querySelectorAll('.project-item');
+    const projectItems = document.querySelectorAll('.project-card'); // Use .project-card since ProjectCard is refactored
     const emptyState = document.getElementById('empty-state');
 
     let activeCategory = 'all';
@@ -389,6 +293,7 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
 
         if (matchesCategory && matchesTech) {
           item.classList.remove('hidden');
+          // Reapply stagger animation delay
           (item as HTMLElement).style.setProperty('--delay', `${visibleCount * 50}ms`);
           visibleCount++;
         } else {

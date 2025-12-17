@@ -32,200 +32,43 @@ const categoryLabels: Record<string, string> = {
   other: t(locale, 'skills.category.other'),
 };
 
-// Category colors - cyberpunk palette
-const categoryColors: Record<string, string> = {
-  frontend: '#00f0ff',
-  backend: '#e4ff1a',
-  database: '#ff2d92',
-  devops: '#00f0ff',
-  tools: '#ff2d92',
-  other: '#a3a3a3',
-};
-
-// Proficiency to percentage mapping
-const proficiencyPercent: Record<string, number> = {
-  beginner: 20,
-  elementary: 40,
-  intermediate: 60,
-  advanced: 80,
-  expert: 95,
-};
-
 // Proficiency labels
 const proficiencyLabels: Record<string, string> = {
-  beginner: 'INIT',
-  elementary: 'BASIC',
-  intermediate: 'MID',
-  advanced: 'ADV',
-  expert: 'MASTER',
+  beginner: 'Beginner',
+  elementary: 'Basic',
+  intermediate: 'Intermediate',
+  advanced: 'Advanced',
+  expert: 'Expert',
 };
 ---
 
-<section class={`${className}`}>
-  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+<section class={`${className} animate-stagger-in`}>
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
     {
       Object.entries(groupedSkills).map(([category, categorySkills], categoryIndex) => (
-        <div
-          class="relative group"
-          style="background: #0d0d0d; border: 1px solid #262626;"
-        >
-          {/* Corner accents */}
-          <div class="absolute top-0 left-0 w-3 h-3 border-t border-l opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={`border-color: ${categoryColors[category] || categoryColors.other};`} />
-          <div class="absolute top-0 right-0 w-3 h-3 border-t border-r opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={`border-color: ${categoryColors[category] || categoryColors.other};`} />
-          <div class="absolute bottom-0 left-0 w-3 h-3 border-b border-l opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={`border-color: ${categoryColors[category] || categoryColors.other};`} />
-          <div class="absolute bottom-0 right-0 w-3 h-3 border-b border-r opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={`border-color: ${categoryColors[category] || categoryColors.other};`} />
-
+        <div class="card p-6 delay-100">
           {/* Header */}
-          <div
-            class="px-5 py-4 flex items-center justify-between"
-            style="border-bottom: 1px solid #262626;"
-          >
-            <div class="flex items-center gap-3">
-              <span
-                class="w-2 h-2"
-                style={`background: ${categoryColors[category] || categoryColors.other}; box-shadow: 0 0 8px ${categoryColors[category] || categoryColors.other};`}
-              />
-              <h3
-                class="text-sm font-bold tracking-wider"
-                style={`color: ${categoryColors[category] || categoryColors.other}; font-family: 'Space Mono', monospace;`}
-              >
-                {categoryLabels[category] || category.toUpperCase()}
-              </h3>
-            </div>
-            <span
-              class="text-xs"
-              style="color: #525252; font-family: 'Space Mono', monospace;"
-            >
-              [{String(categoryIndex + 1).padStart(2, '0')}]
-            </span>
+          <div class="pb-4 mb-4 border-b-2" style="border-color: var(--border);">
+            <h3 class="font-display text-xl font-bold uppercase text-[var(--text)]">
+              {categoryLabels[category] || category.toUpperCase()}
+            </h3>
           </div>
 
           {/* Skills list */}
-          <div class="p-5 space-y-4">
-            {categorySkills.map((skill, skillIndex) => (
-              <div class="skill-item" style={`--delay: ${skillIndex * 100}ms;`}>
-                {/* Skill name and level */}
-                <div class="flex items-center justify-between mb-2">
-                  <span
-                    class="text-sm"
-                    style="color: #e5e5e5; font-family: 'Space Grotesk', sans-serif;"
-                  >
-                    {skill.name}
-                  </span>
-                  <span
-                    class="text-xs px-2 py-0.5"
-                    style={`color: ${categoryColors[category] || categoryColors.other}; border: 1px solid ${categoryColors[category] || categoryColors.other}40; font-family: 'Space Mono', monospace;`}
-                  >
-                    {proficiencyLabels[skill.proficiency] || 'N/A'}
-                  </span>
-                </div>
-
-                {/* Progress bar */}
-                <div class="relative h-1.5 overflow-hidden" style="background: #171717;">
-                  {/* Background grid pattern */}
-                  <div
-                    class="absolute inset-0 opacity-30"
-                    style="background-image: repeating-linear-gradient(90deg, transparent, transparent 4px, #262626 4px, #262626 5px);"
-                  />
-
-                  {/* Progress fill */}
-                  <div
-                    class="skill-progress absolute top-0 left-0 h-full transition-all duration-1000"
-                    style={`
-                      width: ${proficiencyPercent[skill.proficiency] || 50}%;
-                      background: linear-gradient(90deg, ${categoryColors[category] || categoryColors.other}, ${categoryColors[category] || categoryColors.other}80);
-                      box-shadow: 0 0 10px ${categoryColors[category] || categoryColors.other}40;
-                    `}
-                  />
-
-                  {/* Animated scan line */}
-                  <div
-                    class="absolute top-0 h-full w-8 opacity-0 group-hover:opacity-100 animate-scan"
-                    style={`background: linear-gradient(90deg, transparent, ${categoryColors[category] || categoryColors.other}40, transparent);`}
-                  />
-                </div>
-
-                {/* Percentage */}
-                <div class="flex justify-end mt-1">
-                  <span
-                    class="text-[10px]"
-                    style="color: #525252; font-family: 'Space Mono', monospace;"
-                  >
-                    {proficiencyPercent[skill.proficiency] || 50}%
-                  </span>
-                </div>
+          <div class="space-y-3">
+            {categorySkills.map((skill) => (
+              <div class="flex items-center justify-between">
+                <span class="font-body text-base text-[var(--text)]">
+                  {skill.name}
+                </span>
+                <span class="font-body text-xs px-2 py-1 border-2" style="border-color: var(--border); color: var(--accent);">
+                  {proficiencyLabels[skill.proficiency] || 'N/A'}
+                </span>
               </div>
             ))}
-          </div>
-
-          {/* Footer */}
-          <div
-            class="px-5 py-3 flex items-center justify-between"
-            style="border-top: 1px solid #262626;"
-          >
-            <span
-              class="text-[10px]"
-              style="color: #525252; font-family: 'Space Mono', monospace;"
-            >
-              {categorySkills.length} ITEMS
-            </span>
-            <div class="flex gap-1">
-              {[...Array(3)].map((_, i) => (
-                <span
-                  class="w-1 h-1"
-                  style={`background: ${i < Math.ceil(categorySkills.length / 2) ? categoryColors[category] || categoryColors.other : '#262626'};`}
-                />
-              ))}
-            </div>
           </div>
         </div>
       ))
     }
   </div>
 </section>
-
-<style>
-  @keyframes scan {
-    0% {
-      left: -2rem;
-    }
-    100% {
-      left: 100%;
-    }
-  }
-
-  .animate-scan {
-    animation: scan 2s ease-in-out infinite;
-  }
-
-  .skill-item {
-    opacity: 0;
-    animation: fadeInUp 0.5s ease forwards;
-    animation-delay: var(--delay);
-  }
-
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .skill-progress {
-    transform-origin: left;
-    animation: growWidth 1s ease forwards;
-  }
-
-  @keyframes growWidth {
-    from {
-      transform: scaleX(0);
-    }
-    to {
-      transform: scaleX(1);
-    }
-  }
-</style>

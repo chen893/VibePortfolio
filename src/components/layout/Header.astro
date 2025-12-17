@@ -26,160 +26,65 @@ const enHref = getRelativeLocaleUrl('en', pathWithoutLocale);
 const homeHref = getRelativeLocaleUrl(locale, '/');
 
 const navLinks = [
-  { href: getRelativeLocaleUrl(locale, '/'), label: t(locale, 'nav.home'), code: '01' },
-  { href: getRelativeLocaleUrl(locale, '/projects'), label: t(locale, 'nav.projects'), code: '02' },
-  { href: getRelativeLocaleUrl(locale, '/about'), label: t(locale, 'nav.about'), code: '03' },
+  { href: getRelativeLocaleUrl(locale, '/'), label: t(locale, 'nav.home') },
+  { href: getRelativeLocaleUrl(locale, '/projects'), label: t(locale, 'nav.projects') },
+  { href: getRelativeLocaleUrl(locale, '/about'), label: t(locale, 'nav.about') },
 ];
 
 const currentPath = normalizePath(Astro.url.pathname);
 ---
 
 <header
-  class={`fixed top-0 left-0 right-0 z-50 ${className}`}
-  style="background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0, 240, 255, 0.1);"
+  class:list={[
+    'fixed top-0 left-0 right-0 z-50 border-b-2 transition-colors duration-300',
+    className,
+  ]}
+  style={{
+    backgroundColor: 'var(--bg)',
+    borderColor: 'var(--text)',
+  }}
 >
-  <!-- Scan line effect -->
-  <div
-    class="absolute inset-0 pointer-events-none overflow-hidden"
-    aria-hidden="true"
-  >
-    <div
-      class="absolute top-0 left-0 right-0 h-px"
-      style="background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.3), transparent);"
-    />
-  </div>
-
   <nav class="container-custom">
-    <div class="flex items-center justify-between h-16 md:h-20">
+    <div class="flex items-center justify-between h-20 md:h-24">
       <!-- Logo -->
-      <a
-        href={homeHref}
-        class="group flex items-center gap-3"
-        aria-label={t(locale, 'header.homeAria')}
-      >
-        <!-- Logo mark -->
-        <div
-          class="relative w-10 h-10 flex items-center justify-center"
-          style="border: 1px solid rgba(0, 240, 255, 0.5);"
-        >
-          <span
-            class="text-lg font-bold"
-            style="font-family: 'Clash Display', sans-serif; color: #00f0ff;"
-          >
-            V
-          </span>
-          <!-- Corner accents -->
-          <div class="absolute -top-px -left-px w-2 h-2 border-t border-l" style="border-color: #00f0ff;" />
-          <div class="absolute -top-px -right-px w-2 h-2 border-t border-r" style="border-color: #00f0ff;" />
-          <div class="absolute -bottom-px -left-px w-2 h-2 border-b border-l" style="border-color: #00f0ff;" />
-          <div class="absolute -bottom-px -right-px w-2 h-2 border-b border-r" style="border-color: #00f0ff;" />
-        </div>
-
-        <!-- Logo text -->
-        <div class="hidden sm:block">
-          <span
-            class="text-sm font-bold tracking-wider"
-            style="font-family: 'Clash Display', sans-serif; color: #fafafa;"
-          >
-            VIBE
-          </span>
-          <span
-            class="text-sm font-bold tracking-wider"
-            style="font-family: 'Clash Display', sans-serif; color: #00f0ff;"
-          >
-            PORTFOLIO
-          </span>
-        </div>
+      <a href={homeHref} class="font-display text-2xl font-extrabold uppercase" aria-label={t(locale, 'header.homeAria')}>
+        VIBE
       </a>
 
       <!-- Desktop Navigation -->
-      <ul class="hidden md:flex items-center gap-1" role="navigation">
+      <ul class="hidden md:flex items-center gap-6" role="navigation">
         {
-          navLinks.map((link) => (
-            <li>
-              <a
-                href={link.href}
-                class={`group relative flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all duration-300 ${
-                  currentPath === normalizePath(link.href)
-                    ? 'nav-active'
-                    : 'nav-inactive'
-                }`}
-                style={`font-family: 'Space Mono', monospace; ${currentPath === normalizePath(link.href) ? 'color: #00f0ff;' : 'color: #a3a3a3;'}`}
-                aria-current={currentPath === normalizePath(link.href) ? 'page' : undefined}
-              >
-                {/* Link number */}
-                <span
-                  class="text-xs opacity-50"
-                  style="color: #ff2d92;"
+          navLinks.map((link) => {
+            const isActive = currentPath === normalizePath(link.href);
+            return (
+              <li>
+                <a
+                  href={link.href}
+                  class:list={[
+                    "relative text-sm font-bold uppercase tracking-wider",
+                    { 'nav-active': isActive },
+                  ]}
+                  aria-current={isActive ? 'page' : undefined}
                 >
-                  {link.code}
-                </span>
-
-                {/* Link text */}
-                <span class="relative">
                   {link.label}
-                  {/* Underline effect */}
-                  <span
-                    class={`absolute -bottom-1 left-0 h-px transition-all duration-300 ${
-                      currentPath === normalizePath(link.href) ? 'w-full' : 'w-0 group-hover:w-full'
-                    }`}
-                    style="background: linear-gradient(90deg, #00f0ff, #ff2d92);"
-                  />
-                </span>
-
-                {/* Active indicator */}
-                {currentPath === normalizePath(link.href) && (
-                  <span
-                    class="absolute -right-1 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full"
-                    style="background: #00f0ff; box-shadow: 0 0 10px #00f0ff;"
-                  />
-                )}
-              </a>
-            </li>
-          ))
+                </a>
+              </li>
+            );
+          })
         }
       </ul>
 
-      <!-- Status & Mobile Nav -->
+      <!-- Language Switch & Mobile Nav -->
       <div class="flex items-center gap-4">
-        {/* Language switch */}
         <div
-          class="flex items-center gap-2 px-3 py-1.5 text-xs"
-          style="font-family: 'Space Mono', monospace; border: 1px solid #262626;"
+          class="hidden sm:flex items-center gap-2 text-sm font-semibold uppercase"
           aria-label={t(locale, 'lang.switch')}
         >
-          <a
-            href={zhHref}
-            class="transition-colors"
-            style={locale === 'zh' ? 'color: #00f0ff;' : 'color: #525252;'}
-            aria-current={locale === 'zh' ? 'true' : undefined}
-          >
-            中文
-          </a>
-          <span style="color: #262626;">|</span>
-          <a
-            href={enHref}
-            class="transition-colors"
-            style={locale === 'en' ? 'color: #00f0ff;' : 'color: #525252;'}
-            aria-current={locale === 'en' ? 'true' : undefined}
-          >
-            EN
-          </a>
+          <a href={zhHref} class:list={[{ 'lang-active': locale === 'zh' }]}>中文</a>
+          <span>/</span>
+          <a href={enHref} class:list={[{ 'lang-active': locale === 'en' }]}>EN</a>
         </div>
 
-        <!-- Status indicator (desktop only) -->
-        <div
-          class="hidden lg:flex items-center gap-2 px-3 py-1.5 text-xs"
-          style="font-family: 'Space Mono', monospace; border: 1px solid #262626; color: #525252;"
-        >
-          <span
-            class="w-2 h-2 rounded-full animate-pulse"
-            style="background: #22c55e; box-shadow: 0 0 10px #22c55e;"
-          />
-          <span>{t(locale, 'header.statusOnline')}</span>
-        </div>
-
-        <!-- Mobile Navigation -->
         <MobileNav client:load links={navLinks} currentPath={currentPath} locale={locale} />
       </div>
     </div>
@@ -187,14 +92,35 @@ const currentPath = normalizePath(Astro.url.pathname);
 </header>
 
 <!-- Spacer to prevent content from going under fixed header -->
-<div class="h-16 md:h-20"></div>
+<div class="h-20 md:h-24"></div>
 
 <style>
-  .nav-inactive:hover {
-    color: #e5e5e5;
+  a {
+    text-decoration: none; /* Override global link style for header */
+  }
+
+  /* Keep the new global link hover, but remove the default underline */
+  ul a:hover {
+    background-color: var(--accent);
   }
 
   .nav-active {
-    text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+    /* Style for active navigation link */
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+  }
+
+  .lang-active {
+    /* Style for active language */
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+
+  .lang-active:hover {
+    background-color: transparent; /* Don't apply bg color to active lang on hover */
   }
 </style>

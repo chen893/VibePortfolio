@@ -1,24 +1,25 @@
 ---
 interface Props {
   tech: string;
-  color?: string;
-  size?: 'sm' | 'md' | 'lg';
   class?: string;
 }
 
-const { tech, color, size = 'md', class: className = '' } = Astro.props;
-
-const sizeClasses = {
-  sm: 'px-1.5 py-0.5 text-xs',
-  md: 'px-2 py-1 text-xs',
-  lg: 'px-3 py-1.5 text-sm',
-};
+const { tech, class: className = '' } = Astro.props;
 ---
 
-<span
-  class={`inline-flex items-center font-medium rounded ${sizeClasses[size]} ${className}`}
-  style={color ? `background-color: ${color}20; color: ${color}` : ''}
->
-  {!color && <span class="bg-dark-800 text-dark-300">{tech}</span>}
-  {color && tech}
+<span class:list={['tech-tag', className]}>
+  {tech}
 </span>
+
+<style>
+  .tech-tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem; /* 4px 12px */
+    font-size: 0.875rem; /* 14px */
+    font-weight: 600;
+    text-transform: uppercase;
+    border: 2px solid var(--border);
+    color: var(--text);
+    background-color: var(--bg);
+  }
+</style>

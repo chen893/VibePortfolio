@@ -1,7 +1,8 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { getRelativeLocaleUrl } from 'astro:i18n';
-import { defaultLocale, t, type Locale } from '../../i18n/ui';
+import { defaultLocale, type Locale } from '../../i18n/ui';
+import TechTag from './TechTag.astro';
 
 interface Props {
   project: CollectionEntry<'projects'>;
@@ -9,221 +10,45 @@ interface Props {
   index?: number;
 }
 
-const { project, class: className = '', index = 0 } = Astro.props;
+const { project, class: className = '', index } = Astro.props;
 const { data, id } = project;
-const hasThumbnail = data.thumbnail?.src && !data.thumbnail.src.includes('placeholder');
 const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
 
-// Category mapping with colors
-const categoryConfig: Record<string, { label: string; color: string }> = {
-  web: { label: t(locale, 'category.web.short'), color: '#00f0ff' },
-  mobile: { label: t(locale, 'category.mobile.short'), color: '#ff2d92' },
-  backend: { label: t(locale, 'category.backend.short'), color: '#e4ff1a' },
-  fullstack: { label: t(locale, 'category.fullstack.short'), color: '#00f0ff' },
-  tool: { label: t(locale, 'category.tool.short'), color: '#ff2d92' },
-  other: { label: t(locale, 'category.other.short'), color: '#a3a3a3' },
-};
-
-const category = categoryConfig[data.category] || categoryConfig.other;
+const delayClasses = ['delay-100', 'delay-200', 'delay-300', 'delay-400', 'delay-500'];
+const delayClass = typeof index === 'number' ? delayClasses[index % delayClasses.length] : '';
 ---
 
-<a
-  href={getRelativeLocaleUrl(locale, `/projects/${id}`)}
-  class={`project-card group relative block overflow-hidden ${className}`}
-  style={`--index: ${index}; --category-color: ${category.color};`}
->
-  {/* Top gradient line */}
-  <div
-    class="absolute top-0 left-0 right-0 h-0.5 z-10 scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500"
-    style={`background: linear-gradient(90deg, ${category.color}, #ff2d92);`}
-  />
+<a href={getRelativeLocaleUrl(locale, `/projects/${id}`)} class:list={['card group block', className, delayClass]}>
+  <div class="overflow-hidden mb-4 border-2 border-[var(--text)]">
+    <img
+      src={data.thumbnail.src}
+      alt={data.thumbnail.alt}
+      loading="lazy"
+      decoding="async"
+      class="w-full h-full object-cover aspect-video transition-transform duration-500 ease-in-out group-hover:scale-105"
+    />
+  </div>
 
-  {/* Corner decorations */}
-  <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={`border-color: ${category.color};`} />
-  <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={`border-color: ${category.color};`} />
-  <div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={`border-color: ${category.color};`} />
-  <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={`border-color: ${category.color};`} />
+  <div class="p-2">
+    <h3 class="font-display text-2xl font-bold uppercase mb-2">
+      {data.title}
+    </h3>
 
-  {/* Background */}
-  <div
-    class="absolute inset-0 transition-all duration-500"
-    style="background: #0d0d0d; border: 1px solid #262626;"
-  />
+    <p class="text-base mb-4 line-clamp-3">
+      {data.description}
+    </p>
 
-  {/* Hover background effect */}
-  <div
-    class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-    style={`background: radial-gradient(ellipse at 50% 0%, ${category.color}10 0%, transparent 70%);`}
-  />
-
-  {/* Content wrapper */}
-  <div class="relative z-10">
-    {/* Thumbnail */}
-    <div class="relative aspect-video overflow-hidden" style="background: #171717;">
+    <div class="flex flex-wrap gap-2">
       {
-        hasThumbnail ? (
-          <img
-            src={data.thumbnail.src}
-            alt={data.thumbnail.alt}
-            loading="lazy"
-            decoding="async"
-            class="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110"
-          />
-        ) : (
-          <div class="w-full h-full flex items-center justify-center relative">
-            {/* Grid pattern */}
-            <div
-              class="absolute inset-0 opacity-10"
-              style="background-image: linear-gradient(#262626 1px, transparent 1px), linear-gradient(90deg, #262626 1px, transparent 1px); background-size: 20px 20px;"
-            />
-            {/* Icon */}
-            <div
-              class="relative w-16 h-16 flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-              style={`border: 1px solid ${category.color}40;`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1"
-                stroke="currentColor"
-                class="w-8 h-8"
-                style={`color: ${category.color};`}
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"
-                />
-              </svg>
-            </div>
-          </div>
+        data.technologies.slice(0, 4).map((tech) => (
+          <TechTag tech={tech} />
+        ))
+      }
+      {
+        data.technologies.length > 4 && (
+          <TechTag tech={`+${data.technologies.length - 4}`} />
         )
       }
-
-      {/* Scan line effect on hover */}
-      <div
-        class="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        style="background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px);"
-      />
-
-      {/* Category badge - positioned absolute */}
-      <div class="absolute top-3 left-3 flex items-center gap-2">
-        <span
-          class="px-2 py-1 text-xs font-bold tracking-wider"
-          style={`background: ${category.color}; color: #050505; font-family: 'Space Mono', monospace;`}
-        >
-          {category.label}
-        </span>
-        {
-          data.featured && (
-            <span
-              class="px-2 py-1 text-xs font-bold tracking-wider"
-              style="background: #ff2d92; color: #050505; font-family: 'Space Mono', monospace;"
-            >
-              ★
-            </span>
-          )
-        }
-      </div>
-
-      {/* Project number */}
-      <div
-        class="absolute bottom-3 right-3 text-xs font-mono opacity-50"
-        style={`color: ${category.color};`}
-      >
-        #{String(index + 1).padStart(2, '0')}
-      </div>
-    </div>
-
-    {/* Content */}
-    <div class="p-5">
-      {/* Title */}
-      <h3
-        class="text-lg font-bold mb-2 transition-all duration-300 group-hover:translate-x-1"
-        style="font-family: 'Clash Display', sans-serif; color: #fafafa;"
-      >
-        <span class="relative">
-          {data.title}
-          <span
-            class="absolute -bottom-1 left-0 h-px w-0 group-hover:w-full transition-all duration-500"
-            style={`background: ${category.color};`}
-          />
-        </span>
-      </h3>
-
-      {/* Description */}
-      <p
-        class="text-sm mb-4 line-clamp-2 leading-relaxed"
-        style="color: #737373; font-family: 'Space Grotesk', sans-serif;"
-      >
-        {data.description}
-      </p>
-
-      {/* Technologies */}
-      <div class="flex flex-wrap gap-2">
-        {
-          data.technologies.slice(0, 4).map((tech, i) => (
-            <span
-              class="px-2 py-1 text-xs transition-all duration-300"
-              style={`
-                background: #171717;
-                color: #737373;
-                border: 1px solid #262626;
-                font-family: 'Space Mono', monospace;
-              `}
-            >
-              {tech}
-            </span>
-          ))
-        }
-        {
-          data.technologies.length > 4 && (
-            <span
-              class="px-2 py-1 text-xs"
-              style="background: #171717; color: #525252; border: 1px solid #262626; font-family: 'Space Mono', monospace;"
-            >
-              +{data.technologies.length - 4}
-            </span>
-          )
-        }
-      </div>
-
-      {/* View project indicator */}
-      <div
-        class="flex items-center gap-2 mt-4 text-xs font-mono opacity-0 translate-x-[-10px] group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
-        style={`color: ${category.color};`}
-      >
-        <span>{t(locale, 'projectCard.viewProject')}</span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="2"
-          stroke="currentColor"
-          class="w-4 h-4"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-          />
-        </svg>
-      </div>
     </div>
   </div>
 </a>
-
-<style>
-  .project-card {
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .project-card:hover {
-    transform: translateY(-8px);
-  }
-
-  .project-card:hover > div:nth-child(4) {
-    border-color: var(--category-color) !important;
-  }
-</style>

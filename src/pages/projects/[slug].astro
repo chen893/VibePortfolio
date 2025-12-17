@@ -4,6 +4,7 @@ import Header from '../../components/layout/Header.astro';
 import Footer from '../../components/layout/Footer.astro';
 import Container from '../../components/layout/Container.astro';
 import ImageGallery from '../../components/interactive/ImageGallery';
+import TechTag from '../../components/ui/TechTag.astro';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { getCollection, type CollectionEntry, render } from 'astro:content';
 import { defaultLocale, t, type Locale } from '../../i18n/ui';
@@ -65,145 +66,65 @@ const formatDate = (date: Date) => {
 >
   <Header />
 
-  <main class="pt-20 min-h-screen relative overflow-hidden" style="background: #050505;">
-    {/* Background effects */}
-    <div class="fixed inset-0 pointer-events-none">
-      {/* Grid */}
-      <div
-        class="absolute inset-0 opacity-[0.02]"
-        style="background-image: linear-gradient(#00f0ff 1px, transparent 1px), linear-gradient(90deg, #00f0ff 1px, transparent 1px); background-size: 60px 60px;"
-      />
-      {/* Gradient orbs */}
-      <div
-        class="absolute top-0 right-0 w-[600px] h-[600px]"
-        style={`background: radial-gradient(circle, ${category.color}10 0%, transparent 70%); filter: blur(80px);`}
-      />
-    </div>
+  <main class="pt-20 min-h-screen relative">
 
-    <Container size="md">
-      {/* Terminal-style breadcrumb */}
+
+    <Container>
+      {/* Breadcrumb */}
       <nav class="py-6 relative z-10" aria-label={t(locale, 'project.breadcrumbAria')}>
-        <div
-          class="inline-flex items-center gap-2 px-4 py-2 text-xs"
-          style="background: #0d0d0d; border: 1px solid #262626; font-family: 'Space Mono', monospace;"
-        >
-          <span style="color: #00f0ff;">$</span>
-          <a href={homeHref} class="transition-colors hover:text-white" style="color: #525252;">
+        <div class="inline-flex items-center gap-2 px-4 py-2 border-2" style="border-color: var(--text);">
+          <span class="text-[var(--accent)]">$</span>
+          <a href={homeHref} class="text-[var(--text)]">
             ~
           </a>
-          <span style="color: #262626;">/</span>
-          <a href={projectsHref} class="transition-colors hover:text-white" style="color: #525252;">
+          <span class="text-[var(--text)]">/</span>
+          <a href={projectsHref} class="text-[var(--text)]">
             projects
           </a>
-          <span style="color: #262626;">/</span>
-          <span style="color: #fafafa;">{id}</span>
-          <span class="animate-pulse" style="color: #00f0ff;">_</span>
+          <span class="text-[var(--text)]">/</span>
+          <span class="text-[var(--text)]">{id}</span>
         </div>
       </nav>
 
       {/* Project Header */}
       <header class="relative mb-12 pt-8">
-        {/* Project number */}
-        <div
-          class="absolute -top-4 -right-4 text-[12rem] font-bold leading-none opacity-[0.03] hidden lg:block select-none"
-          style={`font-family: 'Clash Display', sans-serif; color: ${category.color};`}
-        >
-          {String(projectIndex + 1).padStart(2, '0')}
-        </div>
-
         {/* Meta badges */}
         <div class="flex flex-wrap items-center gap-3 mb-6">
-          <span
-            class="px-3 py-1.5 text-xs font-bold tracking-wider"
-            style={`background: ${category.color}; color: #050505; font-family: 'Space Mono', monospace;`}
-          >
+          <span class="px-3 py-1.5 text-xs font-bold uppercase border-2" style="border-color: var(--accent); color: var(--accent);">
             {category.label}
           </span>
           {data.featured && (
-            <span
-              class="px-3 py-1.5 text-xs font-bold tracking-wider"
-              style="background: #ff2d92; color: #050505; font-family: 'Space Mono', monospace;"
-            >
+            <span class="px-3 py-1.5 text-xs font-bold uppercase border-2" style="border-color: var(--accent); color: var(--accent);">
               {t(locale, 'project.featured')}
             </span>
           )}
-          <span
-            class="px-3 py-1.5 text-xs tracking-wider"
-            style="border: 1px solid #262626; color: #525252; font-family: 'Space Mono', monospace;"
-          >
+          <span class="px-3 py-1.5 text-xs uppercase border-2" style="border-color: var(--text); color: var(--text);">
             {formatDate(data.publishedDate)}
           </span>
-          <span
-            class="px-3 py-1.5 text-xs tracking-wider"
-            style="border: 1px solid #262626; color: #525252; font-family: 'Space Mono', monospace;"
-          >
+          <span class="px-3 py-1.5 text-xs uppercase border-2" style="border-color: var(--text); color: var(--text);">
             [{String(projectIndex + 1).padStart(2, '0')}/{String(totalProjects).padStart(2, '0')}]
           </span>
         </div>
 
         {/* Title */}
-        <h1
-          class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6"
-          style="font-family: 'Clash Display', sans-serif; color: #fafafa;"
-        >
-          <span class="relative">
-            {data.title}
-            <span
-              class="absolute -bottom-2 left-0 h-1 w-24"
-              style={`background: linear-gradient(90deg, ${category.color}, transparent);`}
-            />
-          </span>
+        <h1 class="font-display text-5xl font-extrabold uppercase mb-6">
+          {data.title}
         </h1>
 
         {/* Description */}
-        <p
-          class="text-xl max-w-3xl mb-8"
-          style="color: #a3a3a3; font-family: 'Space Grotesk', sans-serif; line-height: 1.8;"
-        >
+        <p class="text-xl max-w-3xl mb-8">
           {data.description}
         </p>
 
         {/* Action Buttons */}
         <div class="flex flex-wrap gap-4">
           {data.liveUrl && (
-            <a
-              href={data.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn-primary"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-5 h-5 mr-2"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
-                />
-              </svg>
+            <a href={data.liveUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary magnetic">
               {t(locale, 'project.liveDemo')}
             </a>
           )}
           {data.repoUrl && (
-            <a
-              href={data.repoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn-secondary"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-                class="w-5 h-5 mr-2"
-              >
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
+            <a href={data.repoUrl} target="_blank" rel="noopener noreferrer" class="btn magnetic">
               {t(locale, 'project.viewSource')}
             </a>
           )}
@@ -211,48 +132,27 @@ const formatDate = (date: Date) => {
       </header>
 
       {/* Hero Image */}
-      <div class="relative mb-16 group">
-        {/* Corner decorations */}
-        <div class="absolute -top-2 -left-2 w-8 h-8 border-t-2 border-l-2 z-10" style={`border-color: ${category.color};`} />
-        <div class="absolute -top-2 -right-2 w-8 h-8 border-t-2 border-r-2 z-10" style={`border-color: ${category.color};`} />
-        <div class="absolute -bottom-2 -left-2 w-8 h-8 border-b-2 border-l-2 z-10" style="border-color: #ff2d92;" />
-        <div class="absolute -bottom-2 -right-2 w-8 h-8 border-b-2 border-r-2 z-10" style="border-color: #ff2d92;" />
-
+      <div class="relative mb-16 border-2" style="border-color: var(--text);">
         {data.thumbnail?.src && !data.thumbnail.src.includes('placeholder') ? (
-          <div class="relative overflow-hidden" style="border: 1px solid #262626;">
+          <div class="relative overflow-hidden">
             <img
               src={data.thumbnail.src}
               alt={data.thumbnail.alt}
               class="w-full aspect-video object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            {/* Scan line overlay */}
-            <div
-              class="absolute inset-0 pointer-events-none opacity-20"
-              style="background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.3) 2px, rgba(0,0,0,0.3) 4px);"
-            />
           </div>
         ) : (
-          <div
-            class="w-full aspect-video flex items-center justify-center relative"
-            style="background: #0d0d0d; border: 1px solid #262626;"
-          >
-            {/* Grid pattern */}
+          <div class="w-full aspect-video flex items-center justify-center relative bg-[var(--bg)]">
             <div
-              class="absolute inset-0 opacity-10"
-              style="background-image: linear-gradient(#262626 1px, transparent 1px), linear-gradient(90deg, #262626 1px, transparent 1px); background-size: 30px 30px;"
-            />
-            <div
-              class="relative w-24 h-24 flex items-center justify-center"
-              style={`border: 1px solid ${category.color}40;`}
+              class="relative w-24 h-24 flex items-center justify-center border-2" style="border-color: var(--text);"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1"
+                stroke-width="2"
                 stroke="currentColor"
-                class="w-12 h-12"
-                style={`color: ${category.color};`}
+                class="w-12 h-12 text-[var(--text)]"
               >
                 <path
                   stroke-linecap="round"
@@ -268,22 +168,13 @@ const formatDate = (date: Date) => {
       {/* Problem Statement */}
       <section class="relative mb-16">
         <div class="flex items-center gap-4 mb-6">
-          <span
-            class="text-xs tracking-[0.3em] uppercase"
-            style="color: #525252; font-family: 'Space Mono', monospace;"
-          >
+          <span class="text-sm font-body uppercase text-[var(--text)]">
             {t(locale, 'project.sectionBackground')}
           </span>
-          <div class="flex-1 h-px" style="background: linear-gradient(90deg, #262626, transparent);" />
+          <div class="flex-1 h-px bg-[var(--border)]" />
         </div>
-        <div
-          class="p-6 md:p-8"
-          style="background: #0d0d0d; border: 1px solid #262626; border-left: 3px solid #00f0ff;"
-        >
-          <p
-            class="text-lg leading-relaxed"
-            style="color: #a3a3a3; font-family: 'Space Grotesk', sans-serif;"
-          >
+        <div class="p-6 border-2" style="border-color: var(--text);">
+          <p class="text-lg leading-relaxed">
             {data.problemStatement}
           </p>
         </div>
@@ -292,27 +183,14 @@ const formatDate = (date: Date) => {
       {/* Technologies */}
       <section class="relative mb-16">
         <div class="flex items-center gap-4 mb-6">
-          <span
-            class="text-xs tracking-[0.3em] uppercase"
-            style="color: #525252; font-family: 'Space Mono', monospace;"
-          >
+          <span class="text-sm font-body uppercase text-[var(--text)]">
             {t(locale, 'project.sectionTech')}
           </span>
-          <div class="flex-1 h-px" style="background: linear-gradient(90deg, #262626, transparent);" />
+          <div class="flex-1 h-px bg-[var(--border)]" />
         </div>
-        <div class="flex flex-wrap gap-3">
-          {data.technologies.map((tech, i) => (
-            <span
-              class="group relative px-4 py-2 text-sm transition-all duration-300 hover:-translate-y-1"
-              style="background: #0d0d0d; border: 1px solid #262626; font-family: 'Space Mono', monospace; color: #a3a3a3;"
-            >
-              <span class="relative z-10 group-hover:text-white transition-colors">{tech}</span>
-              {/* Hover glow */}
-              <span
-                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                style={`background: ${category.color}10; border-color: ${category.color};`}
-              />
-            </span>
+        <div class="flex flex-wrap gap-2">
+          {data.technologies.map((tech) => (
+            <TechTag tech={tech} />
           ))}
         </div>
       </section>
@@ -320,15 +198,12 @@ const formatDate = (date: Date) => {
       {/* Project Content (MDX) */}
       <section class="relative mb-16">
         <div class="flex items-center gap-4 mb-6">
-          <span
-            class="text-xs tracking-[0.3em] uppercase"
-            style="color: #525252; font-family: 'Space Mono', monospace;"
-          >
+          <span class="text-sm font-body uppercase text-[var(--text)]">
             {t(locale, 'project.sectionContent')}
           </span>
-          <div class="flex-1 h-px" style="background: linear-gradient(90deg, #262626, transparent);" />
+          <div class="flex-1 h-px bg-[var(--border)]" />
         </div>
-        <div class="prose-cyber">
+        <div class="prose-brutalist">
           <Content />
         </div>
       </section>
@@ -337,46 +212,31 @@ const formatDate = (date: Date) => {
       {data.images && data.images.length > 0 && (
         <section class="relative mb-16">
           <div class="flex items-center gap-4 mb-6">
-            <span
-              class="text-xs tracking-[0.3em] uppercase"
-              style="color: #525252; font-family: 'Space Mono', monospace;"
-            >
+            <span class="text-sm font-body uppercase text-[var(--text)]">
               {t(locale, 'project.sectionScreenshots')}
             </span>
-            <div class="flex-1 h-px" style="background: linear-gradient(90deg, #262626, transparent);" />
+            <div class="flex-1 h-px bg-[var(--border)]" />
           </div>
           <ImageGallery client:load images={data.images} projectTitle={data.title} locale={locale} />
         </section>
       )}
 
       {/* Project Navigation */}
-      <nav class="relative pt-12 pb-20" aria-label={t(locale, 'project.navAria')}>
-        {/* Top border with gradient */}
-        <div
-          class="absolute top-0 left-0 right-0 h-px"
-          style="background: linear-gradient(90deg, transparent, #262626, transparent);"
-        />
-
+      <nav class="relative pt-12 pb-20 border-t-2" style="border-color: var(--border);" aria-label={t(locale, 'project.navAria')}>
         <div class="flex justify-between gap-6">
           {prevProject ? (
             <a
               href={getRelativeLocaleUrl(locale, `/projects/${prevProject.id}`)}
-              class="group flex-1 max-w-[calc(50%-0.75rem)] relative p-6 transition-all duration-300 hover:-translate-y-1"
-              style="background: #0d0d0d; border: 1px solid #262626;"
+              class="group flex-1 max-w-[calc(50%-0.75rem)] relative p-6 btn"
             >
-              {/* Corner accents */}
-              <div class="absolute top-0 left-0 w-3 h-3 border-t border-l opacity-0 group-hover:opacity-100 transition-opacity" style="border-color: #00f0ff;" />
-              <div class="absolute bottom-0 right-0 w-3 h-3 border-b border-r opacity-0 group-hover:opacity-100 transition-opacity" style="border-color: #00f0ff;" />
-
-              <div class="flex items-center gap-2 mb-2" style="font-family: 'Space Mono', monospace;">
+              <div class="flex items-center gap-2 mb-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke-width="2"
                   stroke="currentColor"
-                  class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform"
-                  style="color: #00f0ff;"
+                  class="w-4 h-4 text-[var(--text)]"
                 >
                   <path
                     stroke-linecap="round"
@@ -384,12 +244,9 @@ const formatDate = (date: Date) => {
                     d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
                   />
                 </svg>
-                <span class="text-xs tracking-wider" style="color: #525252;">{t(locale, 'project.prevProject')}</span>
+                <span class="text-xs font-body uppercase text-[var(--text)]">{t(locale, 'project.prevProject')}</span>
               </div>
-              <div
-                class="font-medium truncate transition-colors group-hover:text-[#00f0ff]"
-                style="font-family: 'Clash Display', sans-serif; color: #fafafa;"
-              >
+              <div class="font-display font-bold truncate text-[var(--text)]">
                 {prevProject.data.title}
               </div>
             </a>
@@ -400,23 +257,17 @@ const formatDate = (date: Date) => {
           {nextProject ? (
             <a
               href={getRelativeLocaleUrl(locale, `/projects/${nextProject.id}`)}
-              class="group flex-1 max-w-[calc(50%-0.75rem)] relative p-6 text-right transition-all duration-300 hover:-translate-y-1"
-              style="background: #0d0d0d; border: 1px solid #262626;"
+              class="group flex-1 max-w-[calc(50%-0.75rem)] relative p-6 text-right btn"
             >
-              {/* Corner accents */}
-              <div class="absolute top-0 right-0 w-3 h-3 border-t border-r opacity-0 group-hover:opacity-100 transition-opacity" style="border-color: #ff2d92;" />
-              <div class="absolute bottom-0 left-0 w-3 h-3 border-b border-l opacity-0 group-hover:opacity-100 transition-opacity" style="border-color: #ff2d92;" />
-
-              <div class="flex items-center justify-end gap-2 mb-2" style="font-family: 'Space Mono', monospace;">
-                <span class="text-xs tracking-wider" style="color: #525252;">{t(locale, 'project.nextProject')}</span>
+              <div class="flex items-center justify-end gap-2 mb-2">
+                <span class="text-xs font-body uppercase text-[var(--text)]">{t(locale, 'project.nextProject')}</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke-width="2"
                   stroke="currentColor"
-                  class="w-4 h-4 transform group-hover:translate-x-1 transition-transform"
-                  style="color: #ff2d92;"
+                  class="w-4 h-4 text-[var(--text)]"
                 >
                   <path
                     stroke-linecap="round"
@@ -425,10 +276,7 @@ const formatDate = (date: Date) => {
                   />
                 </svg>
               </div>
-              <div
-                class="font-medium truncate transition-colors group-hover:text-[#ff2d92]"
-                style="font-family: 'Clash Display', sans-serif; color: #fafafa;"
-              >
+              <div class="font-display font-bold truncate text-[var(--text)]">
                 {nextProject.data.title}
               </div>
             </a>
@@ -441,12 +289,9 @@ const formatDate = (date: Date) => {
         <div class="flex justify-center mt-8">
           <a
             href={projectsHref}
-            class="group inline-flex items-center gap-2 text-sm transition-colors"
-            style="color: #525252; font-family: 'Space Mono', monospace;"
+            class="text-sm font-body uppercase text-[var(--text)]"
           >
-            <span class="group-hover:text-[#00f0ff] transition-colors">{'<'}</span>
-            <span class="group-hover:text-white transition-colors">{t(locale, 'project.backToProjects')}</span>
-            <span class="group-hover:text-[#ff2d92] transition-colors">{'>'}</span>
+            {t(locale, 'project.backToProjects')}
           </a>
         </div>
       </nav>
@@ -457,137 +302,146 @@ const formatDate = (date: Date) => {
 </BaseLayout>
 
 <style is:global>
-  /* Cyberpunk prose styling */
-  .prose-cyber {
-    font-family: 'Space Grotesk', sans-serif;
-    color: #a3a3a3;
-    line-height: 1.8;
+  /* Brutalist prose styling */
+  .prose-brutalist {
+    font-family: var(--font-body);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 1.125rem;
   }
 
-  .prose-cyber h1,
-  .prose-cyber h2,
-  .prose-cyber h3,
-  .prose-cyber h4 {
-    font-family: 'Clash Display', sans-serif;
-    color: #fafafa;
+  .prose-brutalist h1,
+  .prose-brutalist h2,
+  .prose-brutalist h3,
+  .prose-brutalist h4 {
+    font-family: var(--font-display);
+    color: var(--text);
     margin-top: 2em;
     margin-bottom: 0.75em;
-    font-weight: 600;
+    font-weight: 800;
+    text-transform: uppercase;
+    line-height: 1.1;
   }
 
-  .prose-cyber h2 {
-    font-size: 1.75rem;
-    position: relative;
-    padding-left: 1rem;
-    border-left: 3px solid #00f0ff;
+  .prose-brutalist h2 {
+    font-size: 2.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border);
   }
 
-  .prose-cyber h3 {
-    font-size: 1.25rem;
-    color: #e5e5e5;
+  .prose-brutalist h3 {
+    font-size: 2rem;
   }
 
-  .prose-cyber p {
+  .prose-brutalist p {
     margin-bottom: 1.5em;
   }
 
-  .prose-cyber a {
-    color: #00f0ff;
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.3s;
-  }
-
-  .prose-cyber a:hover {
-    border-bottom-color: #00f0ff;
-  }
-
-  .prose-cyber strong {
-    color: #fafafa;
+  .prose-brutalist a {
+    color: var(--text);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
     font-weight: 600;
+    transition: all 0.2s ease;
   }
 
-  .prose-cyber code {
-    font-family: 'Space Mono', monospace;
-    background: #171717;
-    color: #00f0ff;
+  .prose-brutalist a:hover {
+    background-color: var(--accent);
+  }
+
+  .prose-brutalist strong {
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  .prose-brutalist em {
+    font-style: italic;
+  }
+
+  .prose-brutalist code {
+    font-family: monospace;
+    background: var(--border);
+    color: var(--text);
     padding: 0.2em 0.4em;
-    font-size: 0.875em;
-    border: 1px solid #262626;
+    font-size: 0.9em;
+    border-radius: 4px;
   }
 
-  .prose-cyber pre {
-    background: #0d0d0d;
-    border: 1px solid #262626;
+  .prose-brutalist pre {
+    background: var(--border);
     padding: 1.5rem;
     overflow-x: auto;
     margin: 1.5em 0;
+    border-radius: 8px;
   }
 
-  .prose-cyber pre code {
+  .prose-brutalist pre code {
     background: none;
     border: none;
     padding: 0;
-    color: #e5e5e5;
-    font-size: 0.875rem;
+    color: var(--text);
+    font-size: 0.9em;
   }
 
-  .prose-cyber ul,
-  .prose-cyber ol {
+  .prose-brutalist ul,
+  .prose-brutalist ol {
     padding-left: 1.5em;
     margin: 1.5em 0;
+    list-style-type: square;
   }
 
-  .prose-cyber li {
-    margin: 0.5em 0;
+  .prose-brutalist li {
+    margin-bottom: 0.5em;
   }
 
-  .prose-cyber li::marker {
-    color: #00f0ff;
-  }
-
-  .prose-cyber blockquote {
-    border-left: 3px solid #ff2d92;
+  .prose-brutalist blockquote {
+    border-left: 4px solid var(--accent);
     padding-left: 1.5rem;
     margin: 1.5em 0;
     font-style: italic;
-    color: #737373;
+    color: var(--text);
   }
 
-  .prose-cyber hr {
+  .prose-brutalist hr {
     border: none;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #262626, transparent);
+    height: 2px;
+    background-color: var(--border);
     margin: 3em 0;
   }
 
-  .prose-cyber img {
-    border: 1px solid #262626;
-    margin: 2em 0;
+  .prose-brutalist img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 2em auto;
+    border: 2px solid var(--border);
   }
 
-  .prose-cyber table {
+  .prose-brutalist table {
     width: 100%;
     border-collapse: collapse;
     margin: 1.5em 0;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.875rem;
+    font-family: var(--font-body);
+    font-size: 0.9em;
   }
 
-  .prose-cyber th,
-  .prose-cyber td {
+  .prose-brutalist th,
+  .prose-brutalist td {
     padding: 0.75rem 1rem;
-    border: 1px solid #262626;
+    border: 1px solid var(--border);
     text-align: left;
   }
 
-  .prose-cyber th {
-    background: #0d0d0d;
-    color: #00f0ff;
-    font-weight: 500;
+  .prose-brutalist th {
+    background: var(--border);
+    color: var(--text);
+    font-weight: 700;
+    text-transform: uppercase;
   }
 
-  .prose-cyber td {
-    background: #171717;
+  .prose-brutalist td {
+    background: var(--bg);
   }
 </style>

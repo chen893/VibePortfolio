@@ -23,346 +23,169 @@ const typedProfile = profile as unknown as DeveloperProfile;
 >
   <Header />
 
-  <main class="pt-20 min-h-screen relative overflow-hidden" style="background: #050505;">
-    {/* Background effects */}
-    <div class="fixed inset-0 pointer-events-none">
-      {/* Grid */}
-      <div
-        class="absolute inset-0 opacity-[0.02]"
-        style="background-image: linear-gradient(#00f0ff 1px, transparent 1px), linear-gradient(90deg, #00f0ff 1px, transparent 1px); background-size: 60px 60px;"
-      />
+  <main class="pt-20 min-h-screen relative">
 
-      {/* Gradient orbs */}
-      <div
-        class="absolute top-1/4 -right-32 w-[500px] h-[500px]"
-        style="background: radial-gradient(circle, rgba(0,240,255,0.08) 0%, transparent 70%); filter: blur(60px);"
-      />
-      <div
-        class="absolute bottom-1/4 -left-32 w-[400px] h-[400px]"
-        style="background: radial-gradient(circle, rgba(255,45,146,0.06) 0%, transparent 70%); filter: blur(60px);"
-      />
-    </div>
 
     <Container size="md">
       {/* Hero Section */}
       <AboutHero profile={typedProfile} />
 
       {/* Philosophy Section */}
-      <section class="relative py-16">
-        {/* Top border */}
-        <div
-          class="absolute top-0 left-0 right-0 h-px"
-          style="background: linear-gradient(90deg, transparent, #262626, transparent);"
-        />
-
+      <section class="py-16 border-t-2" style="border-color: var(--border);">
         {/* Section header */}
-        <div class="flex items-center gap-4 mb-8">
-          <span
-            class="text-xs tracking-[0.3em] uppercase"
-            style="color: #525252; font-family: 'Space Mono', monospace;"
-          >
-            {t(locale, 'about.philosophyLabel')}
-          </span>
-          <div class="flex-1 h-px" style="background: linear-gradient(90deg, #262626, transparent);" />
+        <div class="mb-8">
+          <div class="flex items-center gap-4 mb-4">
+            <span class="text-sm font-body uppercase text-[var(--text)]">
+              {t(locale, 'about.philosophyLabel')}
+            </span>
+            <div class="flex-1 h-px bg-[var(--border)]" />
+          </div>
+
+          <h2 class="font-display text-5xl font-extrabold uppercase">
+            {t(locale, 'about.philosophyTitleA')}
+            <br />
+            <span class="text-[var(--accent)]">{t(locale, 'about.philosophyTitleB')}</span>
+          </h2>
         </div>
 
         {/* Quote block */}
-        <div class="relative">
-          {/* Large decorative quote */}
-          <div
-            class="absolute -top-8 -left-4 text-[8rem] leading-none opacity-10 select-none hidden md:block"
-            style="font-family: 'Clash Display', sans-serif; color: #00f0ff;"
-          >
-            "
-          </div>
-
-          <div
-            class="relative p-8 md:p-10"
-            style="background: #0d0d0d; border: 1px solid #262626; border-left: 3px solid #00f0ff;"
-          >
-            {/* Terminal header */}
-            <div class="flex items-center gap-2 mb-6 pb-4" style="border-bottom: 1px solid #262626;">
-              <span class="w-3 h-3 rounded-full" style="background: #ff5f57;" />
-              <span class="w-3 h-3 rounded-full" style="background: #febc2e;" />
-              <span class="w-3 h-3 rounded-full" style="background: #28c840;" />
-              <span class="ml-4 text-xs" style="color: #525252; font-family: 'Space Mono', monospace;">
-                philosophy.txt
-              </span>
-            </div>
-
-            <blockquote>
-              <p
-                class="text-xl md:text-2xl leading-relaxed"
-                style="color: #e5e5e5; font-family: 'Space Grotesk', sans-serif;"
-              >
-                "{profile.philosophy}"
-              </p>
-            </blockquote>
-
-            {/* Signature */}
-            <div class="flex items-center gap-3 mt-6 pt-4" style="border-top: 1px solid #262626;">
-              <span class="w-8 h-px" style="background: #ff2d92;" />
-              <span
-                class="text-sm"
-                style="color: #ff2d92; font-family: 'Space Mono', monospace;"
-              >
-                {profile.name}
-              </span>
-            </div>
+        <div class="p-8 border-2" style="border-color: var(--text);">
+          <blockquote>
+            <p class="text-xl leading-relaxed mb-4">
+              "{profile.philosophy}"
+            </p>
+          </blockquote>
+          <div class="flex items-center gap-3 pt-4 border-t-2" style="border-color: var(--border);">
+            <span class="text-sm font-body uppercase text-[var(--text)]">
+              &mdash; {profile.name}
+            </span>
           </div>
         </div>
       </section>
 
       {/* Skills Section */}
-      <section class="relative py-16">
-        {/* Top border */}
-        <div
-          class="absolute top-0 left-0 right-0 h-px"
-          style="background: linear-gradient(90deg, transparent, #262626, transparent);"
-        />
-
+      <section class="py-16 border-t-2" style="border-color: var(--border);">
         {/* Section header */}
-        <div class="relative mb-10">
+        <div class="mb-10">
           <div class="flex items-center gap-4 mb-4">
-            <span
-              class="text-xs tracking-[0.3em] uppercase"
-              style="color: #525252; font-family: 'Space Mono', monospace;"
-            >
+            <span class="text-sm font-body uppercase text-[var(--text)]">
               {t(locale, 'about.skillsLabel')}
             </span>
-            <div class="flex-1 h-px" style="background: linear-gradient(90deg, #262626, transparent);" />
+            <div class="flex-1 h-px bg-[var(--border)]" />
           </div>
 
-          <h2
-            class="text-3xl md:text-4xl font-bold tracking-tight"
-            style="font-family: 'Clash Display', sans-serif;"
-          >
-            <span style="color: #fafafa;">{t(locale, 'about.skillsTitleA')}</span>
-            <span style="color: #00f0ff;"> {t(locale, 'about.skillsTitleB')}</span>
+          <h2 class="font-display text-5xl font-extrabold uppercase">
+            {t(locale, 'about.skillsTitleA')}
+            <span class="text-[var(--accent)]"> {t(locale, 'about.skillsTitleB')}</span>
           </h2>
-
-          {/* Decorative number */}
-          <div
-            class="absolute -top-4 -right-4 text-[6rem] font-bold leading-none opacity-[0.03] hidden lg:block"
-            style="font-family: 'Clash Display', sans-serif; color: #00f0ff;"
-          >
-            02
-          </div>
         </div>
 
         <SkillsGrid skills={typedProfile.skills} />
       </section>
 
       {/* Contact Section */}
-      <section class="relative py-16 pb-24">
-        {/* Top border */}
-        <div
-          class="absolute top-0 left-0 right-0 h-px"
-          style="background: linear-gradient(90deg, transparent, #262626, transparent);"
-        />
-
+      <section class="py-16 pb-24 border-t-2" style="border-color: var(--border);">
         {/* Section header */}
-        <div class="relative mb-10">
+        <div class="mb-10">
           <div class="flex items-center gap-4 mb-4">
-            <span
-              class="text-xs tracking-[0.3em] uppercase"
-              style="color: #525252; font-family: 'Space Mono', monospace;"
-            >
+            <span class="text-sm font-body uppercase text-[var(--text-muted)]">
               {t(locale, 'about.contactLabel')}
             </span>
-            <div class="flex-1 h-px" style="background: linear-gradient(90deg, #262626, transparent);" />
+            <div class="flex-1 h-px bg-[var(--border)]" />
           </div>
 
-          <h2
-            class="text-3xl md:text-4xl font-bold tracking-tight"
-            style="font-family: 'Clash Display', sans-serif;"
-          >
-            <span style="color: #fafafa;">{t(locale, 'about.contactTitleA')}</span>
-            <span style="color: #ff2d92;"> {t(locale, 'about.contactTitleB')}</span>
+          <h2 class="font-display text-4xl md:text-5xl font-extrabold uppercase">
+            {t(locale, 'about.contactTitleA')}
+            <span class="text-[var(--accent-dark)]"> {t(locale, 'about.contactTitleB')}</span>
           </h2>
-
-          {/* Decorative number */}
-          <div
-            class="absolute -top-4 -right-4 text-[6rem] font-bold leading-none opacity-[0.03] hidden lg:block"
-            style="font-family: 'Clash Display', sans-serif; color: #ff2d92;"
-          >
-            03
-          </div>
         </div>
 
-        <div
-          class="relative p-8 md:p-10"
-          style="background: #0d0d0d; border: 1px solid #262626;"
-        >
-          {/* Corner decorations */}
-          <div class="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2" style="border-color: #00f0ff;" />
-          <div class="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2" style="border-color: #00f0ff;" />
-          <div class="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2" style="border-color: #ff2d92;" />
-          <div class="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2" style="border-color: #ff2d92;" />
+        <p class="text-base text-[var(--text-muted)] mb-10 max-w-xl leading-relaxed">
+          {t(locale, 'about.contactDescription')}
+        </p>
 
-          <p
-            class="text-lg mb-8 max-w-2xl"
-            style="color: #a3a3a3; font-family: 'Space Grotesk', sans-serif;"
-          >
-            {t(locale, 'about.contactDescription')}
-          </p>
-
-          {/* Contact methods */}
-          <div class="flex flex-col sm:flex-row gap-6 mb-10">
-            {
-              profile.contact.email && (
-                <a
-                  href={`mailto:${profile.contact.email}`}
-                  class="group flex items-center gap-4 p-4 transition-all duration-300 hover:-translate-y-1"
-                  style="background: #171717; border: 1px solid #262626;"
+        {/* Contact methods */}
+        <div class="flex flex-col sm:flex-row gap-4 mb-10">
+          {
+            profile.contact.email && (
+              <a
+                href={`mailto:${profile.contact.email}`}
+                class="group flex-1 flex items-center gap-4 p-5 bg-[var(--background)] border border-[var(--border)] hover:border-[var(--text)] transition-colors"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  class="w-6 h-6 text-[var(--accent-dark)] flex-shrink-0"
                 >
-                  {/* Icon */}
-                  <div
-                    class="w-12 h-12 flex items-center justify-center transition-colors"
-                    style="border: 1px solid #262626;"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="w-6 h-6 transition-colors group-hover:text-[#00f0ff]"
-                      style="color: #737373;"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
-                      />
-                    </svg>
-                  </div>
-
-                  <div>
-                    <div
-                      class="text-xs mb-1"
-                      style="color: #525252; font-family: 'Space Mono', monospace;"
-                    >
-                      EMAIL
-                    </div>
-                    <div
-                      class="font-medium transition-colors group-hover:text-[#00f0ff]"
-                      style="color: #fafafa; font-family: 'Space Grotesk', sans-serif;"
-                    >
-                      {profile.contact.email}
-                    </div>
-                  </div>
-
-                  {/* Arrow */}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="2"
-                    stroke="currentColor"
-                    class="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all"
-                    style="color: #00f0ff;"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-                    />
-                  </svg>
-                </a>
-              )
-            }
-
-            {
-              profile.contact.phone && (
-                <a
-                  href={`tel:${profile.contact.phone}`}
-                  class="group flex items-center gap-4 p-4 transition-all duration-300 hover:-translate-y-1"
-                  style="background: #171717; border: 1px solid #262626;"
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+                  />
+                </svg>
+                <div class="flex-1 min-w-0">
+                  <div class="text-xs font-body uppercase text-[var(--text-muted)] mb-1">Email</div>
+                  <div class="font-mono text-sm text-[var(--text)] truncate lowercase">{profile.contact.email}</div>
+                </div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  class="w-4 h-4 text-[var(--text-muted)] group-hover:text-[var(--accent-dark)] transition-colors"
                 >
-                  {/* Icon */}
-                  <div
-                    class="w-12 h-12 flex items-center justify-center transition-colors"
-                    style="border: 1px solid #262626;"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="w-6 h-6 transition-colors group-hover:text-[#ff2d92]"
-                      style="color: #737373;"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"
-                      />
-                    </svg>
-                  </div>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                </svg>
+              </a>
+            )
+          }
 
-                  <div>
-                    <div
-                      class="text-xs mb-1"
-                      style="color: #525252; font-family: 'Space Mono', monospace;"
-                    >
-                      PHONE
-                    </div>
-                    <div
-                      class="font-medium transition-colors group-hover:text-[#ff2d92]"
-                      style="color: #fafafa; font-family: 'Space Grotesk', sans-serif;"
-                    >
-                      {profile.contact.phone}
-                    </div>
-                  </div>
-
-                  {/* Arrow */}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="2"
-                    stroke="currentColor"
-                    class="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all"
-                    style="color: #ff2d92;"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-                    />
-                  </svg>
-                </a>
-              )
-            }
-          </div>
-
-          {/* Divider */}
-          <div class="flex items-center gap-4 mb-8">
-            <div class="flex-1 h-px" style="background: #262626;" />
-            <span
-              class="text-xs tracking-wider"
-              style="color: #525252; font-family: 'Space Mono', monospace;"
-            >
-              {t(locale, 'about.orFollow')}
-            </span>
-            <div class="flex-1 h-px" style="background: #262626;" />
-          </div>
-
-          {/* Social links */}
-          <div class="flex justify-center">
-            <SocialLinks links={typedProfile.socials} size="lg" />
-          </div>
-
-          {/* Decorative code */}
-          <div
-            class="mt-10 p-4 text-center opacity-40"
-            style="background: #171717; border: 1px solid #262626; font-family: 'Space Mono', monospace; font-size: 0.75rem; color: #525252;"
-          >
-            <span style="color: #00f0ff;">const</span> contact = await <span style="color: #ff2d92;">sendMessage</span>(<span style="color: #e4ff1a;">"hello"</span>);
-          </div>
+          {
+            profile.contact.phone && (
+              <a
+                href={`tel:${profile.contact.phone}`}
+                class="group flex-1 flex items-center gap-4 p-5 bg-[var(--background)] border border-[var(--border)] hover:border-[var(--text)] transition-colors"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  class="w-6 h-6 text-[var(--accent-dark)] flex-shrink-0"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"
+                  />
+                </svg>
+                <div class="flex-1 min-w-0">
+                  <div class="text-xs font-body uppercase text-[var(--text-muted)] mb-1">Phone</div>
+                  <div class="font-mono text-sm text-[var(--text)] truncate">{profile.contact.phone}</div>
+                </div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  class="w-4 h-4 text-[var(--text-muted)] group-hover:text-[var(--accent-dark)] transition-colors"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                </svg>
+              </a>
+            )
+          }
         </div>
+
+
+
+
       </section>
     </Container>
   </main>
