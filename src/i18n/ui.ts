@@ -57,6 +57,18 @@ const messages: Record<Locale, Record<string, string>> = {
     'about.contactTitleB': '联系',
     'about.contactDescription': '无论是项目合作、工作机会还是只是想聊聊技术，都欢迎与我联系。',
 
+    'about.experienceLabel': '// 工作经历',
+    'about.experienceTitleA': '工作',
+    'about.experienceTitleB': '经历',
+
+    'about.educationLabel': '// 教育背景',
+    'about.educationTitleA': '教育',
+    'about.educationTitleB': '背景',
+
+    'about.awardsLabel': '// 荣誉奖项',
+    'about.awardsTitleA': '荣誉',
+    'about.awardsTitleB': '奖项',
+
     'aboutHero.label': '// 关于我',
     'aboutHero.years': '经验年限',
     'aboutHero.projects': '项目',
@@ -188,8 +200,20 @@ const messages: Record<Locale, Record<string, string>> = {
     'about.contactLabel': '// CONTACT',
     'about.contactTitleA': 'Get',
     'about.contactTitleB': 'in touch',
-    'about.contactDescription': "Whether it’s collaboration, an opportunity, or a quick chat — I’d love to hear from you.",
+    'about.contactDescription': "Whether it's collaboration, an opportunity, or a quick chat — I'd love to hear from you.",
     'about.orFollow': 'Or follow me',
+
+    'about.experienceLabel': '// EXPERIENCE',
+    'about.experienceTitleA': 'Work',
+    'about.experienceTitleB': 'Experience',
+
+    'about.educationLabel': '// EDUCATION',
+    'about.educationTitleA': 'Education',
+    'about.educationTitleB': 'Background',
+
+    'about.awardsLabel': '// AWARDS',
+    'about.awardsTitleA': 'Awards',
+    'about.awardsTitleB': '& Honors',
 
     'aboutHero.label': '// ABOUT ME',
     'aboutHero.years': 'Years',

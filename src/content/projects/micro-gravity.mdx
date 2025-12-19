@@ -1,0 +1,65 @@
+---
+title: "Micro-Gravity · 基于福格行为模型的智能习惯养成系统"
+description: "融合 AI 技术与行为科学的现代化习惯管理系统，基于斯坦福大学 BJ Fogg 教授的福格行为模型（B=MAP）构建，支持智能习惯诊断、愿望拆解、戒除分析与庆祝系统。"
+problemStatement: "传统习惯养成应用依赖意志力驱动，缺乏科学的行为设计框架；用户难以将宏大目标拆解为可执行的微习惯，也缺少即时正反馈来强化习惯神经回路。"
+category: "fullstack"
+technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Vercel AI SDK", "tRPC", "Prisma"]
+thumbnail:
+  src: "/images/projects/micro-gravity/thumbnail.png"
+  alt: "Micro-Gravity 缩略图 - 习惯养成仪表盘与 AI 教练界面"
+images:
+  - src: "/images/projects/micro-gravity/screenshot-1.png"
+    alt: "Micro-Gravity 仪表盘，展示习惯打卡热力图与连续记录统计"
+    caption: "习惯仪表盘"
+repoUrl: "https://github.com/chen893/micro-gravity"
+featured: true
+order: 3
+publishedDate: 2025-12-19
+seoTitle: "Micro-Gravity - AI驱动的福格行为模型习惯养成系统"
+seoDescription: "基于福格行为模型的智能习惯管理系统，支持AI习惯诊断、微习惯设计与庆祝系统。"
+---
+
+## 项目概述
+
+Micro-Gravity 是一个融合 AI 技术与行为科学的现代化习惯管理系统，核心理念来自斯坦福大学 BJ Fogg 教授的**福格行为模型（B=MAP）**：
+
+| 要素 | 含义 | 系统实现 |
+|:---:|------|---------|
+| **M** | Motivation（动机） | AI 动机诊断、个性化激励、情绪追踪 |
+| **A** | Ability（能力） | 微习惯设计、难度动态调整、渐进式挑战 |
+| **P** | Prompt（提示） | 锚点习惯、情境触发、智能提醒 |
+
+核心功能：
+
+- **智能习惯医生**：按 MAP 模型自动诊断习惯停滞原因，生成结构化处方
+- **愿望拆解系统**：将宏大目标转化为高杠杆行为，自动设计 Starter Step
+- **戒除习惯分析**：识别触发模式与复发风险，提供环境改造干预建议
+- **庆祝系统**：打卡完成时的彩带特效、成就徽章与 AI 个性化庆祝文案
+
+## 技术亮点
+
+### 全栈架构
+- **Next.js 15 + React 19**：App Router + 服务端组件优先
+- **tRPC + Zod**：端到端类型安全的 API 层
+- **Prisma + PostgreSQL**：类型安全的 ORM 与关系型存储
+
+### AI 集成
+- **Vercel AI SDK v6**：流式对话、结构化输出、工具调用
+- **多 AI 功能模块**：动机维护、任务拆解、愿望拆解、戒除分析、洞察生成
+- **智能提醒系统**：根据动机状态生成 Signal / Facilitator / Spark 三类提醒
+
+### 数据可视化
+- **Recharts**：打卡热力图、情绪趋势、时段分布
+- **Framer Motion**：庆祝动画与交互反馈
+- **周期性报告**：强调庆祝与迷你胜利的周报、月报
+
+## 项目成果
+
+- 完整的 MAP 模型数字化实现
+- 多类型习惯支持：好习惯养成、坏习惯戒除、例行事务
+- AI 驱动的习惯诊断与干预系统
+- 习惯繁殖系统：一键复制成功习惯模板
+
+## 学习收获
+
+通过这个项目，我深入理解了行为科学理论的工程化落地：如何将抽象的心理学模型转化为具体的产品功能，如何用 AI 增强用户的行为改变体验。同时在 Next.js 15、tRPC、Vercel AI SDK 等现代全栈技术上积累了丰富实践。

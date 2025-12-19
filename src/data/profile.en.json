@@ -1,13 +1,19 @@
 {
   "name": "Shuanglong Chen",
-  "title": "Full-stack Developer | Vibe Coding Practitioner",
-  "bio": "A full-stack developer who loves crafting delightful experiences with code. I focus on building high-performance, user-friendly web apps, balancing clean engineering with polished design.",
-  "philosophy": "I believe great code should feel like a piece of craft: it works, it reads well, and it lasts. Vibe Coding is my philosophy — letting every line carry style, intention, and soul.",
+  "title": "Full-stack Developer | Vibe Coder",
+  "bio": "A full-stack developer passionate about redefining development with AI. With 3+ years of experience, built solid frontend engineering skills at Meituan and DeepWisdom. Now fully embracing AI programming - proficient with Claude Code for Vibe Coding, complemented by Codex and Gemini. Also experienced with AI IDEs like Cursor, Trae, and Antigravity. Independently developed 10+ projects. I believe AI-assisted programming is the future, and I enjoy the entire journey from idea to product.",
+  "philosophy": "Great code should be like a work of art - functional yet beautiful and maintainable. The value of technology lies in solving real problems, and user experience always comes first.",
   "avatar": {
     "src": "/images/avatar.png",
-    "alt": "Developer avatar"
+    "alt": "Shuanglong Chen avatar"
   },
   "skills": [
+    {
+      "name": "JavaScript",
+      "category": "frontend",
+      "proficiency": "expert",
+      "icon": "javascript"
+    },
     {
       "name": "TypeScript",
       "category": "frontend",
@@ -27,28 +33,28 @@
       "icon": "vue"
     },
     {
-      "name": "Tailwind CSS",
+      "name": "HTML/CSS",
       "category": "frontend",
       "proficiency": "expert",
-      "icon": "tailwind"
+      "icon": "html"
     },
     {
       "name": "Node.js",
       "category": "backend",
-      "proficiency": "advanced",
+      "proficiency": "intermediate",
       "icon": "nodejs"
     },
     {
-      "name": "PostgreSQL",
-      "category": "backend",
+      "name": "Webpack/Vite",
+      "category": "tools",
       "proficiency": "advanced",
-      "icon": "postgresql"
+      "icon": "webpack"
     },
     {
-      "name": "Docker",
+      "name": "AI Programming",
       "category": "tools",
-      "proficiency": "intermediate",
-      "icon": "docker"
+      "proficiency": "advanced",
+      "icon": "ai"
     },
     {
       "name": "Git",
@@ -58,7 +64,8 @@
     }
   ],
   "contact": {
-    "email": "1390158928@qq.com"
+    "email": "1390158928@qq.com",
+    "phone": "18608185306"
   },
   "socials": [
     {
@@ -72,7 +79,91 @@
       "label": "Email"
     }
   ],
-  "seoTitle": "Shuanglong Chen - Full-stack Developer Portfolio",
-  "seoDescription": "Explore my projects, skills, and development philosophy — a modern full-stack portfolio built with a cyberpunk vibe."
+  "workExperience": [
+    {
+      "company": "DeepWisdom",
+      "position": "Frontend Developer",
+      "location": "Xiamen",
+      "startDate": "2023.06",
+      "endDate": "2025.03",
+      "projects": [
+        {
+          "name": "Smart Contract Risk Management System",
+          "description": "An end-to-end contract management system providing digital contract management solutions to help enterprises reduce costs and increase efficiency",
+          "techStack": ["Vue", "Arco Design", "UnoCSS", "vue-flow"],
+          "highlights": [
+            "Led the design and implementation of visual dynamic contract approval workflow using vue-flow, improving approval transparency by 90% and reducing support tickets by 30%",
+            "Refactored core list pages with virtual list technology, reducing render time from 3.5s to 500ms for large datasets (10,000+ items)",
+            "Built an RBAC-based frontend permission control system with highly reusable components, improving permission development efficiency by 70%",
+            "Designed and implemented a robust file upload solution supporting large files (>1GB) with chunking, resumable uploads, and concurrent request pooling"
+          ]
+        }
+      ]
+    },
+    {
+      "company": "Meituan",
+      "position": "Frontend Development Intern",
+      "location": "Beijing",
+      "startDate": "2022.05",
+      "endDate": "2023.02",
+      "projects": [
+        {
+          "name": "Operations Platform",
+          "description": "Unified operations platform providing tools and configuration backend to improve Meituan WeChat Mini Program operations efficiency",
+          "techStack": ["React", "TypeScript", "Antd", "Node"],
+          "highlights": [
+            "Developed technical solutions for product and technical requirements, completed development and deployment",
+            "Standardized common operational workflows through template/configuration-based approaches",
+            "Optimized first screen load time from 5.5s to 1.9s, a 65% improvement",
+            "Improved project code standards by implementing ESLint code checking"
+          ]
+        },
+        {
+          "name": "88 Shopping Festival",
+          "description": "Major promotional campaign focusing on Meituan's 'Retail + Technology' strategy upgrade",
+          "techStack": ["Low-code"],
+          "highlights": [
+            "Developed dynamic card wall, popup container, bottom navigation and image components"
+          ]
+        },
+        {
+          "name": "Free Novel",
+          "description": "Building a leading free novel product",
+          "techStack": ["WeChat Mini Program"],
+          "highlights": [
+            "Participated in developing novel zone, rewards zone, and history pages"
+          ]
+        }
+      ]
+    }
+  ],
+  "education": [
+    {
+      "school": "Guangdong Ocean University",
+      "degree": "Bachelor's Degree",
+      "major": "Information and Computational Science",
+      "startDate": "2019.09",
+      "endDate": "2023.06"
+    }
+  ],
+  "awards": [
+    {
+      "title": "12th Lanqiao Cup C/C++ Programming Group B Provincial First Prize",
+      "date": "2021.04"
+    },
+    {
+      "title": "12th Lanqiao Cup C/C++ Programming Group B National Second Prize",
+      "date": "2021.06"
+    },
+    {
+      "title": "7th China International 'Internet+' College Student Innovation and Entrepreneurship Competition Guangdong Provincial Silver Award",
+      "date": "2021.09"
+    },
+    {
+      "title": "2020 Kugou Mini Program Campus Development Competition Third Place",
+      "date": "2020.12"
+    }
+  ],
+  "seoTitle": "Shuanglong Chen - Frontend Developer Portfolio",
+  "seoDescription": "Frontend developer proficient in React and Vue with Meituan internship experience. Explore my projects, skills, and development philosophy."
 }
-

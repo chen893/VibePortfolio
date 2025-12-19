@@ -11,6 +11,34 @@ export interface SocialLink {
   label: string;
 }
 
+export interface WorkExperience {
+  company: string;
+  position: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  projects: {
+    name: string;
+    description: string;
+    techStack: string[];
+    highlights: string[];
+  }[];
+}
+
+export interface Education {
+  school: string;
+  degree: string;
+  major: string;
+  startDate: string;
+  endDate: string;
+}
+
+export interface Award {
+  title: string;
+  date: string;
+  description?: string;
+}
+
 export interface DeveloperProfile {
   name: string;
   title: string;
@@ -26,6 +54,9 @@ export interface DeveloperProfile {
     phone?: string;
   };
   socials: SocialLink[];
+  workExperience?: WorkExperience[];
+  education?: Education[];
+  awards?: Award[];
   seoTitle?: string;
   seoDescription?: string;
 }

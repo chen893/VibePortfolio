@@ -44,125 +44,124 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
   <main class="min-h-screen">
     <Container>
       {/* Page Header */}
-      <div class="pt-32 pb-16">
+      <div class="pt-40 pb-20">
         {/* Label */}
-        <div class="flex items-center gap-4 mb-6">
-          <span class="text-sm font-body uppercase text-[var(--text)]">
+        <div class="flex items-center gap-4 mb-8">
+          <span class="text-sm font-body uppercase text-[var(--text)] tracking-widest">
             {t(locale, 'projects.label')}
           </span>
           <div class="flex-1 h-px bg-[var(--border)]" />
         </div>
 
         {/* Title */}
-        <h1 class="font-display text-5xl font-extrabold uppercase mb-6">
-          {t(locale, 'projects.titleA')}
+        <h1 class="font-display text-6xl md:text-7xl font-extrabold uppercase mb-8 leading-none">
+          <span class="inline-block mb-2">{t(locale, 'projects.titleA')}</span>
           <br />
-          <span class="text-[var(--accent)]">{t(locale, 'projects.titleB')}</span>
+          <span class="title-highlight">{t(locale, 'projects.titleB')}</span>
         </h1>
 
-        <p class="max-w-2xl text-lg">
+        <p class="max-w-xl text-lg text-[var(--text)] opacity-90 leading-relaxed">
           {t(locale, 'projects.description')}
         </p>
       </div>
 
       {/* Filters Section */}
-      <div class="mb-12 space-y-6" id="filter-section">
-        {/* Category Filter */}
-        <div>
-          <div class="flex items-center gap-3 mb-4">
-            <span class="text-sm font-body uppercase text-[var(--text)]">
+      <div class="mb-16" id="filter-section">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-6 border-b-2 border-[var(--border)]">
+          {/* Category Filter */}
+          <div class="flex-grow">
+            <span class="block text-xs font-body uppercase text-[var(--text)] mb-4 tracking-wider opacity-60">
               {t(locale, 'projects.filterByCategory')}
             </span>
-            <div class="flex-1 h-px bg-[var(--border)]" />
+            <div class="flex flex-wrap gap-3" role="group" aria-label={t(locale, 'filter.categoryAria')}>
+              <button
+                class="filter-btn btn active"
+                data-category="all"
+                aria-pressed="true"
+              >
+                {t(locale, 'category.all')}
+              </button>
+              {
+                allCategories.map((category) => {
+                  const config = categoryLabels[category] || categoryLabels.other;
+                  return (
+                    <button
+                      class="filter-btn btn"
+                      data-category={category}
+                      aria-pressed="false"
+                    >
+                      {config.label}
+                    </button>
+                  );
+                })
+              }
+            </div>
           </div>
-          <div class="flex flex-wrap gap-2" role="group" aria-label={t(locale, 'filter.categoryAria')}>
-            <button
-              class="filter-btn btn active"
-              data-category="all"
-              aria-pressed="true"
-            >
-              {t(locale, 'category.all')}
-            </button>
-            {
-              allCategories.map((category) => {
-                const config = categoryLabels[category] || categoryLabels.other;
-                return (
-                  <button
-                    class="filter-btn btn"
-                    data-category={category}
-                    aria-pressed="false"
-                  >
-                    {config.label}
-                  </button>
-                );
-              })
-            }
-          </div>
-        </div>
 
-        {/* Tech Filter Toggle */}
-        <div>
-          <button
-            id="tech-filter-toggle"
-            class="group flex items-center gap-3 btn"
-            aria-expanded="false"
-            aria-controls="tech-filter-panel"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              class="w-5 h-5 transition-colors group-hover:text-[var(--accent)]"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z"
-              />
-            </svg>
-            <span class="text-sm uppercase group-hover:text-[var(--accent)] transition-colors">{t(locale, 'projects.filterByTech')}</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              class="w-4 h-4 transition-transform duration-200"
-              id="tech-filter-arrow"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="m19.5 8.25-7.5 7.5-7.5-7.5"
-              />
-            </svg>
-          </button>
-
-          {/* Active tech indicator */}
-          <div id="active-tech-indicator" class="hidden mt-3">
+          {/* Tech Filter Toggle */}
+          <div class="shrink-0">
             <button
-              id="clear-tech-filter"
-              class="btn btn-primary"
+              id="tech-filter-toggle"
+              class="group flex items-center gap-3 btn h-[42px]"
+              aria-expanded="false"
+              aria-controls="tech-filter-panel"
             >
-              <span id="active-tech-name"></span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke-width="2"
                 stroke="currentColor"
-                class="w-3 h-3"
+                class="w-5 h-5 transition-colors group-hover:text-[var(--accent)]"
               >
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  d="M6 18 18 6M6 6l12 12"
+                  d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z"
+                />
+              </svg>
+              <span class="text-xs uppercase font-bold group-hover:text-[var(--accent)] transition-colors">{t(locale, 'projects.filterByTech')}</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                class="w-4 h-4 transition-transform duration-200"
+                id="tech-filter-arrow"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m19.5 8.25-7.5 7.5-7.5-7.5"
                 />
               </svg>
             </button>
           </div>
+        </div>
+
+        {/* Active tech indicator */}
+        <div id="active-tech-indicator" class="hidden mt-4">
+          <button
+            id="clear-tech-filter"
+            class="flex items-center gap-2 px-3 py-1 bg-[var(--accent)] text-[var(--text)] border-2 border-[var(--text)] text-xs font-bold uppercase"
+          >
+            <span id="active-tech-name"></span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              class="w-3 h-3"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
         </div>
 
         {/* Tech Filter Panel */}
@@ -173,12 +172,12 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
           aria-label={t(locale, 'filter.techAria')}
         >
           <div
-            class="flex flex-wrap gap-2 pt-4 pb-2 border-t-2" style="border-color: var(--border);"
+            class="flex flex-wrap gap-2 pt-6 pb-2"
           >
             {
               allTechnologies.map((tech) => (
                 <button
-                  class="filter-btn btn"
+                  class="filter-btn btn text-xs py-1 px-3"
                   data-tech={tech}
                   aria-pressed="false"
                 >
@@ -260,12 +259,21 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
     transform: translate(1px, 1px);
     box-shadow: 1px 1px 0px var(--text);
   }
+
+  .title-highlight {
+    display: inline;
+    background-image: linear-gradient(transparent 50%, var(--accent) 50%);
+    background-repeat: no-repeat;
+    background-size: 100% 90%;
+    padding: 0 0.2em;
+    margin-left: -0.2em;
+  }
 </style>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const categoryBtns = document.querySelectorAll('.category-btn');
-    const techBtns = document.querySelectorAll('.tech-btn');
+    const categoryBtns = document.querySelectorAll('.filter-btn[data-category]');
+    const techBtns = document.querySelectorAll('.filter-btn[data-tech]');
     const techFilterToggle = document.getElementById('tech-filter-toggle');
     const techFilterPanel = document.getElementById('tech-filter-panel');
     const techFilterArrow = document.getElementById('tech-filter-arrow');
@@ -273,7 +281,7 @@ const allCategories = [...new Set(allProjects.map((p) => p.data.category))];
     const activeTechName = document.getElementById('active-tech-name');
     const clearTechFilter = document.getElementById('clear-tech-filter');
     const projectsGrid = document.getElementById('projects-grid');
-    const projectItems = document.querySelectorAll('.project-card'); // Use .project-card since ProjectCard is refactored
+    const projectItems = document.querySelectorAll('[data-category][data-technologies]');
     const emptyState = document.getElementById('empty-state');
 
     let activeCategory = 'all';

@@ -1,0 +1,63 @@
+---
+title: "Demand Radar · 从用户讨论中发现产品机会"
+description: "一个 Chrome 浏览器扩展，帮助产品经理、创业者和独立开发者从 Reddit、知乎等平台的用户讨论中提炼可执行的产品方向，支持多 LLM 提供商、本地优先存储与 PII 脱敏。"
+problemStatement: "产品经理和创业者需要持续关注用户真实需求，但在 Reddit、知乎等平台手动阅读和整理讨论内容费时费力；缺乏结构化的工具将零散的用户痛点转化为可执行的产品方向，同时保护隐私数据。"
+category: "tool"
+technologies: ["Plasmo", "React", "TypeScript", "Tailwind CSS", "Zustand", "Dexie.js", "LangChain.js"]
+thumbnail:
+  src: "/images/projects/demand-radar/thumbnail.png"
+  alt: "Demand Radar 缩略图 - 雷达图标与数据分析界面元素"
+images:
+  - src: "/images/projects/demand-radar/screenshot-1.png"
+    alt: "Demand Radar 侧边栏界面，展示从页面提取的产品方向列表"
+    caption: "侧边栏分析视图"
+  - src: "/images/projects/demand-radar/screenshot-2.png"
+    alt: "Demand Radar 需求详情页，包含解决方案、验证依据和原文证据"
+    caption: "需求详情"
+liveUrl: "https://github.com/chen893/demand-radar/releases"
+repoUrl: "https://github.com/chen893/demand-radar"
+featured: false
+order: 2
+publishedDate: 2025-12-19
+seoTitle: "Demand Radar - AI驱动的产品需求发现Chrome扩展"
+seoDescription: "Chrome扩展，从Reddit、知乎等平台提炼产品方向，支持多LLM、本地存储与隐私保护。"
+---
+
+## 项目概述
+
+Demand Radar 是一个帮助产品人从社区讨论中发现商业机会的 Chrome 浏览器扩展。它通过智能内容提取和 AI 驱动分析，将用户在 Reddit、知乎等平台的讨论转化为结构化的产品方向，包含解决方案、目标用户、竞品分析和原文证据。
+
+核心功能：
+
+- **多平台智能提取**：自适应解析 Reddit（新版/旧版）、知乎（问答/专栏）及通用网页
+- **多 LLM 支持**：OpenAI、Google Gemini、DeepSeek 及自定义 OpenAI 兼容 API
+- **本地优先存储**：所有数据存储在浏览器 IndexedDB，自动 PII 脱敏
+- **需求管理**：标签分类、收藏归档、全文搜索
+
+## 技术亮点
+
+### 扩展架构
+- **Plasmo 框架**：基于 Chrome MV3 的现代扩展开发体验
+- **模块化设计**：Background（Service Worker）、Content Script、Side Panel 职责清晰
+- **平台适配器模式**：可扩展的内容提取架构，新平台只需实现 `IPlatformAdapter` 接口
+
+### 数据与隐私
+- **Dexie.js**：轻量级 IndexedDB 封装，提供类 ORM 的 API
+- **PII 过滤**：邮箱、电话、身份证等敏感信息在发送 LLM 前自动脱敏
+- **容量管理**：50MB 软限制 / 100MB 硬限制，支持数据导出
+
+### LLM 集成
+- **LangChain.js**：统一的多提供商调用接口
+- **结构化输出**：产品方向 = 解决方案 + 验证依据，保留用户原话作为证据
+- **提供商工厂**：灵活切换 OpenAI、Gemini、DeepSeek 或自定义 API
+
+## 项目成果
+
+- 支持 3+ 主流平台的内容提取
+- 4 种 LLM 提供商开箱即用
+- 本地存储保障用户隐私
+- 完整的需求管理工作流：分析 → 筛选 → 保存 → 检索
+
+## 学习收获
+
+通过这个项目，我深入实践了 Chrome 扩展 MV3 架构、多 LLM 提供商集成、以及本地优先（Local-First）的数据存储策略。在隐私保护与功能丰富之间找到平衡，同时保持良好的开发者体验和可扩展性。

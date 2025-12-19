@@ -1,13 +1,19 @@
 {
   "name": "陈双龙",
-  "title": "全栈开发者 | Vibe Coding 实践者",
-  "bio": "热爱用代码创造美好体验的全栈开发者。专注于构建高性能、用户友好的 Web 应用，追求代码的优雅与功能的完美结合。",
-  "philosophy": "我相信好的代码应该像艺术品一样，不仅要实现功能，更要具有美感和可维护性。Vibe Coding 是我的开发哲学——让每一行代码都带有独特的风格和灵魂。",
+  "title": "全栈开发者 | Vibe Coder",
+  "bio": "热衷于用 AI 重新定义开发方式的全栈开发者。拥有 3 年以上开发经验，在美团和深度赋智科技积累了扎实的前端工程能力，现在全面拥抱 AI 编程，熟练使用 Claude Code 进行 Vibe Coding，搭配 Codex、Gemini 等工具，同时对 Cursor、Trae、Antigravity 等 AI IDE 也有丰富使用体验。独立开发了 10+ 个项目。相信 AI 辅助编程是未来，享受从想法到产品的全过程。",
+  "philosophy": "好的代码应该像艺术品一样，不仅要实现功能，更要具有美感和可维护性。技术的价值在于解决实际问题，用户体验永远是第一位的。",
   "avatar": {
     "src": "/images/avatar.png",
-    "alt": "开发者头像"
+    "alt": "陈双龙头像"
   },
   "skills": [
+    {
+      "name": "JavaScript",
+      "category": "frontend",
+      "proficiency": "expert",
+      "icon": "javascript"
+    },
     {
       "name": "TypeScript",
       "category": "frontend",
@@ -27,28 +33,28 @@
       "icon": "vue"
     },
     {
-      "name": "Tailwind CSS",
+      "name": "HTML/CSS",
       "category": "frontend",
       "proficiency": "expert",
-      "icon": "tailwind"
+      "icon": "html"
     },
     {
       "name": "Node.js",
       "category": "backend",
-      "proficiency": "advanced",
+      "proficiency": "intermediate",
       "icon": "nodejs"
     },
     {
-      "name": "PostgreSQL",
-      "category": "backend",
+      "name": "Webpack/Vite",
+      "category": "tools",
       "proficiency": "advanced",
-      "icon": "postgresql"
+      "icon": "webpack"
     },
     {
-      "name": "Docker",
+      "name": "AI 编程",
       "category": "tools",
-      "proficiency": "intermediate",
-      "icon": "docker"
+      "proficiency": "advanced",
+      "icon": "ai"
     },
     {
       "name": "Git",
@@ -58,7 +64,8 @@
     }
   ],
   "contact": {
-    "email": "1390158928@qq.com"
+    "email": "1390158928@qq.com",
+    "phone": "18608185306"
   },
   "socials": [
     {
@@ -66,13 +73,97 @@
       "url": "https://github.com/chen893",
       "label": "GitHub"
     },
-
     {
       "platform": "email",
       "url": "mailto:1390158928@qq.com",
       "label": "邮箱"
     }
   ],
-  "seoTitle": "陈双龙 - 全栈开发者作品集",
-  "seoDescription": "探索我的全栈开发作品集，了解我的技术技能、项目经验和开发哲学。"
+  "workExperience": [
+    {
+      "company": "深度赋智科技有限公司",
+      "position": "前端开发工程师",
+      "location": "厦门",
+      "startDate": "2023.06",
+      "endDate": "2025.03",
+      "projects": [
+        {
+          "name": "智能合同风险管理系统",
+          "description": "全流程一站式合同管理系统，提供合同线上数字化管理解决方案，助力企业降本增效",
+          "techStack": ["Vue", "Arco Design", "UnoCSS", "vue-flow"],
+          "highlights": [
+            "主导设计并实现动态合同审批流的可视化前端方案，采用 vue-flow 创建审批模板，将审批流转透明度提升 90%，用户咨询工单量减少 30%",
+            "重构核心列表页，应用虚拟列表技术，将海量数据（10,000+条）的渲染时间从 3.5s 优化至 500ms",
+            "构建一套基于 RBAC 模型的前端权限控制方案，封装高复用性的权限组件，使新功能中权限开发效率提升 70%",
+            "设计实现高度稳定的合同附件上传方案，支持超大文件（>1GB）上传，实现文件分片、断点续传及并发请求池技术"
+          ]
+        }
+      ]
+    },
+    {
+      "company": "美团",
+      "position": "前端开发实习生",
+      "location": "北京",
+      "startDate": "2022.05",
+      "endDate": "2023.02",
+      "projects": [
+        {
+          "name": "运营平台",
+          "description": "统一的运营平台，提供运营工具和配置后台，提升美团微信小程序运营效率",
+          "techStack": ["React", "TypeScript", "Antd", "Node"],
+          "highlights": [
+            "对产品需求和技术需求产出技术方案，并完成开发和上线",
+            "沉淀通用运营流程和方式，通过模版/配置方式给运营使用",
+            "对首屏进行优化，从优化前 5.5s 优化至 1.9s，同比下降 65%",
+            "推动项目代码规范，新增 ESLint 代码检验"
+          ]
+        },
+        {
+          "name": "88大促活动",
+          "description": "88大促新零战役，聚焦美团「零售+科技」战略升级，打造品效合一的时零售新阵地",
+          "techStack": ["低代码"],
+          "highlights": [
+            "开发动态卡片墙、弹窗容器、置底导航和图片组件"
+          ]
+        },
+        {
+          "name": "免费小说",
+          "description": "打造一款免费小说行业头部产品",
+          "techStack": ["微信小程序"],
+          "highlights": [
+            "参与小说专区、福利专区、历史页面的开发"
+          ]
+        }
+      ]
+    }
+  ],
+  "education": [
+    {
+      "school": "广东海洋大学",
+      "degree": "本科",
+      "major": "信息与计算科学",
+      "startDate": "2019.09",
+      "endDate": "2023.06"
+    }
+  ],
+  "awards": [
+    {
+      "title": "第十二届蓝桥杯 C/C++ 程序设计 B 组省赛一等奖",
+      "date": "2021.04"
+    },
+    {
+      "title": "第十二届蓝桥杯 C/C++ 程序设计 B 组国赛二等奖",
+      "date": "2021.06"
+    },
+    {
+      "title": "第七届中国国际「互联网+」大学生创新创业大赛广东省分赛产业赛道银奖",
+      "date": "2021.09"
+    },
+    {
+      "title": "2020 酷狗小程序校园开发大赛第三名",
+      "date": "2020.12"
+    }
+  ],
+  "seoTitle": "陈双龙 - 前端开发工程师作品集",
+  "seoDescription": "前端开发工程师，熟练掌握 React 和 Vue，拥有美团实习经验。探索我的项目经验、技术技能和开发理念。"
 }

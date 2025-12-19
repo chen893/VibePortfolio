@@ -18,27 +18,45 @@ const delayClasses = ['delay-100', 'delay-200', 'delay-300', 'delay-400', 'delay
 const delayClass = typeof index === 'number' ? delayClasses[index % delayClasses.length] : '';
 ---
 
-<a href={getRelativeLocaleUrl(locale, `/projects/${id}`)} class:list={['card group block', className, delayClass]}>
-  <div class="overflow-hidden mb-4 border-2 border-[var(--text)]">
+<a
+  href={getRelativeLocaleUrl(locale, `/projects/${id}`)}
+  class:list={['card group flex flex-col h-full', className, delayClass]}
+  data-category={data.category}
+  data-technologies={data.technologies.join(',')}
+>
+  <div class="overflow-hidden mb-4 border-2 border-[var(--text)] shrink-0">
     <img
       src={data.thumbnail.src}
       alt={data.thumbnail.alt}
       loading="lazy"
       decoding="async"
-      class="w-full h-full object-cover aspect-video transition-transform duration-500 ease-in-out group-hover:scale-105"
+      class="w-full h-full object-contain aspect-video transition-transform duration-500 ease-in-out group-hover:scale-105"
     />
   </div>
 
-  <div class="p-2">
-    <h3 class="font-display text-2xl font-bold uppercase mb-2">
-      {data.title}
-    </h3>
+  <div class="p-2 flex flex-col flex-grow">
+    <div class="flex-grow">
+      <h3 class="font-display text-2xl font-bold uppercase mb-2 line-clamp-2 leading-tight">
+        {
+          data.title.includes(' · ') ? (
+            <>
+              <span class="block">{data.title.split(' · ')[0]}</span>
+              <span class="block text-sm font-body font-normal normal-case opacity-70 mt-1">
+                {data.title.split(' · ')[1]}
+              </span>
+            </>
+          ) : (
+            data.title
+          )
+        }
+      </h3>
 
-    <p class="text-base mb-4 line-clamp-3">
-      {data.description}
-    </p>
+      <p class="text-base mb-4 line-clamp-3 opacity-90">
+        {data.description}
+      </p>
+    </div>
 
-    <div class="flex flex-wrap gap-2">
+    <div class="flex flex-wrap gap-2 mt-auto pt-4 border-t border-[var(--border)] border-dashed">
       {
         data.technologies.slice(0, 4).map((tech) => (
           <TechTag tech={tech} />
